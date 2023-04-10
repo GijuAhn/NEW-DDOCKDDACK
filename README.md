@@ -9,16 +9,6 @@
 친구들끼리 사람 혹은 사물을 보며 서로 자기가 더 닮았다고 설전을 펼치신 적 있으신가요?<br>
 더 이상 그럴 필요 없습니다. '똑딱'이 4가지 이미지 분석 알고리즘을 이용해 누가 더 닮았는지 알려드리겠습니다.
 
-## 팀원
-
-| 이름   | GitHub                                                     |
-| ------ | ---------------------------------------------------------- |
-| 이해건 | [@Supreme-ignorance](https://github.com/Supreme-ignorance) |
-| 오세솔 | [@OhSeSol](https://github.com/OhSeSol)                     |
-| 소지현 | [@verandaaa](https://github.com/verandaaa)                 |
-| 선준용 | [@sjy4974](https://github.com/sjy4974)                     |
-| 이종민 | [@ljm0726](https://github.com/ljm0726)                     |
-| 안기주 | [@GijuAhn](https://github.com/GijuAhn)                     |
 
 <p>
 <a href="https://github.com/Supreme-ignorance">
@@ -310,53 +300,3 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 | 40000 - 57000 | used by Kurento Media Server to establish media connections. |
 | 57001 - 65535 | used by TURN server to establish relayed media connections.  |
 
-## 팀 역할
-
-- **이해건** : 팀장
-  - CI/CD 구축 / docker, jenkins, ansible, nginx, docker-compose
-  - 목업 작성 / figma
-  - 프로토 타입 작성 / figma
-  - ADMIN 기능 구현 / Spring boot
-  - 어드민 확인 인터셉터 구현 / Spring boot
-  - 밴 유저 확인 인터셉터 구현 / Spring boot
-  - ADMIN 페이지 디자인, 데이터 바인딩 / Vue
-  - 게임 대기, 종료 화면 디자인 / Vue
-  - git 내부 문서 작성
-- **오세솔** : 팀원
-  - 게임 진행 로직 기능 구현 / Spring boot
-  - Best Cut 기능 구현 / Spring boot
-  - Best Cut 데이터 바인딩 / Vue
-  - Openvidu Vue3 Migration / Vue, OpenVidu
-- **소지현** : 팀원
-  - 목업 작성 / figma
-  - 프로토 타입 작성 / figma
-  - Vue 전체 컴포넌트 구조 설계 및 작성 / Vue
-    - 라우터 구조 설계
-    - 컴포넌트 공통 설계
-    - 모달 컴포넌트 설계
-  - 디자인, Css 총괄 / Vue
-- **선준용** : 팀원
-  - 게임 기능 구현 / Spring boot
-  - 게임 관리 기능 구현 / Spring boot
-  - 게임 진행 로직 구현 / Spring boot
-  - Web RTC 기능 구현 / Vue, OpenVidu
-  - 파일 업로드를 위한 AWS S3 연결 구현 / Spring boot, S3
-  - 카카오 공유 연결 / Vue, kakao Api
-- **이종민** : 팀원
-  - 소셜 로그인 구현 / kakao, google OAuth2 Login API, Spring-security
-  - access Token 확인 filter 구현 / Spring boot
-  - 회원관련 기능 구현 / Spring boot
-  - 회원 관리 / Spring-security, JWT Token, Vue
-  - MyPage 데이터 바인딩 / Vuex
-  - MyPage 페이지 디자인 / Vue
-- **안기주** : 팀원
-  - Image similarity measurement(이미지 유사도 측정) / Spring Boot, OpenCV
-    - KAZE feature detection and description
-    - SSIM(Structural Similarity Index Measure)
-    - Image Histogram Analysis
-    - Perceptual Hashing
-    - Ensemble model 설계 및 가중치 적용
-  - 소셜 로그인 구현 / JWT, Spring-security, Filters
-  - 게임 라운드 진행 Observer pattern 구현
-  - 기술문서 작성 Technical documentation
-  - GitLab Wiki 작성
