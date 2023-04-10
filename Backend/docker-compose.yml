@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  application:
+    image: ddockddack
+    restart: always
+    container_name: ddockddack-server
+    privileged: true
+    environment:
+      container: docker
+      SPRING_PROFILES_ACTIVE: green
+      SPRING_DATASOURCE_URL: jdbc:mysql://172.17.0.1:3306/ddockddack?serverTimeZone=UTC
+      SPRING_DATASOURCE_USERNAME: { MySql 유저 아이디 }
+      SPRING_DATASOURCE_PASSWORD: { MySql 유저 비밀번호 }
+      OPENVIDU_URL: http://172.17.0.1:5443/
+      OPENVIDU_SECRET: { 당신의 비밀 코드 }
+      OPENVIDU_HEADER: { 당신의 비밀코드를 base 64로 암호화 한 값 }
+      LOGIN_SUCCESS_URL: https://{당신의 퍼블릭 IP}/login-success?accessToken=
+      JWT_TOKEN_SECRET_KEY: { 당신의 키 값 }
+      KAKAO_CLIENT_ID: { 당신의 카카오 클라이언트 아이디 }
+      KAKAO_REDIRECT_URL: https://{당신의 퍼블릭 IP}/login/oauth2/code/kakao
+      KAKAO_CLIENT_SECRET: { 당신의 카카오 비밀 코드 }
+      GOOGLE_CLIENT_ID: { 당신의 구글 클라이언트 아이디 }
+      GOOGLE_CLIENT_SECRET: { 당신의 구글 비밀 코드 }
+      GOOGLE_REDIRECT_URI: https://{당신의 퍼블릭 IP}/login/oauth2/code/google
+      AWS_S3_BUCKET: { 당신의 s3 BUCKET 이름 }
+      AWS_ACCESS_KEY: { 당신의 s3 엑세스 키 }
+      AWS_SECRET_KEY: { 당신의 s3 비밀 키 }
+    ports:
+      - 8081:8080
+    network_mode: bridge
