@@ -1,9 +1,9 @@
 package com.ddockddack.global.config;
 
 import com.ddockddack.global.filter.JwtAuthFilter;
-import com.ddockddack.domain.member.oauth.OAuth2SuccessHandler;
+import com.ddockddack.global.oauth.OAuth2SuccessHandler;
 import com.ddockddack.domain.member.repository.MemberRepository;
-import com.ddockddack.domain.member.service.CustomOAuth2UserService;
+import com.ddockddack.global.oauth.CustomOAuth2UserService;
 import com.ddockddack.domain.member.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

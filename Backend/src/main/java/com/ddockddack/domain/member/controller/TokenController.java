@@ -1,30 +1,20 @@
 package com.ddockddack.domain.member.controller;
 
-import com.ddockddack.domain.member.entity.Member;
-import com.ddockddack.domain.member.oauth.Token;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.response.MemberAccessRes;
-import com.ddockddack.domain.member.response.MemberInfoRes;
 import com.ddockddack.domain.member.service.TokenService;
-
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
-import com.ddockddack.global.error.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -58,7 +48,7 @@ public class TokenController {
             response.addHeader("access-token", memberAccessRes.getAccessToken());
             log.info(memberAccessRes.getAccessToken());
             return memberAccessRes.getAccessToken();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
         }
     }

@@ -24,6 +24,7 @@ public class BestcutRes {
     private String gameImgUrl;
     @Schema(description = "베스트컷에 해당하는 원본 이미지 설명")
     private String gameImgDesc;
+    private Long memberId;
     private LocalDateTime createdDate;
     @Schema(description = "좋아요 수")
     private Integer popularity;
@@ -36,7 +37,7 @@ public class BestcutRes {
 
     @QueryProjection
     public BestcutRes(Long bestcutId, String bestcutImgTitle, String bestcutImgUrl,
-            String gameTitle, String gameImgUrl, String gameImgDesc, LocalDateTime createdDate,
+            String gameTitle, String gameImgUrl, String gameImgDesc, Long memberId, LocalDateTime createdDate,
             Integer popularity, Integer isLiked, String profileImgUrl, String nickname) {
         this.bestcutId = bestcutId;
         this.bestcutImgTitle = bestcutImgTitle;
@@ -44,6 +45,7 @@ public class BestcutRes {
         this.gameTitle = gameTitle;
         this.gameImgUrl = gameImgUrl;
         this.gameImgDesc = gameImgDesc;
+        this.memberId = memberId;
         this.createdDate = createdDate;
         this.popularity = popularity;
         this.isLiked = isLiked;

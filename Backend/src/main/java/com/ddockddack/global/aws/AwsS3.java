@@ -1,4 +1,4 @@
-package com.ddockddack.global.service;
+package com.ddockddack.global.aws;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Service
 @NoArgsConstructor
-public class AwsS3Service {
+public class AwsS3 {
 
     private AmazonS3 s3Client;
 

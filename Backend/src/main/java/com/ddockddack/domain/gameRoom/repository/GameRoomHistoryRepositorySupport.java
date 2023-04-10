@@ -8,19 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@RequiredArgsConstructor
-public class GameRoomHistoryRepositorySupport {
+public interface GameRoomHistoryRepositorySupport {
 
-    private final JPAQueryFactory jpaQueryFactory;
-
-    // 게임 이력 삭제
-    public List<Long> findAllGameRoomHistoryIdByMemberId(Long memberId) {
-        return jpaQueryFactory
-            .select(gameRoomHistory.id
-            )
-            .from(gameRoomHistory)
-            .where(gameRoomHistory.memberId.eq(memberId))
-            .fetch();
-    }
+    List<Long> findAllGameRoomHistoryIdByMemberId(Long memberId);
 }

@@ -7,7 +7,6 @@ import com.ddockddack.domain.gameRoom.repository.GameMember;
 import com.ddockddack.domain.gameRoom.repository.GameRoom;
 import com.ddockddack.domain.gameRoom.repository.GameRoomHistoryRepository;
 import com.ddockddack.domain.gameRoom.repository.GameRoomRepository;
-import com.ddockddack.domain.gameRoom.response.GameMemberRes;
 import com.ddockddack.domain.gameRoom.response.GameRoomHistoryRes;
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
@@ -16,7 +15,7 @@ import com.ddockddack.domain.similarity.service.EnsembleModel;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
-import com.ddockddack.global.service.AwsS3Service;
+import com.ddockddack.global.aws.AwsS3;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
@@ -25,10 +24,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +36,7 @@ public class GameRoomService {
     private final GameRepository gameRepository;
     private final MemberRepository memberRepository;
     private final GameRoomHistoryRepository gameRoomHistoryRepository;
-    private final AwsS3Service awsS3Service;
+    private final AwsS3 awsS3;
     private final EnsembleModel ensembleModel;
 
 
@@ -51,7 +48,7 @@ public class GameRoomService {
      * @throws OpenViduJavaClientException
      * @throws OpenViduHttpException
      */
-    public String createRoom(Long gameId)
+    public String createGameRoom(Long gameId)
             throws OpenViduJavaClientException, OpenViduHttpException {
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
@@ -69,7 +66,7 @@ public class GameRoomService {
      * @throws OpenViduJavaClientException
      * @throws OpenViduHttpException
      */
-    public GameRoomRes joinRoom(String pinNumber, Long memberId, String nickname, String clientIp)
+    public GameRoomRes joinGameRoom(String pinNumber, Long memberId, String nickname, String clientIp)
             throws OpenViduJavaClientException, OpenViduHttpException {
         Member member = null;
         //로그인 한 유저면 memberId로 검색해서 넘겨줌
@@ -155,76 +152,25 @@ public class GameRoomService {
 
         // 게임 play count +1 증가
         game.increasePlayCount();
-        gameRoomRepository.updateGameRoom(pinNumber);
+        gameRoomRepository.startGame(pinNumber);
 
     }
 
     /**
-     * 게임 시작 여부 조회
-     *
-     * @param pinNumber
-     * @return
-     */
-    public Boolean isStartedGame(String pinNumber) {
-        GameRoom gameRoom = gameRoomRepository.findById(pinNumber).orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-        return gameRoom.isStarted();
-    }
-
-    /**
-     * 게임 멤버 이미지 저장
+     * 게임 멤버 이미지 채점 및 저장
      *
      * @param pinNumber
      * @param sessionId
      * @param param
      */
-    public void scoringImage(String pinNumber, String sessionId, Map<String, String> param)
+    public void scoringUserImage(String pinNumber, String sessionId, Map<String, String> param)
             throws Exception {
         gameRoomRepository.findById(pinNumber).orElseThrow(() ->
                 new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-        byte[] byteGameImage = awsS3Service.getObject(param.get("gameImage"));
+        byte[] byteGameImage = awsS3.getObject(param.get("gameImage"));
         byte[] byteImage = Base64.decodeBase64(param.get("memberGameImage"));
         int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
         gameRoomRepository.saveScore(pinNumber, sessionId, byteImage, rawScore);
-    }
-
-    /**
-     * 라운드 결과 조회
-     *
-     * @param pinNumber
-     * @param round
-     * @return
-     */
-    public List<GameMemberRes> findRoundResult(String pinNumber, int round) {
-        Map<String, GameMember> gameMembers = gameRoomRepository.findGameMembers(pinNumber);
-        List<GameMember> members = new ArrayList<>(gameMembers.values());
-        PriorityQueue<GameMember> pq = new PriorityQueue<>(
-                (a, b) -> b.getRoundScore() - a.getRoundScore());
-        pq.addAll(members);
-        List<GameMemberRes> result = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            if (pq.isEmpty()) {
-                break;
-            }
-            result.add(GameMemberRes.from(pq.poll(), round));
-        }
-        return result;
-    }
-
-    /**
-     * 게임 이력 전체 조회
-     *
-     * @param memberId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public List<GameRoomHistoryRes> findAllRoomHistory(Long memberId) {
-        memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
-        List<GameRoomHistory> list = gameRoomHistoryRepository.findByMemberId(memberId);
-
-        return list.stream().map(GameRoomHistoryRes::of).collect(Collectors.toList());
     }
 
     /**
@@ -243,7 +189,24 @@ public class GameRoomService {
      * @param pinNumber
      * @return
      */
-    public void finalResult(String pinNumber) throws JsonProcessingException {
+    public void getFinalResult(String pinNumber) throws JsonProcessingException {
         gameRoomRepository.finalResult(pinNumber);
+    }
+
+
+    /**
+     * 게임 이력 전체 조회
+     *
+     * @param memberId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<GameRoomHistoryRes> findAllRoomHistory(Long memberId) {
+        memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        List<GameRoomHistory> list = gameRoomHistoryRepository.findByMemberId(memberId);
+
+        return list.stream().map(GameRoomHistoryRes::of).collect(Collectors.toList());
     }
 }

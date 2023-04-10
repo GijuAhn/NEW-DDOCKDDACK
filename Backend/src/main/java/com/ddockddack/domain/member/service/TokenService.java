@@ -1,6 +1,6 @@
 package com.ddockddack.domain.member.service;
 
-import com.ddockddack.domain.member.oauth.Token;
+import com.ddockddack.global.oauth.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;

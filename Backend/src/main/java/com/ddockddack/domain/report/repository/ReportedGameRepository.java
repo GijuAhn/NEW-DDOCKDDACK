@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReportedGameRepository extends JpaRepository<ReportedGame, Long> {
+public interface ReportedGameRepository extends JpaRepository<ReportedGame, Long>, ReportedGameRepositorySupport {
 
     boolean existsByReportMemberIdAndGameId(Long memberId, Long gameId);
 

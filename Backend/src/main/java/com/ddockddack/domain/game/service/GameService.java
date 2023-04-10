@@ -26,7 +26,7 @@ import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
-import com.ddockddack.global.service.AwsS3Service;
+import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.util.PageCondition;
 import com.ddockddack.global.util.PageConditionReq;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +51,7 @@ public class GameService {
     private final MemberRepository memberRepository;
     private final StarredGameRepository starredGameRepository;
     private final ReportedGameRepository reportedGameRepository;
-    private final GameRepositorySupport gameRepositorySupport;
-    private final AwsS3Service awsS3Service;
+    private final AwsS3 awsS3;
 
     /**
      * 게임 목록 조회
@@ -64,7 +63,7 @@ public class GameService {
     @Transactional(readOnly = true)
     public PageImpl<GameRes> findAllGames(Long memberId, PageConditionReq pageConditionReq) {
         PageCondition pageCondition = pageConditionReq.toEntity();
-        return gameRepositorySupport.findAllGameBySearch(memberId, pageCondition);
+        return gameRepository.findAllBySearch(memberId, pageCondition);
     }
 
     /**
@@ -75,7 +74,7 @@ public class GameService {
      */
     @Transactional(readOnly = true)
     public GameDetailRes findGame(Long gameId) {
-        List<GameDetailRes> result = gameRepositorySupport.findGame(gameId);
+        List<GameDetailRes> result = gameRepository.findGame(gameId);
         if (result.size() == 0) {
             throw new NotFoundException(ErrorCode.GAME_NOT_FOUND);
         }
@@ -95,14 +94,7 @@ public class GameService {
                 new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 게임 생성
-        Game game = Game
-                .builder()
-                .member(getMember)
-                .title(gameSaveReq.getGameTitle())
-                .category(gameSaveReq.getGameCategory())
-                .description(gameSaveReq.getGameDesc())
-                .build();
-
+        Game game = gameSaveReq.toEntity(getMember);
         Long gameId = gameRepository.save(game).getId();
 
         // 게임 이미지 업로드
@@ -119,13 +111,9 @@ public class GameService {
                 throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
             }
             // 파일 업로드
-            String fileName = awsS3Service.multipartFileUpload(gameImageParam.getGameImage());
+            String fileName = awsS3.multipartFileUpload(gameImageParam.getGameImage());
 
-            GameImage gameImage = GameImage.builder()
-                    .game(game)
-                    .imageUrl(fileName)
-                    .description(gameImageParam.getGameImageDesc())
-                    .build();
+            GameImage gameImage = gameImageParam.toEntity(game, fileName);
             // 리스트에 추가
             gameImages.add(gameImage);
 
@@ -147,14 +135,14 @@ public class GameService {
         // 검증
         checkAccessValidation(memberId, gameModifyReq.getGameId());
 
-        Game getGame = gameRepository.getReferenceById(gameModifyReq.getGameId());
+        Game getGame = gameRepository.findById(gameModifyReq.getGameId()).get();
 
         // 게임 제목, 설명 수정
         getGame.updateGame(gameModifyReq.getGameTitle(), gameModifyReq.getGameDesc());
 
         List<String> tempImage = new ArrayList<>();
         for (GameImageModifyReq gameImageModifyReq : gameModifyReq.getImages()) {
-            GameImage getGameImage = gameImageRepository.getReferenceById(gameImageModifyReq.getGameImageId());
+            GameImage getGameImage = gameImageRepository.findById(gameImageModifyReq.getGameImageId()).get();
 
             String imageExtension; // 이미지 확장자
             String contentType = gameImageModifyReq.getGameImage().getContentType();
@@ -162,7 +150,7 @@ public class GameService {
             if (!contentType.contains("image/jpeg")) {
                 throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
             }
-            String fileName = awsS3Service.multipartFileUpload(gameImageModifyReq.getGameImage());
+            String fileName = awsS3.multipartFileUpload(gameImageModifyReq.getGameImage());
 
             // 업데이트
             getGameImage.updateGameImage(fileName, gameImageModifyReq.getGameImageDesc());
@@ -204,8 +192,8 @@ public class GameService {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_STTAREDGAME);
         }
 
-        Member getMember = memberRepository.getReferenceById(memberId);
-        Game getGame = gameRepository.getReferenceById(gameId);
+        Member getMember = memberRepository.findById(memberId).get();
+        Game getGame = gameRepository.findById(gameId).get();
 
         StarredGame starredGame = StarredGame.builder()
                 .game(getGame)
@@ -250,8 +238,8 @@ public class GameService {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_REPORTEDGAME);
         }
 
-        Member reportMember = memberRepository.getReferenceById(memberId);
-        Game getGame = gameRepository.getReferenceById(gameId);
+        Member reportMember = memberRepository.findById(memberId).get();
+        Game getGame = gameRepository.findById(gameId).get();
 
         ReportedGame reportedGame = ReportedGame.builder()
                 .game(getGame)
@@ -270,11 +258,11 @@ public class GameService {
      * @return
      */
     @Transactional(readOnly = true)
-    public PageImpl<GameRes> findAllGameByMemberId(Long memberId, PageConditionReq pageConditionReq) {
+    public PageImpl<GameRes> findAllGamesByMemberId(Long memberId, PageConditionReq pageConditionReq) {
         PageCondition pageCondition = pageConditionReq.toEntity();
         memberRepository.findById(memberId).orElseThrow(() ->
                 new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-        return gameRepositorySupport.findAllByMemberId(memberId, pageCondition);
+        return gameRepository.findAllByMemberId(memberId, pageCondition);
     }
 
     /**
@@ -287,7 +275,7 @@ public class GameService {
     public List<StarredGameRes> findAllStarredGames(Long memberId) {
         memberRepository.findById(memberId).orElseThrow(() ->
                 new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-        return gameRepositorySupport.findAllStarredGame(memberId);
+        return starredGameRepository.findAllStarredGame(memberId);
     }
 
     /**
@@ -298,7 +286,7 @@ public class GameService {
     @Transactional(readOnly = true)
     public List<ReportedGameRes> findAllReportedGames() {
 
-        return gameRepositorySupport.findAllReportedGame();
+        return reportedGameRepository.findAllReportedGame();
     }
 
     /**
@@ -359,7 +347,6 @@ public class GameService {
                 new File(absolutePath + path + File.separator + list.get(i)).delete();
             }
         }
-
     }
 
     /**

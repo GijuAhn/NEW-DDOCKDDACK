@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface GameRoomHistoryRepository extends JpaRepository<GameRoomHistory, Long> {
+public interface GameRoomHistoryRepository extends JpaRepository<GameRoomHistory, Long>, GameRoomHistoryRepositorySupport {
 
     List<GameRoomHistory> findByMemberId(Long memberId);
 

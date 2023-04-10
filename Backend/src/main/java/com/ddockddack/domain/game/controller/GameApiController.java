@@ -51,7 +51,7 @@ public class GameApiController {
             @ApiResponse(responseCode = "200", description = "게임 상세 조회 성공"),
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임")
     })
-    public ResponseEntity<GameDetailRes> gameDetail(@PathVariable Long gameId) {
+    public ResponseEntity<GameDetailRes> gameDetails(@PathVariable Long gameId) {
 
         return ResponseEntity.ok(gameService.findGame(gameId));
     }
@@ -119,7 +119,7 @@ public class GameApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임"),
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
-    public ResponseEntity starredGame(@PathVariable Long gameId,
+    public ResponseEntity gameStarred(@PathVariable Long gameId,
                                       Authentication authentication) {
 
 
@@ -136,7 +136,7 @@ public class GameApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임"),
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
-    public ResponseEntity unStarredGame(@PathVariable Long gameId,
+    public ResponseEntity gameUnStarred(@PathVariable Long gameId,
                                         Authentication authentication) {
 
 

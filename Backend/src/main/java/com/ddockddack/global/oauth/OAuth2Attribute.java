@@ -1,4 +1,4 @@
-package com.ddockddack.domain.member.service;
+package com.ddockddack.global.oauth;
 
 import java.util.HashMap;
 import java.util.Map;

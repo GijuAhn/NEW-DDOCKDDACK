@@ -1,6 +1,7 @@
 package com.ddockddack.domain.bestcut.entity;
 
 import com.ddockddack.domain.member.entity.Member;
+import com.ddockddack.global.util.BaseEntity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

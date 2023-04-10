@@ -3,49 +3,28 @@ package com.ddockddack.domain.bestcut.repository;
 import com.ddockddack.domain.bestcut.entity.BestcutLike;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
-public class BestcutLikeRepository {
+public interface BestcutLikeRepository extends JpaRepository<BestcutLike, Long> {
 
-    private final EntityManager em;
+    Optional<BestcutLike> findByMemberIdAndBestcutId(Long memberId, Long bestcutId);
 
+    boolean existsByMemberIdAndBestcutId(Long memberId, Long bestcutId);
 
-    public Long save(BestcutLike bestcutLike) {
-        em.persist(bestcutLike);
-        return bestcutLike.getId();
-    }
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM BestcutLike l WHERE l.bestcut.id = :id")
+    void deleteByBestcutId(@Param("id") Long bestcutId);
 
-    public Optional<BestcutLike> findOne(Long bestcutId, Long memberId) {
-        List<BestcutLike> resultList = em.createQuery(
-                "SELECT l " +
-                    "FROM BestcutLike l " +
-                    "WHERE l.bestcut.id = :bestcut AND l.member.id = :member"
-                , BestcutLike.class)
-                .setParameter("bestcut", bestcutId)
-            .setParameter("member", memberId)
-            .getResultList();
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM BestcutLike l WHERE l.bestcut.id in :ids")
+    void deleteByBestcutIdIn(@Param("ids") List<Long> bestcutIds);
 
-        return resultList.stream().findAny();
-    }
-
-    public void delete(BestcutLike bestcutLike) {
-        em.remove(bestcutLike);
-    }
-
-    public void deleteByBestcutId(@Param("id") Long bestcutId){
-        em.createQuery("DELETE FROM BestcutLike l WHERE l.bestcut.id = :id").setParameter("id", bestcutId).executeUpdate();
-    }
-
-    public void deleteByBestcutIdIn(@Param("ids") List<Long> bestcutIds) {
-        em.createQuery("DELETE FROM BestcutLike l WHERE l.bestcut.id in :ids").setParameter("ids", bestcutIds).executeUpdate();
-    }
-
-    public void deleteByMemberId(@Param("id") Long memberId){
-        em.createQuery("DELETE FROM BestcutLike l WHERE l.member.id = :id").setParameter("id", memberId).executeUpdate();
-    }
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM BestcutLike l WHERE l.member.id = :id")
+    void deleteByMemberId(@Param("id") Long memberId);
 }

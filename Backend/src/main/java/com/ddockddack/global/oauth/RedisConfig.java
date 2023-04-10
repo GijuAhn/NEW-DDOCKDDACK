@@ -1,4 +1,4 @@
-//package com.ddockddack.domain.member.oauth;
+//package com.ddockddack.global.oauth;
 //
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;

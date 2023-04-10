@@ -1,6 +1,8 @@
 package com.ddockddack.domain.game.request;
 
 import com.ddockddack.domain.game.entity.Category;
+import com.ddockddack.domain.game.entity.Game;
+import com.ddockddack.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,5 +32,14 @@ public class GameSaveReq {
     @Valid
     @Size(min = 10, max = 20, message = "Check the gameImage length.")
     private List<GameImageParam> images;
+
+    public Game toEntity(Member member) {
+        return Game.builder()
+            .member(member)
+            .title(this.gameTitle)
+            .category(this.gameCategory)
+            .description(this.gameDesc)
+            .build();
+    }
 
 }

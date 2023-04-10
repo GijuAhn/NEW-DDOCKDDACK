@@ -1,4 +1,4 @@
-package com.ddockddack.domain.member.oauth;
+package com.ddockddack.global.oauth;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

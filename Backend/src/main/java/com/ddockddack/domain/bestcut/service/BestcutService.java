@@ -1,9 +1,9 @@
 package com.ddockddack.domain.bestcut.service;
 
- import com.ddockddack.domain.bestcut.entity.Bestcut;
- import com.ddockddack.domain.bestcut.repository.BestcutLikeRepository;
- import com.ddockddack.domain.bestcut.repository.BestcutRepository;
-import com.ddockddack.domain.bestcut.repository.BestcutRepositorySupport;
+import com.ddockddack.domain.bestcut.entity.Bestcut;
+import com.ddockddack.domain.bestcut.entity.BestcutLike;
+import com.ddockddack.domain.bestcut.repository.BestcutLikeRepository;
+import com.ddockddack.domain.bestcut.repository.BestcutRepository;
 import com.ddockddack.domain.bestcut.request.BestcutImageReq;
 import com.ddockddack.domain.bestcut.request.BestcutSaveReq;
 import com.ddockddack.domain.bestcut.response.BestcutRes;
@@ -15,19 +15,18 @@ import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedBestcut;
 import com.ddockddack.domain.report.repository.ReportedBestcutRepository;
+import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.NotFoundException;
-import com.ddockddack.global.service.AwsS3Service;
 import com.ddockddack.global.util.PageCondition;
 import com.ddockddack.global.util.PageConditionReq;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,8 +38,7 @@ public class BestcutService {
     private final ReportedBestcutRepository reportedBestcutRepository;
     private final MemberRepository memberRepository;
     private final GameRoomRepository gameRoomRepository;
-    private final AwsS3Service awsS3Service;
-    private final BestcutRepositorySupport bestcutRepositorySupport;
+    private final AwsS3 awsS3;
 
 
     /**
@@ -53,29 +51,18 @@ public class BestcutService {
     public void saveBestcut(Long memberId, BestcutSaveReq saveReq) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         String pinNumber = saveReq.getPinNumber();
         String socketId = saveReq.getSocketId();
 
-        for (BestcutImageReq imageReq : saveReq.getImages()) {
-            int index = imageReq.getBestcutIndex();
+        for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
+            int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
+            byte[] byteImage = gameRoomRepository.findByImageIndex(pinNumber, socketId, userImageIndex);
+            String fileName = awsS3.InputStreamUpload(byteImage);
 
-            byte[] byteImage = gameRoomRepository.findByImageIndex(pinNumber, socketId, index);
-            String fileName = awsS3Service.InputStreamUpload(byteImage);
-
-            Bestcut bestcut = Bestcut.builder()
-                    .member(member)
-                    .gameTitle(saveReq.getGameTitle())
-                    .gameImageUrl(imageReq.getGameImgUrl())
-                    .gameImgDesc(imageReq.getGameImgDesc())
-                    .imageUrl(fileName)
-                    .title(imageReq.getBestcutImgTitle())
-                    .build();
-
+            Bestcut bestcut = saveReq.toEntity(member, idx, fileName);
             bestcutRepository.save(bestcut);
-
-
         }
     }
 
@@ -88,9 +75,9 @@ public class BestcutService {
     @Transactional
     public void removeBestcut(Long bestcutId, Long memberId) {
         Bestcut bestcut = bestcutRepository.findById(bestcutId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         if (member.getRole() != Role.ADMIN && !bestcut.getMember().getId().equals(memberId)) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
@@ -99,20 +86,20 @@ public class BestcutService {
         bestcutLikeRepository.deleteByBestcutId(bestcutId);
         reportedBestcutRepository.deleteByBestcutId(bestcutId);
 
-        awsS3Service.deleteObject(bestcut.getImageUrl());
+        awsS3.deleteObject(bestcut.getImageUrl());
         bestcutRepository.delete(bestcut);
     }
 
     @Transactional
-    public void removeAllByIds(List<Long> bestcutIds) {
+    public void removeAllBestcutByIds(List<Long> bestcutIds) {
         bestcutLikeRepository.deleteByBestcutIdIn(bestcutIds);
         reportedBestcutRepository.deleteByBestcutIdIn(bestcutIds);
 
-        bestcutRepository.deleteAllByIds(bestcutIds);
+        bestcutRepository.deleteAllById(bestcutIds);
     }
 
     @Transactional
-    public void removeByMemberId(Long memberId){
+    public void removeBestcutByMemberId(Long memberId) {
         bestcutLikeRepository.deleteByMemberId(memberId);
         reportedBestcutRepository.deleteByMemberId(memberId);
     }
@@ -120,19 +107,19 @@ public class BestcutService {
     @Transactional
     public void reportBestcut(Long memberId, Long bestcutId, ReportType reportType) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new org.webjars.NotFoundException("존재하지 않는 멤버"));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         Bestcut bestcut = bestcutRepository.findById(bestcutId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
         if (reportedBestcutRepository.existsByReportMemberIdAndBestcutId(memberId, bestcutId)) {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_REPORT);
         }
 
         ReportedBestcut reportedBestcut = ReportedBestcut.builder()
-                .reportMember(member)
-                .reportedMember(bestcut.getMember())
-                .bestcut(bestcut)
-                .reportType(reportType)
-                .build();
+            .reportMember(member)
+            .reportedMember(bestcut.getMember())
+            .bestcut(bestcut)
+            .reportType(reportType)
+            .build();
 
         reportedBestcutRepository.save(reportedBestcut);
     }
@@ -143,19 +130,19 @@ public class BestcutService {
      * @param pageConditionReq
      * @return
      */
-    public PageImpl<BestcutRes> findAll(Boolean my, Long loginMemberId,
-                                        PageConditionReq pageConditionReq) {
+    public PageImpl<BestcutRes> findAllBestcuts(Boolean my, Long loginMemberId,
+        PageConditionReq pageConditionReq) {
         PageCondition pageCondition = pageConditionReq.toEntity();
         return bestcutRepository.findAllBySearch(my, loginMemberId, pageCondition);
     }
 
-    public List<Long> findByMemberId(Long memberId){
-        return bestcutRepository.findByAllMemberId(memberId);
+    public List<Long> findBestcutByMemberId(Long memberId) {
+        return bestcutRepository.findAllBestcutIdByMemberId(memberId);
     }
 
-    public BestcutRes findOne(Long loginMemberId, Long bestcutId) {
+    public BestcutRes findBestcut(Long loginMemberId, Long bestcutId) {
         return bestcutRepository.findOne(loginMemberId, bestcutId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
     }
 
     /**
@@ -166,7 +153,33 @@ public class BestcutService {
     @Transactional(readOnly = true)
     public List<ReportedBestcutRes> findAllReportedBestCuts() {
 
-        return bestcutRepositorySupport.findAllReportedBestcut();
+        return bestcutRepository.findAllReportedBestcut();
+    }
+
+    @Transactional
+    public void saveBestcutLike(Long bestcutId, Long memberId) {
+        Bestcut bestcut = bestcutRepository.findById(bestcutId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        if (bestcutLikeRepository.existsByMemberIdAndBestcutId(memberId, bestcutId)) {
+            throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_BESTCUT_LIKE);
+        }
+
+        BestcutLike bestcutLike = BestcutLike.builder()
+            .bestcut(bestcut)
+            .member(member)
+            .build();
+
+        bestcutLikeRepository.save(bestcutLike);
+    }
+
+    @Transactional
+    public void removeBestcutLike(Long bestcutId, Long memberId) {
+
+        BestcutLike bestcutLike = bestcutLikeRepository.findByMemberIdAndBestcutId(memberId, bestcutId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_LIKE_NOT_FOUND));
+        bestcutLikeRepository.delete(bestcutLike);
     }
 
 }

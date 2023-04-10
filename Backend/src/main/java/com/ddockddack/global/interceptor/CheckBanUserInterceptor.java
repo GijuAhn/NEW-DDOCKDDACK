@@ -2,6 +2,7 @@ package com.ddockddack.global.interceptor;
 
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
+import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.service.MemberService;
 import com.ddockddack.domain.member.service.TokenService;
 import com.ddockddack.global.error.ErrorCode;
@@ -22,6 +23,7 @@ public class CheckBanUserInterceptor implements HandlerInterceptor {
 
     private final TokenService tokenService;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -38,7 +40,7 @@ public class CheckBanUserInterceptor implements HandlerInterceptor {
         }else {
 
             Long id = tokenService.getUid(accessToken);
-            Member member = memberService.getMemberById(id).orElse(null);
+            Member member = memberRepository.findById(id).get();
             log.info("id, member {}, {}", id, member);
             // 정지가 풀리는 날이라면
             if (member.getRole() == Role.BAN && member.getReleaseDate().isBefore(LocalDate.now())){

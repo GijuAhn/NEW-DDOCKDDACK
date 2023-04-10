@@ -1,7 +1,7 @@
 package com.ddockddack.global.filter;
 
 import com.ddockddack.domain.member.entity.Member;
-import com.ddockddack.domain.member.oauth.Token;
+import com.ddockddack.global.oauth.Token;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.response.MemberAccessRes;
 import com.ddockddack.domain.member.service.TokenService;

@@ -1,12 +1,10 @@
 package com.ddockddack.domain.member.service;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public enum BanLevel {
-    noPenalty,
-    oneWeek,
-    oneMonth,
-    sixMonth,
-    oneYear,
-    endless
+    NO_PENALTY,
+    ONE_WEEK,
+    ONE_MONTH,
+    SIX_MONTH,
+    ONE_YEAR,
+    ENDLESS
 }

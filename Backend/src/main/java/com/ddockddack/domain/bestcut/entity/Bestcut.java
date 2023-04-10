@@ -1,6 +1,7 @@
 package com.ddockddack.domain.bestcut.entity;
 
 import com.ddockddack.domain.member.entity.Member;
+import com.ddockddack.global.util.BaseEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +22,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
-public class Bestcut {
-
+public class Bestcut extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,9 +47,6 @@ public class Bestcut {
 
     @Column(length = 300, nullable = false)
     private String imageUrl;
-
-    @Column(columnDefinition = "DATETIME default now()")
-    private LocalDateTime createdAt;
 
     @Builder
     public Bestcut(Member member, String gameImageUrl, String gameTitle, String gameImgDesc,

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GameRepository extends JpaRepository<Game, Long> {
+public interface GameRepository extends JpaRepository<Game, Long>, GameRepositorySupport {
 
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM Game g WHERE g.id in :id")

@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BestcutImageReq {
+
     @NotNull(message = "bestcutImg can't be null")
     private int bestcutIndex;
 
@@ -20,6 +21,7 @@ public class BestcutImageReq {
 
     @NotBlank(message = "gameImgUrl can't be blank")
     private String gameImgUrl;
-    
+
     private String gameImgDesc;
+
 }

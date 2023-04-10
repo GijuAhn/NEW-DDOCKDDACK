@@ -7,12 +7,12 @@
     <td><input v-model="visible" type="checkbox" /></td>
     <td>
       <select v-model="banLevel" class="action">
-        <option value="noPenalty">noPenalty</option>
-        <option value="oneWeek" selected>oneWeek</option>
-        <option value="oneMonth">oneMonth</option>
-        <option value="sixMonth">sixMonth</option>
-        <option value="oneYear">oneYear</option>
-        <option value="endless">endless</option>
+        <option value="NO_PENALTY">noPenalty</option>
+        <option value="ONE_WEEK" selected>oneWeek</option>
+        <option value="ONE_MONTH">oneMonth</option>
+        <option value="SIX_MONTH">sixMonth</option>
+        <option value="ONE_YEAR">oneYear</option>
+        <option value="ENDLESS">endless</option>
       </select>
       <button @click="punishmentApi()" class="action" id="red">처리</button>
       <button @click="reportcancelApi()" class="action">취소</button>
@@ -39,7 +39,7 @@ const visible = ref();
 const store = useStore();
 const admin_api_url = `/api/admin`;
 const accessToken = computed(() => store.state.memberStore.accessToken);
-const banLevel = "noPenalty";
+const banLevel = ref("NO_PENALTY").value;
 const emit = defineEmits(["deleteBestcut", "deleteReport"]);
 const bestcutId = computed(() => {
   return props.reportedBestCut.bestcutId;

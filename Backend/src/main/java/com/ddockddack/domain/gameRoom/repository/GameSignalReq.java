@@ -1,4 +1,4 @@
-package com.ddockddack.domain.gameRoom.request;
+package com.ddockddack.domain.gameRoom.repository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,7 @@ package com.ddockddack.domain.gameRoom.response;
 
 import com.ddockddack.domain.gameRoom.entity.GameRoomHistory;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +19,10 @@ public class GameRoomHistoryRes {
 
     private int ranking;
 
-    private LocalDate playedTime;
+    private LocalDateTime playedTime;
 
     @Builder
-    public GameRoomHistoryRes(String gameTitle, int ranking, LocalDate playedTime) {
+    public GameRoomHistoryRes(String gameTitle, int ranking, LocalDateTime playedTime) {
         this.gameTitle = gameTitle;
         this.ranking = ranking;
         this.playedTime = playedTime;
@@ -32,7 +33,7 @@ public class GameRoomHistoryRes {
             .builder()
             .gameTitle(gameRoomHistory.getGameTitle())
             .ranking(gameRoomHistory.getRanking())
-            .playedTime(gameRoomHistory.getCreateAt())
+            .playedTime(gameRoomHistory.getCreatedAt())
             .build();
     }
 

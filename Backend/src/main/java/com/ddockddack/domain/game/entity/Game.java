@@ -2,6 +2,7 @@ package com.ddockddack.domain.game.entity;
 
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.report.entity.ReportedGame;
+import com.ddockddack.global.util.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
-public class Game {
+public class Game extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +40,6 @@ public class Game {
 
     @Column(columnDefinition = "INT default 0")
     private int playCount;
-
-    @Column(columnDefinition = "DATETIME default now()")
-    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     private List<GameImage> images;
