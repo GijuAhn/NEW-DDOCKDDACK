@@ -15,9 +15,9 @@ public class SpringAsyncConfig {
     @Bean(name = "threadPoolTaskExecutor")
     public Executor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(7); // 기본 스레드 수
-        taskExecutor.setMaxPoolSize(100); // 최대 스레드 수
-        taskExecutor.setQueueCapacity(150); // Queue 사이즈
+        taskExecutor.setCorePoolSize(100); // 기본 스레드 수
+        taskExecutor.setMaxPoolSize(150); // 최대 스레드 수
+        taskExecutor.setQueueCapacity(50); // Queue 사이즈
         taskExecutor.setThreadNamePrefix("Executor-");
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.initialize();
