@@ -24,8 +24,6 @@ import java.util.concurrent.CompletableFuture;
 public class FeatureDetectorDescriptor {
 
     static {
-        // Load the OpenCV library
-//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         OpenCV.loadLocally();
 
     }
@@ -62,12 +60,9 @@ public class FeatureDetectorDescriptor {
 
         matcher.knnMatch(descriptors1, descriptors2, matches, 2);
 
-        // Filter matches using the Lowe's ratio test = 0.75f
-//        double ratioThreshold = 0.75f;
-//        double ratioThreshold = 0.70f;
+
         double ratioThreshold = 0.80f;
-//        double ratioThreshold = 0.90f;
-//        double ratioThreshold = 0.999f;
+
         List<DMatch> goodMatches = new LinkedList<>();
 
         for (MatOfDMatch matOfDMatch : matches) {
@@ -83,15 +78,8 @@ public class FeatureDetectorDescriptor {
                 }
             }
 
-//            DMatch m1 = DMatchArray[0];
-//            DMatch m2 = DMatchArray[1];
-//
-//            if (m1.distance <= m2.distance * ratioThreshold) {
-//                goodMatches.add(m1);
-//            }
         }
 
-        // Calculate similarity featureScore as the ratio of good matches to total matches
         double featureScore = (double) goodMatches.size() / (double) keypoints1.rows();
         return CompletableFuture.completedFuture(featureScore);
     }

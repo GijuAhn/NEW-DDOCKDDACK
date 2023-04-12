@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -122,10 +123,9 @@ public class AdminApiController {
     public ResponseEntity bestcutRemove(@PathVariable Long bestcutId,
         @RequestHeader(value = "banMemberId", required = true) Long banMemberId,
         @RequestHeader(value = "banLevel", required = true) String banLevel,
-        Authentication authentication) {
-        Long adminId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
 
-        bestcutService.removeBestcut(bestcutId, adminId);
+        bestcutService.removeBestcut(bestcutId, memberAccessRes.getId());
         if (stringToEnum(banLevel) != BanLevel.NO_PENALTY) {
             memberService.banMember(banMemberId, stringToEnum(banLevel));
         }

@@ -105,7 +105,6 @@ public class ImageHistogram {
             result = Imgproc.compareHist(hist1.get(0), hist2.get(0), Imgproc.CV_COMP_CHISQR);
             result += Imgproc.compareHist(hist1.get(1), hist2.get(1), Imgproc.CV_COMP_CHISQR);
             result += Imgproc.compareHist(hist1.get(2), hist2.get(2), Imgproc.CV_COMP_CHISQR);
-//            System.out.println("Result of histogram comparison: "+ result);
             return result;
         }
     }

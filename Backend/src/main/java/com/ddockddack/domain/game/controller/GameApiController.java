@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,10 +36,10 @@ public class GameApiController {
             @ApiResponse(responseCode = "200", description = "게임 목록 조회 성공")
     })
     public ResponseEntity<PageImpl<GameRes>> gameList(@ModelAttribute PageConditionReq pageConditionReq,
-                                                      Authentication authentication) {
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
         Long memberId = null;
-        if (authentication != null) {
-            memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        if (memberAccessRes != null) {
+            memberId = memberAccessRes.getId();
         }
         PageImpl<GameRes> allGames = gameService.findAllGames(memberId, pageConditionReq);
 
@@ -67,10 +68,9 @@ public class GameApiController {
             @ApiResponse(responseCode = "414", description = "지원 하지 않는 확장자")
     })
     public ResponseEntity gameSave(@ModelAttribute @Valid GameSaveReq gameSaveReq,
-                                   Authentication authentication) {
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
 
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.saveGame(memberId, gameSaveReq);
+        gameService.saveGame(memberAccessRes.getId(), gameSaveReq);
         return ResponseEntity.ok().build();
 
     }
@@ -85,10 +85,9 @@ public class GameApiController {
             @ApiResponse(responseCode = "414", description = "지원 하지 않는 확장자")
     })
     public ResponseEntity gameModify(@ModelAttribute @Valid GameModifyReq gameModifyReq,
-                                     Authentication authentication) {
+                                     @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
 
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.modifyGame(memberId, gameModifyReq);
+        gameService.modifyGame(memberAccessRes.getId(), gameModifyReq);
         return ResponseEntity.ok().build();
 
     }
@@ -102,10 +101,9 @@ public class GameApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
     public ResponseEntity gameRemove(@PathVariable Long gameId,
-                                     Authentication authentication) {
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
 
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.removeGame(memberId, gameId);
+        gameService.removeGame(memberAccessRes.getId(), gameId);
 
         return ResponseEntity.ok().build();
 
@@ -120,11 +118,8 @@ public class GameApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
     public ResponseEntity gameStarred(@PathVariable Long gameId,
-                                      Authentication authentication) {
-
-
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.starredGame(memberId, gameId);
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        gameService.starredGame(memberAccessRes.getId(), gameId);
         return ResponseEntity.ok().build();
     }
 
@@ -137,11 +132,8 @@ public class GameApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
     public ResponseEntity gameUnStarred(@PathVariable Long gameId,
-                                        Authentication authentication) {
-
-
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.unStarredGame(memberId, gameId);
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        gameService.unStarredGame(memberAccessRes.getId(), gameId);
         return ResponseEntity.ok().build();
 
     }
@@ -156,10 +148,8 @@ public class GameApiController {
     })
     public ResponseEntity gameReport(@PathVariable Long gameId,
                                      @RequestBody Map<String, String> body,
-                                     Authentication authentication) {
-
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        gameService.reportGame(memberId, gameId, ReportType.valueOf(body.get("reportType")));
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        gameService.reportGame(memberAccessRes.getId(), gameId, ReportType.valueOf(body.get("reportType")));
         return ResponseEntity.ok().build();
 
     }

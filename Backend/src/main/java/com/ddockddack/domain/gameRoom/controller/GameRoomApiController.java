@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,15 +65,15 @@ public class GameRoomApiController {
     })
     public ResponseEntity<GameRoomRes> gameRoomJoin(@PathVariable String pinNumber,
         @RequestBody(required = false) Map<String, String> param,
-        Authentication authentication,
+        @AuthenticationPrincipal MemberAccessRes memberAccessRes,
         HttpServletRequest request) throws OpenViduJavaClientException, OpenViduHttpException {
 
         String clientIp = ClientUtils.etRemoteAddr(request);
         log.info("clientIp 확인 {}", clientIp);
         String nickname = param.get("nickname");
         Long memberId = null;
-        if (authentication != null) {
-            memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        if (memberAccessRes != null) {
+            memberId = memberAccessRes.getId();
         }
         return new ResponseEntity<>(
             gameRoomService.joinGameRoom(pinNumber, memberId, nickname, clientIp), HttpStatus.OK);

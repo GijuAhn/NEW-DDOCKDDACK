@@ -71,8 +71,6 @@ public class StructuralSimilarity {
 //        prevent SSIMScore got negative value, logarithm shift
 //        [-1.0 ~ +1.0 -> -1.0 ~ +1.0] -> [-1.0 ~ +1.0 -> +0.0 ~ +ln3]
         double shiftedSSIMScore = logShift(SSIMScore);
-//        System.out.println("@ShiftedSSIM = " + shiftedSSIMScore);
-
         //        HIGHER SSIM => HIGHER Similarity
         return CompletableFuture.completedFuture(shiftedSSIMScore);
     }

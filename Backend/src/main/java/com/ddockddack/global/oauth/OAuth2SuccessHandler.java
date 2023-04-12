@@ -35,8 +35,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         Member member = memberRepository.getByEmail((String) attributes.get("email"));
 
-        System.out.println((String) attributes.get("email"));
-        System.out.println(member);
         log.info("email {} ", (String) attributes.get("email"));
         log.info("email {} ", (String) attributes.get("nickname"));
         if (member == null) {

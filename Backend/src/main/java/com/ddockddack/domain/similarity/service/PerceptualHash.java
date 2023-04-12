@@ -153,7 +153,6 @@ public class PerceptualHash {
          */
         long start = System.currentTimeMillis();
         double[][] dctVals = applyDCT(vals);
-//        System.out.println("DCT: " + (System.currentTimeMillis() - start));
 
         /* 4. Reduce the DCT.
          * This is the magic step. While the DCT is 32x32, just keep the
