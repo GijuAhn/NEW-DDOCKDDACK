@@ -1,13 +1,13 @@
 package com.ddockddack.global.filter;
 
 import com.ddockddack.domain.member.entity.Member;
-import com.ddockddack.global.oauth.Token;
 import com.ddockddack.domain.member.repository.MemberRepository;
-import com.ddockddack.domain.member.response.MemberAccessRes;
 import com.ddockddack.domain.member.service.TokenService;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.ddockddack.global.oauth.MemberDetail;
+import com.ddockddack.global.oauth.Token;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.FilterChain;
@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         log.info("cokies {}", cookies);
 
-        if(cookies != null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("refresh-token")) {
                     logger.info(cookie.getValue());
@@ -59,9 +59,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("refreshToken {} ", refreshToken);
 
         //엑세스 토큰이 없을때
-        if(accessToken == null || "".equals(accessToken)){
+        if (accessToken == null || "".equals(accessToken)) {
 
-            if (refreshToken != null && tokenService.verifyToken(refreshToken)){
+            if (refreshToken != null && tokenService.verifyToken(refreshToken)) {
 
                 //refresh-token을 받음 access-token 재발급
                 Long id = tokenService.getUid(refreshToken);
@@ -72,18 +72,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
                 }
 
-                MemberAccessRes memberAccessRes = new MemberAccessRes(token.getToken(), member.getId(), member.getRole());
+                MemberDetail memberDetail = new MemberDetail(token.getToken(),
+                    member.getId(), member.getRole());
 
-                Authentication auth = getAuthentication(memberAccessRes);
+                Authentication auth = getAuthentication(memberDetail);
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
                 // 정상 진행
 
-            } else if (request.getRequestURI().contains("api/game-room")){
+            } else if (request.getRequestURI().contains("api/game-room")) {
 
                 // 정상 진행
 
-            } else if (request.getMethod().equals("GET")){
+            } else if (request.getMethod().equals("GET")) {
 
                 // 정상 진행
 
@@ -98,13 +99,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Long id = tokenService.getUid(accessToken);
             Member member = memberRepository.getReferenceById(id);
 
-            if(tokenService.verifyToken(accessToken)){
+            if (tokenService.verifyToken(accessToken)) {
 
                 if (member == null) {
                     throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
                 }
 
-                MemberAccessRes memberAccessRes = new MemberAccessRes(accessToken, member.getId(), member.getRole());
+                MemberDetail memberAccessRes = new MemberDetail(accessToken, member.getId(),
+                    member.getRole());
 
                 Authentication auth = getAuthentication(memberAccessRes);
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -124,7 +126,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     }
 
-    public Authentication getAuthentication(MemberAccessRes member) {
+    public Authentication getAuthentication(MemberDetail member) {
         return new UsernamePasswordAuthenticationToken(member, "",
             Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
     }
