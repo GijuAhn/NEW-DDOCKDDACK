@@ -54,7 +54,7 @@ public class BestcutApiController {
     })
     public ResponseEntity bestcutRemove(@PathVariable Long bestcutId,
         @AuthenticationPrincipal MemberDetail memberDetail) {
-        bestcutService.removeBestcut(bestcutId, memberDetail.getId());
+        bestcutService.removeBestcut(bestcutId, memberDetail);
 
         return ResponseEntity.ok().build();
     }

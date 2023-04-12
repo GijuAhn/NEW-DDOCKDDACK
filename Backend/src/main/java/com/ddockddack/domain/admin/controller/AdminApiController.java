@@ -121,7 +121,7 @@ public class AdminApiController {
         @RequestHeader(value = "banLevel", required = true) String banLevel,
         @AuthenticationPrincipal MemberDetail memberDetail) {
 
-        bestcutService.removeBestcut(bestcutId, memberDetail.getId());
+        bestcutService.removeBestcut(bestcutId, memberDetail);
         if (stringToEnum(banLevel) != BanLevel.NO_PENALTY) {
             memberService.banMember(banMemberId, stringToEnum(banLevel));
         }

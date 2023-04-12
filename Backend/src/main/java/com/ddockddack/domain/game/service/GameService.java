@@ -89,6 +89,7 @@ public class GameService {
     public Long saveGame(Long memberId, GameSaveReq gameSaveReq) {
 
         final Member member = memberRepository.getReferenceById(memberId);
+
         // 게임 생성
         Game game = gameSaveReq.toEntity(member);
         Long gameId = gameRepository.save(game).getId();
@@ -126,12 +127,10 @@ public class GameService {
      */
     public void modifyGame(MemberDetail memberDetail, GameModifyReq gameModifyReq) {
         // 검증
-        checkAccessValidation(memberDetail, gameModifyReq.getGameId());
-
-        final Game getGame = gameRepository.findById(gameModifyReq.getGameId()).get();
+        final Game game = checkAccessValidation(memberDetail, gameModifyReq.getGameId());
 
         // 게임 제목, 설명 수정
-        getGame.updateGame(gameModifyReq.getGameTitle(), gameModifyReq.getGameDesc());
+        game.updateGame(gameModifyReq.getGameTitle(), gameModifyReq.getGameDesc());
 
         List<String> tempImage = new ArrayList<>();
         for (GameImageModifyReq gameImageModifyReq : gameModifyReq.getImages()) {
@@ -177,20 +176,16 @@ public class GameService {
      */
     public void starredGame(Long memberId, Long gameId) {
 
-        // 검증
-        checkGameValidation(gameId);
-
         boolean isExist = starredGameRepository.existsByMemberIdAndGameId(memberId, gameId);
 
         if (isExist) {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_STTAREDGAME);
         }
-
+        final Game game = gameRepository.getReferenceById(gameId);
         final Member member = memberRepository.getReferenceById(memberId);
-        final Game getGame = gameRepository.findById(gameId).get();
 
         StarredGame starredGame = StarredGame.builder()
-            .game(getGame)
+            .game(game)
             .member(member)
             .build();
 
@@ -223,9 +218,6 @@ public class GameService {
      */
     public void reportGame(Long memberId, Long gameId, ReportType reportType) {
 
-        // 검증
-        checkGameValidation(gameId);
-
         // 이미 신고했는지 검증
         boolean isExist = reportedGameRepository.existsByReportMemberIdAndGameId(memberId, gameId);
 
@@ -233,13 +225,13 @@ public class GameService {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_REPORTEDGAME);
         }
 
-        Member reportMember = memberRepository.findById(memberId).get();
-        Game getGame = gameRepository.findById(gameId).get();
+        final Game game = checkGameValidation(gameId);
+        final Member reportMember = memberRepository.getReferenceById(memberId);
 
         ReportedGame reportedGame = ReportedGame.builder()
-            .game(getGame)
+            .game(game)
             .reportMember(reportMember)
-            .reportedMember(getGame.getMember())
+            .reportedMember(game.getMember())
             .reportType(reportType)
             .build();
 
