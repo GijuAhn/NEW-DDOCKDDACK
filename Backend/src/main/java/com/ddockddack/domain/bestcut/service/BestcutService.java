@@ -49,13 +49,14 @@ public class BestcutService {
      */
     @Transactional
     public void saveBestcut(Long memberId, BestcutSaveReq saveReq) {
+        Member member = validAndGetMember(memberId);
 
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
+        //게임방의 핀 번호
         String pinNumber = saveReq.getPinNumber();
+        //유저 socket ID
         String socketId = saveReq.getSocketId();
 
+        //유저가 업로드하고자 하는 모든 베스트컷을 gameRoom 객체에서 찾아와 s3와 DB에 저장
         for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
             int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
             byte[] byteImage = gameRoomRepository.findByImageIndex(pinNumber, socketId, userImageIndex);
@@ -74,22 +75,29 @@ public class BestcutService {
      */
     @Transactional
     public void removeBestcut(Long bestcutId, Long memberId) {
-        Bestcut bestcut = bestcutRepository.findById(bestcutId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        Bestcut bestcut = validAndGetBestcut(bestcutId);
+        Member member = validAndGetMember(memberId);
 
+        //관리자가 아니거나 멤버 아이디가 베스트컷의 주인과 다른 경우 예외 발생
         if (member.getRole() != Role.ADMIN && !bestcut.getMember().getId().equals(memberId)) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
         }
 
+        //해당 베스트컷의 좋아요 삭제 및 신고 기록 삭제
         bestcutLikeRepository.deleteByBestcutId(bestcutId);
         reportedBestcutRepository.deleteByBestcutId(bestcutId);
 
+        //s3에서 삭제
         awsS3.deleteObject(bestcut.getImageUrl());
         bestcutRepository.delete(bestcut);
     }
 
+    /**
+     * List에 존재하는 모든 베스트컷 삭제
+     * 해당 멤버가 업로드한 베스트컷의 좋아요, 신고 기록 삭제
+     * 회원 탈퇴 시 사용
+     * @param bestcutIds
+     */
     @Transactional
     public void removeAllBestcutByIds(List<Long> bestcutIds) {
         bestcutLikeRepository.deleteByBestcutIdIn(bestcutIds);
@@ -98,18 +106,30 @@ public class BestcutService {
         bestcutRepository.deleteAllById(bestcutIds);
     }
 
+    /**
+     * 해당 멤버가 좋아요, 신고한 기록 삭제
+     * 회원 탈퇴 시 사용
+     * @param memberId
+     */
     @Transactional
     public void removeBestcutByMemberId(Long memberId) {
         bestcutLikeRepository.deleteByMemberId(memberId);
         reportedBestcutRepository.deleteByMemberId(memberId);
     }
 
+    /**
+     * 베스트컷 신고
+     *
+     * @param memberId
+     * @param bestcutId
+     * @param reportType
+     */
     @Transactional
     public void reportBestcut(Long memberId, Long bestcutId, ReportType reportType) {
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-        Bestcut bestcut = bestcutRepository.findById(bestcutId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+        Member member = validAndGetMember(memberId);
+        Bestcut bestcut = validAndGetBestcut(bestcutId);
+
+        //이미 신고 기록있으면 예외 발생
         if (reportedBestcutRepository.existsByReportMemberIdAndBestcutId(memberId, bestcutId)) {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_REPORT);
         }
@@ -136,10 +156,23 @@ public class BestcutService {
         return bestcutRepository.findAllBySearch(my, loginMemberId, pageCondition);
     }
 
+    /**
+     * memberId로 베스트컷 검색
+     *
+     * @param memberId
+     * @return
+     */
     public List<Long> findBestcutByMemberId(Long memberId) {
         return bestcutRepository.findAllBestcutIdByMemberId(memberId);
     }
 
+    /**
+     * 베스트컷 상세 조회
+     *
+     * @param loginMemberId
+     * @param bestcutId
+     * @return
+     */
     public BestcutRes findBestcut(Long loginMemberId, Long bestcutId) {
         return bestcutRepository.findOne(loginMemberId, bestcutId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
@@ -156,12 +189,16 @@ public class BestcutService {
         return bestcutRepository.findAllReportedBestcut();
     }
 
+    /**
+     * 베스트컷 좋아요
+     *
+     * @param bestcutId
+     * @param memberId
+     */
     @Transactional
     public void saveBestcutLike(Long bestcutId, Long memberId) {
-        Bestcut bestcut = bestcutRepository.findById(bestcutId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        Bestcut bestcut = validAndGetBestcut(bestcutId);
+        Member member = validAndGetMember(memberId);
         if (bestcutLikeRepository.existsByMemberIdAndBestcutId(memberId, bestcutId)) {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_BESTCUT_LIKE);
         }
@@ -174,12 +211,29 @@ public class BestcutService {
         bestcutLikeRepository.save(bestcutLike);
     }
 
+    /**
+     * 베스트컷 좋아요 취소
+     *
+     * @param bestcutId
+     * @param memberId
+     */
     @Transactional
     public void removeBestcutLike(Long bestcutId, Long memberId) {
 
         BestcutLike bestcutLike = bestcutLikeRepository.findByMemberIdAndBestcutId(memberId, bestcutId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_LIKE_NOT_FOUND));
         bestcutLikeRepository.delete(bestcutLike);
+    }
+
+
+    private Bestcut validAndGetBestcut(Long bestcutId) {
+        return bestcutRepository.findById(bestcutId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_NOT_FOUND));
+    }
+
+    private Member validAndGetMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
 }
