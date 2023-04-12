@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -43,10 +44,10 @@ public class GameRoomApiController {
         @ApiResponse(responseCode = "200", description = "방 생성 성공"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임")
     })
-    public ResponseEntity<String> gameRoomCreate(@RequestBody Map<String, String> params) {
+    public ResponseEntity<String> gameRoomCreate(@RequestParam Long gameId) {
         String pinNumber;
         try {
-            pinNumber = gameRoomService.createGameRoom(Long.parseLong(params.get("gameId")));
+            pinNumber = gameRoomService.createGameRoom(gameId);
         } catch (OpenViduJavaClientException e) {
             throw new RuntimeException(e);
         } catch (OpenViduHttpException e) {

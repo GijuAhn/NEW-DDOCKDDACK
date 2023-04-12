@@ -109,12 +109,13 @@ const createSession = (gameId) => {
   api
     .post(
       "/api/game-rooms",
-      {
-        gameId,
-      },
+      {},
       {
         headers: {
           "access-token": accessToken,
+        },
+        params: {
+          gameId,
         },
       }
     )
