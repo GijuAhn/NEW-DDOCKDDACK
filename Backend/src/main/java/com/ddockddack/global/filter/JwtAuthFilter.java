@@ -72,7 +72,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
                 }
 
-                MemberAccessRes memberAccessRes = new MemberAccessRes(token.getToken(), member.getId());
+                MemberAccessRes memberAccessRes = new MemberAccessRes(token.getToken(), member.getId(), member.getRole());
 
                 Authentication auth = getAuthentication(memberAccessRes);
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -104,7 +104,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
                 }
 
-                MemberAccessRes memberAccessRes = new MemberAccessRes(accessToken, member.getId());
+                MemberAccessRes memberAccessRes = new MemberAccessRes(accessToken, member.getId(), member.getRole());
 
                 Authentication auth = getAuthentication(memberAccessRes);
                 SecurityContextHolder.getContext().setAuthentication(auth);

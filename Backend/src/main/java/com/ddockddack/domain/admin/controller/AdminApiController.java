@@ -4,11 +4,10 @@ import com.ddockddack.domain.bestcut.response.ReportedBestcutRes;
 import com.ddockddack.domain.bestcut.service.BestcutService;
 import com.ddockddack.domain.game.response.ReportedGameRes;
 import com.ddockddack.domain.game.service.GameService;
-import com.ddockddack.domain.member.response.MemberAccessRes;
 import com.ddockddack.domain.member.service.BanLevel;
 import com.ddockddack.domain.member.service.MemberService;
 import com.ddockddack.domain.report.service.ReportService;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.ddockddack.global.oauth.MemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,7 +16,6 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,11 +79,9 @@ public class AdminApiController {
     public ResponseEntity reportedGameRemove(@PathVariable Long gameId,
         @RequestHeader(value = "banMemberId", required = true) Long banMemberId,
         @RequestHeader(value = "banLevel", required = true) String banLevel,
-        Authentication authentication) {
+        @AuthenticationPrincipal MemberDetail memberDetail) {
 
-        Long adminId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-
-        gameService.removeGame(adminId, gameId);
+        gameService.removeGame(memberDetail, gameId);
         if (stringToEnum(banLevel) != BanLevel.NO_PENALTY) {
             memberService.banMember(banMemberId, stringToEnum(banLevel));
         }
@@ -123,9 +119,9 @@ public class AdminApiController {
     public ResponseEntity bestcutRemove(@PathVariable Long bestcutId,
         @RequestHeader(value = "banMemberId", required = true) Long banMemberId,
         @RequestHeader(value = "banLevel", required = true) String banLevel,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        @AuthenticationPrincipal MemberDetail memberDetail) {
 
-        bestcutService.removeBestcut(bestcutId, memberAccessRes.getId());
+        bestcutService.removeBestcut(bestcutId, memberDetail.getId());
         if (stringToEnum(banLevel) != BanLevel.NO_PENALTY) {
             memberService.banMember(banMemberId, stringToEnum(banLevel));
         }

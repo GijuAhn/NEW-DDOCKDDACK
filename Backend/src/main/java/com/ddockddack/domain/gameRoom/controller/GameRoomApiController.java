@@ -2,7 +2,7 @@ package com.ddockddack.domain.gameRoom.controller;
 
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.gameRoom.service.GameRoomService;
-import com.ddockddack.domain.member.response.MemberAccessRes;
+import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.ClientUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.openvidu.java.client.OpenViduHttpException;
@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,15 +64,15 @@ public class GameRoomApiController {
     })
     public ResponseEntity<GameRoomRes> gameRoomJoin(@PathVariable String pinNumber,
         @RequestBody(required = false) Map<String, String> param,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes,
+        @AuthenticationPrincipal MemberDetail memberDetail,
         HttpServletRequest request) throws OpenViduJavaClientException, OpenViduHttpException {
 
         String clientIp = ClientUtils.etRemoteAddr(request);
         log.info("clientIp 확인 {}", clientIp);
         String nickname = param.get("nickname");
         Long memberId = null;
-        if (memberAccessRes != null) {
-            memberId = memberAccessRes.getId();
+        if (memberDetail != null) {
+            memberId = memberDetail.getId();
         }
         return new ResponseEntity<>(
             gameRoomService.joinGameRoom(pinNumber, memberId, nickname, clientIp), HttpStatus.OK);

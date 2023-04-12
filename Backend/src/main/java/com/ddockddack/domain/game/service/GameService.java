@@ -5,7 +5,6 @@ import com.ddockddack.domain.game.entity.GameImage;
 import com.ddockddack.domain.game.entity.StarredGame;
 import com.ddockddack.domain.game.repository.GameImageRepository;
 import com.ddockddack.domain.game.repository.GameRepository;
-import com.ddockddack.domain.game.repository.GameRepositorySupport;
 import com.ddockddack.domain.game.repository.StarredGameRepository;
 import com.ddockddack.domain.game.request.GameImageModifyReq;
 import com.ddockddack.domain.game.request.GameImageParam;
@@ -21,25 +20,25 @@ import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
+import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
-import com.ddockddack.global.aws.AwsS3;
+import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.PageCondition;
 import com.ddockddack.global.util.PageConditionReq;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileSystemUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -89,25 +88,19 @@ public class GameService {
      */
     public Long saveGame(Long memberId, GameSaveReq gameSaveReq) {
 
-        // memberId로 member 조회. 조회 결과가 null 이면 NotFoundException 발생.
-        Member getMember = memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
+        final Member member = memberRepository.getReferenceById(memberId);
         // 게임 생성
-        Game game = gameSaveReq.toEntity(getMember);
+        Game game = gameSaveReq.toEntity(member);
         Long gameId = gameRepository.save(game).getId();
 
         // 게임 이미지 업로드
 
         List<GameImage> gameImages = new ArrayList<>();
         for (GameImageParam gameImageParam : gameSaveReq.getImages()) {
-            String imageExtension; // 이미지 확장자
             String contentType = gameImageParam.getGameImage().getContentType();
 
             // 이미지 확장자가 jpeg, png인 경우만 업로드 아닌경우 예외 발생
-            if (contentType.contains("image/jpeg")) {
-                imageExtension = ".jpg";
-            } else {
+            if (!contentType.contains("image/jpeg")) {
                 throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
             }
             // 파일 업로드
@@ -128,21 +121,22 @@ public class GameService {
     /**
      * 게임 수정
      *
-     * @param memberId
+     * @param memberDetail
      * @param gameModifyReq
      */
-    public void modifyGame(Long memberId, GameModifyReq gameModifyReq) {
+    public void modifyGame(MemberDetail memberDetail, GameModifyReq gameModifyReq) {
         // 검증
-        checkAccessValidation(memberId, gameModifyReq.getGameId());
+        checkAccessValidation(memberDetail, gameModifyReq.getGameId());
 
-        Game getGame = gameRepository.findById(gameModifyReq.getGameId()).get();
+        final Game getGame = gameRepository.findById(gameModifyReq.getGameId()).get();
 
         // 게임 제목, 설명 수정
         getGame.updateGame(gameModifyReq.getGameTitle(), gameModifyReq.getGameDesc());
 
         List<String> tempImage = new ArrayList<>();
         for (GameImageModifyReq gameImageModifyReq : gameModifyReq.getImages()) {
-            GameImage getGameImage = gameImageRepository.findById(gameImageModifyReq.getGameImageId()).get();
+            GameImage getGameImage = gameImageRepository.findById(
+                gameImageModifyReq.getGameImageId()).get();
 
             String imageExtension; // 이미지 확장자
             String contentType = gameImageModifyReq.getGameImage().getContentType();
@@ -161,13 +155,13 @@ public class GameService {
     /**
      * 게임 삭제
      *
-     * @param memberId
+     * @param memberDetail
      * @param gameId
      */
-    public void removeGame(Long memberId, Long gameId) {
+    public void removeGame(MemberDetail memberDetail, Long gameId) {
 
         // 검증
-        checkAccessValidation(memberId, gameId);
+        checkAccessValidation(memberDetail, gameId);
         gameImageRepository.deleteByGameId(gameId);
         starredGameRepository.deleteByGameId(gameId);
         reportedGameRepository.deleteByGameId(gameId);
@@ -184,7 +178,7 @@ public class GameService {
     public void starredGame(Long memberId, Long gameId) {
 
         // 검증
-        checkMemberAndGameValidation(memberId, gameId);
+        checkGameValidation(gameId);
 
         boolean isExist = starredGameRepository.existsByMemberIdAndGameId(memberId, gameId);
 
@@ -192,13 +186,13 @@ public class GameService {
             throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_STTAREDGAME);
         }
 
-        Member getMember = memberRepository.findById(memberId).get();
-        Game getGame = gameRepository.findById(gameId).get();
+        final Member member = memberRepository.getReferenceById(memberId);
+        final Game getGame = gameRepository.findById(gameId).get();
 
         StarredGame starredGame = StarredGame.builder()
-                .game(getGame)
-                .member(getMember)
-                .build();
+            .game(getGame)
+            .member(member)
+            .build();
 
         starredGameRepository.save(starredGame);
     }
@@ -212,9 +206,10 @@ public class GameService {
     public void unStarredGame(Long memberId, Long gameId) {
 
         // 검증
-        checkMemberAndGameValidation(memberId, gameId);
+        checkGameValidation(gameId);
 
-        StarredGame getStarredGame = starredGameRepository.findByMemberIdAndGameId(memberId, gameId).orElseThrow(() ->
+        StarredGame getStarredGame = starredGameRepository.findByMemberIdAndGameId(memberId, gameId)
+            .orElseThrow(() ->
                 new NotFoundException(ErrorCode.STARREDGAME_NOT_FOUND));
 
         starredGameRepository.delete(getStarredGame);
@@ -229,7 +224,7 @@ public class GameService {
     public void reportGame(Long memberId, Long gameId, ReportType reportType) {
 
         // 검증
-        checkMemberAndGameValidation(memberId, gameId);
+        checkGameValidation(gameId);
 
         // 이미 신고했는지 검증
         boolean isExist = reportedGameRepository.existsByReportMemberIdAndGameId(memberId, gameId);
@@ -242,11 +237,11 @@ public class GameService {
         Game getGame = gameRepository.findById(gameId).get();
 
         ReportedGame reportedGame = ReportedGame.builder()
-                .game(getGame)
-                .reportMember(reportMember)
-                .reportedMember(getGame.getMember())
-                .reportType(reportType)
-                .build();
+            .game(getGame)
+            .reportMember(reportMember)
+            .reportedMember(getGame.getMember())
+            .reportType(reportType)
+            .build();
 
         reportedGameRepository.save(reportedGame);
     }
@@ -258,10 +253,11 @@ public class GameService {
      * @return
      */
     @Transactional(readOnly = true)
-    public PageImpl<GameRes> findAllGamesByMemberId(Long memberId, PageConditionReq pageConditionReq) {
+    public PageImpl<GameRes> findAllGamesByMemberId(Long memberId,
+        PageConditionReq pageConditionReq) {
         PageCondition pageCondition = pageConditionReq.toEntity();
         memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         return gameRepository.findAllByMemberId(memberId, pageCondition);
     }
 
@@ -274,7 +270,7 @@ public class GameService {
     @Transactional(readOnly = true)
     public List<StarredGameRes> findAllStarredGames(Long memberId) {
         memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         return starredGameRepository.findAllStarredGame(memberId);
     }
 
@@ -292,44 +288,35 @@ public class GameService {
     /**
      * 게임 수정, 삭제 권한 검증
      *
-     * @param memberId
+     * @param memberDetail
      * @param gameId
      */
-    private void checkAccessValidation(Long memberId, Long gameId) {
-
-        // 존재하는 유저인지 검증
-        Member getMember = memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+    private Game checkAccessValidation(MemberDetail memberDetail, Long gameId) {
 
         // 존재하는 게임 인지 검증
-        Game getGame = gameRepository.findById(gameId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+        Game game = checkGameValidation(gameId);
 
         // 관리자면 바로 리턴
-        if (getMember.getRole().equals(Role.ADMIN)) {
-            return;
+        if (memberDetail.getRole().equals(Role.ADMIN)) {
+            return game;
         }
 
         // 삭제 권한을 가진 유저인지 검증
-        if ((memberId != getGame.getMember().getId())) {
+        if ((memberDetail.getId() != game.getMember().getId())) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
         }
+        return game;
     }
 
     /**
-     * 즐겨 찾기,신고 검증
+     * 게임 validation
      *
-     * @param memberId
      * @param gameId
      */
-    private void checkMemberAndGameValidation(Long memberId, Long gameId) {
-        // 존재하는 유저인지 검증
-        memberRepository.findById(memberId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
+    private Game checkGameValidation(Long gameId) {
         // 존재하는 게임 인지 검증
-        gameRepository.findById(gameId).orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+        return gameRepository.findById(gameId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_NOT_FOUND));
     }
 
 

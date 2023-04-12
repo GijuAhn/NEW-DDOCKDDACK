@@ -9,11 +9,11 @@ import com.ddockddack.domain.game.service.GameService;
 import com.ddockddack.domain.gameRoom.response.GameRoomHistoryRes;
 import com.ddockddack.domain.gameRoom.service.GameRoomService;
 import com.ddockddack.domain.member.request.MemberModifyNameReq;
-import com.ddockddack.domain.member.response.MemberAccessRes;
 import com.ddockddack.domain.member.response.MemberInfoRes;
 import com.ddockddack.domain.member.service.MemberService;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.PageConditionReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,10 +61,10 @@ public class MemberApiController {
     @PutMapping("/nickname")
     public ResponseEntity nicknameModify(@RequestBody MemberModifyNameReq
         memberModifyNameReq,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        @AuthenticationPrincipal MemberDetail memberDetail) {
 
         log.info("memberModifyNameReq {}", memberModifyNameReq);
-        memberService.modifyMemberNickname(memberAccessRes.getId(), memberModifyNameReq);
+        memberService.modifyMemberNickname(memberDetail.getId(), memberModifyNameReq);
 
         return ResponseEntity.ok().build();
 
@@ -84,12 +83,12 @@ public class MemberApiController {
     @PutMapping("/profile")
     public ResponseEntity profileModify(
         @ModelAttribute MultipartFile profileImg,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes
+        @AuthenticationPrincipal MemberDetail memberDetail
     ) {
 
         log.info("profileImg {}", profileImg.getOriginalFilename());
 
-        String imageName = memberService.modifyMemberProfile(memberAccessRes.getId(), profileImg);
+        String imageName = memberService.modifyMemberProfile(memberDetail.getId(), profileImg);
 
         return ResponseEntity.ok().body(imageName);
 
@@ -103,12 +102,12 @@ public class MemberApiController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping()
-    public ResponseEntity memberDetails(@AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+    public ResponseEntity memberDetails(@AuthenticationPrincipal MemberDetail memberDetail) {
 
-        if (memberAccessRes.toString().equals("anonymousUser")) {
+        if (memberDetail.toString().equals("anonymousUser")) {
             throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
         }
-        MemberInfoRes memberInfoRes = memberService.memberDetails(memberAccessRes.getId());
+        MemberInfoRes memberInfoRes = memberService.memberDetails(memberDetail.getId());
         log.info("memberInfoRes {}", memberInfoRes);
 
         return ResponseEntity.ok(memberInfoRes);
@@ -123,12 +122,12 @@ public class MemberApiController {
     })
     @DeleteMapping()
     public ResponseEntity memberRemove(HttpServletRequest request, HttpServletResponse response,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+        @AuthenticationPrincipal MemberDetail memberDetail) {
 
         removeCookie(request.getCookies(), response);
 
         memberService.removeMemberById(
-            memberAccessRes.getId()); //탈퇴로직에 access, refresh Token 정지시키는 로직 추가해야함
+            memberDetail.getId()); //탈퇴로직에 access, refresh Token 정지시키는 로직 추가해야함
 
         return ResponseEntity.ok().build();
     }
@@ -143,8 +142,8 @@ public class MemberApiController {
     @GetMapping("/bestcuts")
     public ResponseEntity myBestcutList(
         @ModelAttribute PageConditionReq pageCondition,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
-        PageImpl<BestcutRes> bestcutRes = bestcutService.findAllBestcuts(true, memberAccessRes.getId(),
+        @AuthenticationPrincipal MemberDetail memberDetail) {
+        PageImpl<BestcutRes> bestcutRes = bestcutService.findAllBestcuts(true, memberDetail.getId(),
             pageCondition);
         log.info("bestcuts2 {}", bestcutRes);
         return ResponseEntity.ok(bestcutRes);
@@ -161,8 +160,8 @@ public class MemberApiController {
     @GetMapping("/games")
     public ResponseEntity myGameList(
         @ModelAttribute PageConditionReq pageConditionReq,
-        @AuthenticationPrincipal MemberAccessRes memberAccessRes) {
-        PageImpl<GameRes> gameResList = gameService.findAllGamesByMemberId(memberAccessRes.getId(),
+        @AuthenticationPrincipal MemberDetail memberDetail) {
+        PageImpl<GameRes> gameResList = gameService.findAllGamesByMemberId(memberDetail.getId(),
             pageConditionReq);
         return ResponseEntity.ok(gameResList);
     }
@@ -175,9 +174,9 @@ public class MemberApiController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/starred")
-    public ResponseEntity StarredGameList(@AuthenticationPrincipal MemberAccessRes memberAccessRes) {
+    public ResponseEntity StarredGameList(@AuthenticationPrincipal MemberDetail memberDetail) {
         List<StarredGameRes> starredGameResList = gameService.findAllStarredGames(
-            memberAccessRes.getId());
+            memberDetail.getId());
         return ResponseEntity.ok(starredGameResList);
 
     }
@@ -190,8 +189,9 @@ public class MemberApiController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/records")
-    public ResponseEntity gameRoomHistoryList(@AuthenticationPrincipal MemberAccessRes memberAccessRes) {
-        List<GameRoomHistoryRes> roomHistory = gameRoomService.findAllRoomHistory(memberAccessRes.getId());
+    public ResponseEntity gameRoomHistoryList(@AuthenticationPrincipal MemberDetail memberDetail) {
+        List<GameRoomHistoryRes> roomHistory = gameRoomService.findAllRoomHistory(
+            memberDetail.getId());
         Collections.reverse(roomHistory);
         return ResponseEntity.ok(roomHistory);
 
@@ -211,7 +211,7 @@ public class MemberApiController {
         memberService.logout(refreshToken);
         return ResponseEntity.ok().build();
     }
-    
+
     private String removeCookie(Cookie[] cookies, HttpServletResponse response) {
         String refreshToken = null;
         if (cookies != null) {
