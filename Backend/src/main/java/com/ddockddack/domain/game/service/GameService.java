@@ -144,7 +144,7 @@ public class GameService {
         for (GameImageModifyReq gameImageModifyReq : gameModifyReq.getImages()) {
             GameImage getGameImage = gameImageRepository.findById(gameImageModifyReq.getGameImageId()).get();
 
-            String imageExtension; // 이미지 확장자
+            String imageExtension; // 이미지 확장자 (S3 도입전 사용하였으나, 현재 사용 X)
             String contentType = gameImageModifyReq.getGameImage().getContentType();
 
             if (!contentType.contains("image/jpeg")) {
@@ -168,6 +168,7 @@ public class GameService {
 
         // 검증
         checkAccessValidation(memberId, gameId);
+        // 게임과 연관관계가 있는 엔티티 모두 삭제
         gameImageRepository.deleteByGameId(gameId);
         starredGameRepository.deleteByGameId(gameId);
         reportedGameRepository.deleteByGameId(gameId);
@@ -186,6 +187,7 @@ public class GameService {
         // 검증
         checkMemberAndGameValidation(memberId, gameId);
 
+        // 이미 즐겨 찾기 한 게임인지 확인
         boolean isExist = starredGameRepository.existsByMemberIdAndGameId(memberId, gameId);
 
         if (isExist) {
@@ -231,7 +233,7 @@ public class GameService {
         // 검증
         checkMemberAndGameValidation(memberId, gameId);
 
-        // 이미 신고했는지 검증
+        // 이미 신고 한 게임인지 확인
         boolean isExist = reportedGameRepository.existsByReportMemberIdAndGameId(memberId, gameId);
 
         if (isExist) {
@@ -334,7 +336,7 @@ public class GameService {
 
 
     /**
-     * 게임 이미지 수정 실패 시 업로드 되었던 이미지 개별 삭제
+     * 게임 이미지 수정 실패 시 업로드 되었던 이미지 개별 삭제 (S3 도입 전 사용)
      *
      * @param path
      * @param list
@@ -350,7 +352,7 @@ public class GameService {
     }
 
     /**
-     * 해당 게임 이미지 업로드 디렉토리 삭제
+     * 해당 게임 이미지 업로드 디렉토리 삭제 (S3 도입 전 사용)
      *
      * @param path
      */
