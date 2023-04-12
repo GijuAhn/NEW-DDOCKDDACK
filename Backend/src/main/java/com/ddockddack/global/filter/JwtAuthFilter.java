@@ -66,7 +66,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //refresh-token을 받음 access-token 재발급
                 Long id = tokenService.getUid(refreshToken);
                 Token token = tokenService.reGenerateAccessToken(id, "USER", refreshToken);
-                Member member = memberRepository.getReferenceById(id);
+                Member member = memberRepository.findById(id).orElseThrow(() ->
+                    new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
                 if (member == null) {
                     throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
@@ -97,7 +98,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         } else {
             Long id = tokenService.getUid(accessToken);
-            Member member = memberRepository.getReferenceById(id);
+            Member member = memberRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
             if (tokenService.verifyToken(accessToken)) {
 
