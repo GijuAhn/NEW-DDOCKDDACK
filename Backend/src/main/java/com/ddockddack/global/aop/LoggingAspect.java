@@ -11,12 +11,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.json.JSONObject;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 @Aspect
+@Order(2)
 @Slf4j
 public class LoggingAspect {
     @Pointcut("execution(* com.ddockddack.domain..*Controller.*(..))") // 이런 패턴이 실행될 경우 수행
