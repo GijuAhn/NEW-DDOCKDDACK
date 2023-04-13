@@ -27,7 +27,6 @@ import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
-import com.ddockddack.global.util.PageCondition;
 import com.ddockddack.global.util.PageConditionReq;
 import java.io.File;
 import java.io.IOException;
@@ -61,8 +60,7 @@ public class GameService {
      */
     @Transactional(readOnly = true)
     public PageImpl<GameRes> findAllGames(Long memberId, PageConditionReq pageConditionReq) {
-        PageCondition pageCondition = pageConditionReq.toEntity();
-        return gameRepository.findAllBySearch(memberId, pageCondition);
+        return gameRepository.findAllBySearch(memberId, pageConditionReq);
     }
 
     /**
@@ -247,10 +245,9 @@ public class GameService {
     @Transactional(readOnly = true)
     public PageImpl<GameRes> findAllGamesByMemberId(Long memberId,
         PageConditionReq pageConditionReq) {
-        PageCondition pageCondition = pageConditionReq.toEntity();
         memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-        return gameRepository.findAllByMemberId(memberId, pageCondition);
+        return gameRepository.findAllByMemberId(memberId, pageConditionReq);
     }
 
     /**

@@ -9,7 +9,7 @@ import com.ddockddack.domain.bestcut.response.BestcutRes;
 import com.ddockddack.domain.bestcut.response.QBestcutRes;
 import com.ddockddack.domain.bestcut.response.QReportedBestcutRes;
 import com.ddockddack.domain.bestcut.response.ReportedBestcutRes;
-import com.ddockddack.global.util.PageCondition;
+import com.ddockddack.global.util.PageConditionReq;
 import com.ddockddack.global.util.PeriodCondition;
 import com.ddockddack.global.util.SearchCondition;
 import com.querydsl.core.types.Expression;
@@ -36,7 +36,7 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     public PageImpl<BestcutRes> findAllBySearch(Boolean my, Long loginMemberId,
-        PageCondition pageCondition) {
+        PageConditionReq pageCondition) {
         List<BestcutRes> resultList = jpaQueryFactory.select(
                 new QBestcutRes(bestcut.id.as("bestcutId"), bestcut.title.as("bestcutImgTitle"),
                     bestcut.imageUrl.as("bestcutImgUrl"), bestcut.gameTitle,
@@ -45,8 +45,8 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     bestcut.createdAt.as("createdDate"), getLikeCnt(),
                     getIsLiked(loginMemberId), member.profile.as("profileImgUrl"),
                     member.nickname)).from(bestcut).join(bestcut.member, member)
-            .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriodCondition()),
-                searchCond(pageCondition.getSearchCondition(), pageCondition.getKeyword()))
+            .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriod()),
+                searchCond(pageCondition.getSearch(), pageCondition.getKeyword()))
             .orderBy(orderCond(pageCondition.getPageable()))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
@@ -116,12 +116,12 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     .and(bestcutLike.member.id.eq(loginMemberId))), "isLiked");
     }
 
-    private long getTotalPageCount(Boolean my, Long loginMemberId, PageCondition pageCondition) {
+    private long getTotalPageCount(Boolean my, Long loginMemberId, PageConditionReq pageCondition) {
         return jpaQueryFactory.select(Wildcard.count)
             .from(bestcut)
             .join(bestcut.member, member)
-            .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriodCondition()),
-                searchCond(pageCondition.getSearchCondition(), pageCondition.getKeyword()))
+            .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriod()),
+                searchCond(pageCondition.getSearch(), pageCondition.getKeyword()))
             .fetch()
             .get(0);
     }

@@ -14,7 +14,7 @@ import com.ddockddack.domain.game.response.GameRes;
 import com.ddockddack.domain.game.response.QGameDetailRes;
 import com.ddockddack.domain.game.response.QGameImageRes;
 import com.ddockddack.domain.game.response.QGameRes;
-import com.ddockddack.global.util.PageCondition;
+import com.ddockddack.global.util.PageConditionReq;
 import com.ddockddack.global.util.PeriodCondition;
 import com.ddockddack.global.util.SearchCondition;
 import com.querydsl.core.types.Expression;
@@ -38,8 +38,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
 
     // 검색 목록 조회
     @Override
-    public PageImpl<GameRes> findAllBySearch(Long memberId, PageCondition pageCondition) {
-
+    public PageImpl<GameRes> findAllBySearch(Long memberId, PageConditionReq pageCondition) {
         List<GameRes> list = jpaQueryFactory.select(
                 new QGameRes(game.id.as("gameId"),
                     game.category.as("gameCategory").stringValue(),
@@ -55,8 +54,8 @@ public class GameRepositoryImpl implements GameRepositorySupport {
             .from(game)
             .innerJoin(game.member, member)
             .innerJoin(game.images, gameImage)
-            .where(searchCond(pageCondition.getSearchCondition(), pageCondition),
-                periodCond(pageCondition.getPeriodCondition()))
+            .where(searchCond(pageCondition.getSearch(), pageCondition),
+                periodCond(pageCondition.getPeriod()))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
             .groupBy(game.id,
@@ -92,7 +91,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
 
     // 내가 만든 게임 전체 조회
     @Override
-    public PageImpl<GameRes> findAllByMemberId(Long memberId, PageCondition pageCondition) {
+    public PageImpl<GameRes> findAllByMemberId(Long memberId, PageConditionReq pageCondition) {
 
         List<GameRes> list = jpaQueryFactory.select(
                 new QGameRes(game.id.as("gameId"),
@@ -110,8 +109,8 @@ public class GameRepositoryImpl implements GameRepositorySupport {
             .innerJoin(game.member, member)
             .innerJoin(game.images, gameImage)
             .where(member.id.eq(memberId),
-                searchCond(pageCondition.getSearchCondition(), pageCondition),
-                periodCond(pageCondition.getPeriodCondition()))
+                searchCond(pageCondition.getSearch(), pageCondition),
+                periodCond(pageCondition.getPeriod()))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
             .groupBy(game.id,
@@ -139,13 +138,13 @@ public class GameRepositoryImpl implements GameRepositorySupport {
 
     // 나만 쓸 거야
 
-    private long getTotalPageCount(Long memberId, PageCondition pageCondition) {
+    private long getTotalPageCount(Long memberId, PageConditionReq pageCondition) {
         return jpaQueryFactory.selectDistinct(game.id)
             .from(game)
             .innerJoin(game.member, member)
             .innerJoin(game.images, gameImage)
-            .where(searchCond(pageCondition.getSearchCondition(), pageCondition),
-                periodCond(pageCondition.getPeriodCondition())).fetch().size();
+            .where(searchCond(pageCondition.getSearch(), pageCondition),
+                periodCond(pageCondition.getPeriod())).fetch().size();
     }
 
     // memberId 가 null 이면 isStarred 0 반환
@@ -185,7 +184,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
 
     // 검색 조건
     private BooleanExpression searchCond(SearchCondition searchCondition,
-        PageCondition pageCondition) {
+        PageConditionReq pageCondition) {
         if (searchCondition == null) {
             return null;
         }

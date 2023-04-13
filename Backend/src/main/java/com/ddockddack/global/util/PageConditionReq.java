@@ -1,46 +1,59 @@
 package com.ddockddack.global.util;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Schema(description = "베스트컷, 게임 목록 요청 DTO")
 public class PageConditionReq {
+    private static final int DEFAULT_PAGE = 0;
+    private static final int PAGE_SIZE = 9;
 
-    @Schema(description = "최신순(RECENT), 인기순(POPULARITY")
-    private String order;
     @Schema(description = "조회 기간(DAY, WEEK MONTH, HALF_YEAR, ALL")
-    private String period;
-
+    private PeriodCondition period;
     @Schema(description = "검색어 유형(MEMBER, GAME)")
-    private String search;
+    private SearchCondition search;
     @Schema(description = "검색어")
     private String keyword;
-    @Schema(description = "요청 페이지")
-    private Integer page = 1;
+    private Pageable pageable;
 
-    public PageCondition toEntity() {
-        return PageCondition.builder()
-                .order(this.order)
-                .period(this.period)
-                .search(this.search)
-                .keyword(this.keyword)
-                .page(this.page-1)
-                .build();
+    @Builder
+    public PageConditionReq(String order,
+                            String period,
+                            String search,
+                            String keyword,
+                            Integer page) {
+        this.period = toPeriodCond(period);
+        this.search = toSearchCond(search);
+        this.keyword = keyword;
+        this.pageable = toPageable(page, toOrderCond(order));
     }
 
-    @Override
-    public String toString() {
-        return "PageConditionReq{" +
-                "order='" + order + '\'' +
-                ", period='" + period + '\'' +
-                ", search='" + search + '\'' +
-                ", keyword='" + keyword + '\'' +
-                ", page=" + page +
-                '}';
+    private OrderCondition toOrderCond(String order){
+        return (order == null || order.isBlank()) ? OrderCondition.POPULARITY : OrderCondition.valueOf(order);
     }
+
+    private PeriodCondition toPeriodCond(String period){
+        return (period == null || period.isBlank()) ? null : PeriodCondition.valueOf(period);
+    }
+
+    private SearchCondition toSearchCond(String search){
+        return (search == null || search.isBlank()) ? null : SearchCondition.valueOf(search);
+    }
+
+    private Pageable toPageable(Integer pageNum, OrderCondition orderCondition){
+        Integer page = DEFAULT_PAGE;
+        if(pageNum!=null){
+            page = pageNum-1;
+        }
+        return PageRequest.of(page, PAGE_SIZE, Direction.DESC, orderCondition.getSort());
+    }
+
+
 }

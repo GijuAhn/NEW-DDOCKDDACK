@@ -21,7 +21,6 @@ import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
-import com.ddockddack.global.util.PageCondition;
 import com.ddockddack.global.util.PageConditionReq;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -128,8 +127,7 @@ public class BestcutService {
      */
     public PageImpl<BestcutRes> findAllBestcuts(Boolean my, Long loginMemberId,
         PageConditionReq pageConditionReq) {
-        PageCondition pageCondition = pageConditionReq.toEntity();
-        return bestcutRepository.findAllBySearch(my, loginMemberId, pageCondition);
+        return bestcutRepository.findAllBySearch(my, loginMemberId, pageConditionReq);
     }
 
     public List<Long> findBestcutByMemberId(Long memberId) {
