@@ -1,7 +1,7 @@
 package com.ddockddack.domain.gameRoom.response;
 
 import com.ddockddack.domain.game.response.GameImageRes;
-import com.ddockddack.domain.gameRoom.repository.GameRoom;
+import com.ddockddack.domain.gameRoom.entity.GameRoom;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

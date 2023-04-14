@@ -41,12 +41,10 @@ public class TokenController {
     })
     @GetMapping("/refresh")
     public String refreshAuth(HttpServletResponse response) {
-        log.info("refresh 진입");
         try {
             MemberDetail memberDetail = (MemberDetail) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
             response.addHeader("access-token", memberDetail.getAccessToken());
-            log.info(memberDetail.getAccessToken());
             return memberDetail.getAccessToken();
         } catch (Exception e) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);

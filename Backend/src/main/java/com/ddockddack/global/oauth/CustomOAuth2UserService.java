@@ -28,11 +28,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attribute oAuth2Attribute =
             OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("oAuth2Attribute + {}", oAuth2Attribute);
-
         var memberAttribute = oAuth2Attribute.convertToMap();
-
-        log.info("oAuth2Attribute + {}", oAuth2Attribute.convertToMap());
 
         return new DefaultOAuth2User(
             Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),

@@ -1,6 +1,6 @@
 package com.ddockddack.domain.gameRoom.response;
 
-import com.ddockddack.domain.gameRoom.repository.GameMember;
+import com.ddockddack.domain.gameRoom.entity.GameMember;
 import lombok.*;
 
 @Setter

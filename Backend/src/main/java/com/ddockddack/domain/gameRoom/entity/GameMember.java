@@ -1,4 +1,4 @@
-package com.ddockddack.domain.gameRoom.repository;
+package com.ddockddack.domain.gameRoom.entity;
 
 import com.ddockddack.domain.member.entity.Member;
 import java.util.ArrayList;
@@ -8,12 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 @Getter
 @ToString
 @NoArgsConstructor
+//@RedisHash("gameMember")
 public class GameMember {
 
+//    @Id
     private String socketId;
     private Member member;
     private String nickname;

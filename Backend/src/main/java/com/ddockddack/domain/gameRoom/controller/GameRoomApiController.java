@@ -69,7 +69,7 @@ public class GameRoomApiController {
         HttpServletRequest request) throws OpenViduJavaClientException, OpenViduHttpException {
 
         String clientIp = ClientUtils.etRemoteAddr(request);
-        log.info("clientIp 확인 {}", clientIp);
+//        log.info("clientIp 확인 {}", clientIp);
         String nickname = param.get("nickname");
         Long memberId = null;
         if (memberDetail != null) {

@@ -28,11 +28,11 @@ public class CheckBanUserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.info("checkBanUser 진입");
+//        log.info("checkBanUser 진입");
 
         String accessToken = (request).getHeader("access-token");
 
-        log.info("accessToken {} ", accessToken);
+//        log.info("accessToken {} ", accessToken);
 
 
         if (accessToken == null || "".equals(accessToken)){
@@ -41,7 +41,7 @@ public class CheckBanUserInterceptor implements HandlerInterceptor {
 
             Long id = tokenService.getUid(accessToken);
             Member member = memberRepository.findById(id).get();
-            log.info("id, member {}, {}", id, member);
+//            log.info("id, member {}, {}", id, member);
             // 정지가 풀리는 날이라면
             if (member.getRole() == Role.BAN && member.getReleaseDate().isBefore(LocalDate.now())){
 
@@ -50,7 +50,7 @@ public class CheckBanUserInterceptor implements HandlerInterceptor {
                 // 정지가 풀리는 날이 아니라면
             } else if (member.getRole() == Role.BAN && !member.getReleaseDate().isBefore(LocalDate.now())){
 
-                log.info("정지된 유저입니다. (" + member.getReleaseDate() + ")");
+//                log.info("정지된 유저입니다. (" + member.getReleaseDate() + ")");
                 throw new Exception("정지된 유저입니다. (" + member.getReleaseDate() + ")");
 
             }

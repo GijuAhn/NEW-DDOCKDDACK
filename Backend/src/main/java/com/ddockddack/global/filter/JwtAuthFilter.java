@@ -35,15 +35,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         FilterChain filterChain)
         throws IOException, ServletException {
 
-        log.info("Filter 진입");
-        log.info("요청 타입 {}", request.getMethod());
-        log.info("요청 타입 uri {}", request.getRequestURI());
-
         String accessToken = (request).getHeader("access-token");
         String refreshToken = null;
 
         Cookie[] cookies = request.getCookies();
-        log.info("cokies {}", cookies);
+//        log.info("cokies {}", cookies);
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -55,8 +51,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         }
 
-        log.info("accessToken {} ", accessToken);
-        log.info("refreshToken {} ", refreshToken);
+//        log.info("accessToken {} ", accessToken);
+//        log.info("refreshToken {} ", refreshToken);
 
         //엑세스 토큰이 없을때
         if (accessToken == null || "".equals(accessToken)) {
@@ -116,12 +112,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 // 정상 진행
 
             } else {
-
                 log.info(String.valueOf(ErrorCode.EXPIRED_ACCESSTOKEN));
                 throw new AccessDeniedException(ErrorCode.EXPIRED_ACCESSTOKEN);
-
             }
-
         }
 
         filterChain.doFilter(request, response);

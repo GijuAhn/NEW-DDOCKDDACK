@@ -6,7 +6,6 @@ import com.ddockddack.domain.bestcut.service.BestcutService;
 import com.ddockddack.domain.game.response.GameRes;
 import com.ddockddack.domain.game.response.StarredGameRes;
 import com.ddockddack.domain.game.service.GameService;
-import com.ddockddack.domain.gameRoom.response.GameRoomHistoryRes;
 import com.ddockddack.domain.gameRoom.service.GameRoomService;
 import com.ddockddack.domain.member.request.MemberModifyNameReq;
 import com.ddockddack.domain.member.response.MemberInfoRes;
@@ -19,7 +18,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +61,6 @@ public class MemberApiController {
         memberModifyNameReq,
         @AuthenticationPrincipal MemberDetail memberDetail) {
 
-        log.info("memberModifyNameReq {}", memberModifyNameReq);
         memberService.modifyMemberNickname(memberDetail.getId(), memberModifyNameReq);
 
         return ResponseEntity.ok().build();
@@ -85,9 +82,6 @@ public class MemberApiController {
         @ModelAttribute MultipartFile profileImg,
         @AuthenticationPrincipal MemberDetail memberDetail
     ) {
-
-        log.info("profileImg {}", profileImg.getOriginalFilename());
-
         String imageName = memberService.modifyMemberProfile(memberDetail.getId(), profileImg);
 
         return ResponseEntity.ok().body(imageName);
@@ -108,7 +102,6 @@ public class MemberApiController {
             throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
         }
         MemberInfoRes memberInfoRes = memberService.memberDetails(memberDetail.getId());
-        log.info("memberInfoRes {}", memberInfoRes);
 
         return ResponseEntity.ok(memberInfoRes);
     }
@@ -145,7 +138,6 @@ public class MemberApiController {
         @AuthenticationPrincipal MemberDetail memberDetail) {
         PageImpl<BestcutRes> bestcutRes = bestcutService.findAllBestcuts(true, memberDetail.getId(),
             pageCondition);
-        log.info("bestcuts2 {}", bestcutRes);
         return ResponseEntity.ok(bestcutRes);
 
     }
@@ -181,22 +173,6 @@ public class MemberApiController {
 
     }
 
-    @Operation(summary = "게임 이력 조회", description = "게임 이력 조회 메소드입니다.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
-        @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
-        @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
-    })
-    @GetMapping("/records")
-    public ResponseEntity gameRoomHistoryList(@AuthenticationPrincipal MemberDetail memberDetail) {
-        List<GameRoomHistoryRes> roomHistory = gameRoomService.findAllRoomHistory(
-            memberDetail.getId());
-        Collections.reverse(roomHistory);
-        return ResponseEntity.ok(roomHistory);
-
-    }
-
     @Operation(summary = "로그아웃", description = "로그아웃 메소드입니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "성공"),
@@ -216,14 +192,12 @@ public class MemberApiController {
         String refreshToken = null;
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                log.info(String.valueOf(cookie.getName()));
                 if (cookie.getName().equals("refresh-token")) {
                     refreshToken = cookie.getValue();
                     break;
                 }
             }
         }
-        log.info("logout {} ", refreshToken);
         Cookie refreshTokenCookie = new Cookie("refresh-token", null);
         refreshTokenCookie.setMaxAge(0);
         refreshTokenCookie.setPath("/");

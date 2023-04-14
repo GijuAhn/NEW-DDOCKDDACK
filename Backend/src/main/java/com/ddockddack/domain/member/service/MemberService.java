@@ -4,8 +4,6 @@ import com.ddockddack.domain.bestcut.service.BestcutService;
 import com.ddockddack.domain.game.repository.GameImageRepository;
 import com.ddockddack.domain.game.repository.GameRepository;
 import com.ddockddack.domain.game.repository.StarredGameRepository;
-import com.ddockddack.domain.gameRoom.repository.GameRoomHistoryRepository;
-import com.ddockddack.domain.gameRoom.repository.GameRoomHistoryRepositorySupport;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -18,7 +16,6 @@ import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -51,8 +48,7 @@ public class MemberService {
     @Transactional
     public void modifyMemberNickname(Long memberId, MemberModifyNameReq modifyMemberNickname) {
         Member member = memberRepository.findById(memberId).get();
-        log.info("log! {}, {}", modifyMemberNickname.getNickname(),
-            modifyMemberNickname.getNickname().isEmpty());
+        modifyMemberNickname.getNickname().isEmpty();
         if (!member.getNickname().equals(modifyMemberNickname.getNickname())) {
             member.modifyNickname(modifyMemberNickname.getNickname());
         }
@@ -71,8 +67,6 @@ public class MemberService {
                 (modifyProfileImg.getContentType().contains("image/png"))))) {
             throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
         }
-
-        log.info("modifyProfileImg contentType {}", modifyProfileImg.getContentType());
 
         try {
             String fileName = awsS3.multipartFileUpload(modifyProfileImg);
@@ -116,8 +110,6 @@ public class MemberService {
 
         List<Long> gameRoomHistoryIds = gameRoomHistoryRepository.findAllGameRoomHistoryIdByMemberId(
             memberId);
-
-        log.info(gameRoomHistoryIds.toString());
 
         gameRoomHistoryRepository.deleteAllByGameId(gameRoomHistoryIds);
 

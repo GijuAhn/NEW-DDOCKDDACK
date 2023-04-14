@@ -2,7 +2,8 @@ package com.ddockddack.domain.gameRoom.repository;
 
 import com.ddockddack.domain.game.entity.Game;
 import com.ddockddack.domain.game.entity.GameImage;
-import com.ddockddack.domain.gameRoom.entity.GameRoomHistory;
+import com.ddockddack.domain.gameRoom.entity.GameMember;
+import com.ddockddack.domain.gameRoom.entity.GameRoom;
 import com.ddockddack.domain.gameRoom.response.GameMemberRes;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.global.error.ErrorCode;
@@ -10,7 +11,25 @@ import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.openvidu.java.client.*;
+import io.openvidu.java.client.Connection;
+import io.openvidu.java.client.ConnectionProperties;
+import io.openvidu.java.client.OpenVidu;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
+import io.openvidu.java.client.Session;
+import io.openvidu.java.client.SessionProperties;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.PriorityQueue;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +41,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Repository
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +49,6 @@ public class GameRoomRepository {
     private final Integer PIN_NUMBER_BOUND = 1_000_000;
     private final Random random = new Random();
     private final ObjectMapper mapper = new ObjectMapper();
-    private final GameRoomHistoryRepository gameRoomHistoryRepository;
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
     @Value("${OPENVIDU_SECRET}")
@@ -47,12 +61,14 @@ public class GameRoomRepository {
     @PostConstruct
     public void init() {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
-        OPENVIDU_HEADER = "Basic " + Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + OPENVIDU_SECRET).getBytes());
-        log.info("OPENVIDU_URL" + OPENVIDU_URL);
+        OPENVIDU_HEADER = "Basic " + Base64.getEncoder()
+            .encodeToString(("OPENVIDUAPP:" + OPENVIDU_SECRET).getBytes());
+//        log.info("OPENVIDU_URL" + OPENVIDU_URL);
     }
 
     /**
      * 방 생성
+     *
      * @param game
      * @return
      * @throws OpenViduJavaClientException
@@ -64,7 +80,6 @@ public class GameRoomRepository {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("customSessionId", pinNumber);
 
-
         List<GameImage> gameImages = game.getImages();
         Collections.shuffle(gameImages);
 
@@ -74,12 +89,12 @@ public class GameRoomRepository {
 
         //방 객체 생성 후 map에 저장
         GameRoom gameRoom = GameRoom.builder()
-                .gameId(game.getId())
-                .gameTitle(game.getTitle())
-                .gameDescription(game.getDescription())
-                .gameImages(gameImages)
-                .pinNumber(pinNumber)
-                .build();
+            .gameId(game.getId())
+            .gameTitle(game.getTitle())
+            .gameDescription(game.getDescription())
+            .gameImages(gameImages)
+            .pinNumber(pinNumber)
+            .build();
         gameRooms.put(pinNumber, gameRoom);
 
         return pinNumber;
@@ -87,6 +102,7 @@ public class GameRoomRepository {
 
     /**
      * 방 참가
+     *
      * @param pinNumber
      * @param member
      * @param nickname
@@ -96,10 +112,10 @@ public class GameRoomRepository {
      * @throws OpenViduHttpException
      */
     public String join(String pinNumber, Member member, String nickname, String clientIp)
-            throws OpenViduJavaClientException, OpenViduHttpException {
+        throws OpenViduJavaClientException, OpenViduHttpException {
         //존재하는 pin인지 확인
         Session session = findSessionByPinNumber(pinNumber).orElseThrow(
-                () -> new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+            () -> new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         // 방 인원 제한 최대 7명
         if (openvidu.getActiveSession(pinNumber).getConnections().size() == 7) {
@@ -128,6 +144,7 @@ public class GameRoomRepository {
 
     /**
      * 세션 조회
+     *
      * @param pinNumber
      * @return
      */
@@ -137,6 +154,7 @@ public class GameRoomRepository {
 
     /**
      * 핀 넘버 생성
+     *
      * @return
      */
     public String createPinNumber() {
@@ -149,6 +167,7 @@ public class GameRoomRepository {
 
     /**
      * 핀 넘버 포맷팅
+     *
      * @param num
      * @return
      */
@@ -158,6 +177,7 @@ public class GameRoomRepository {
 
     /**
      * 게임 멤버 삭제
+     *
      * @param pinNumber
      * @param sessionId
      */
@@ -167,6 +187,7 @@ public class GameRoomRepository {
 
     /**
      * 세션 삭제
+     *
      * @param pinNumber
      */
     public void deleteById(String pinNumber) {
@@ -175,6 +196,7 @@ public class GameRoomRepository {
 
     /**
      * 게임 방 조회
+     *
      * @param pinNumber
      * @return
      */
@@ -184,6 +206,7 @@ public class GameRoomRepository {
 
     /**
      * 게임 시작
+     *
      * @param pinNumber
      * @throws JsonProcessingException
      */
@@ -197,6 +220,7 @@ public class GameRoomRepository {
 
     /**
      * 다음 라운드
+     *
      * @param pinNumber
      * @throws JsonProcessingException
      */
@@ -209,6 +233,7 @@ public class GameRoomRepository {
 
     /**
      * 게임 점수 저장
+     *
      * @param pinNumber
      * @param sessionId
      * @param byteImage
@@ -216,7 +241,7 @@ public class GameRoomRepository {
      * @throws JsonProcessingException
      */
     public void saveScore(String pinNumber, String sessionId, byte[] byteImage, int rawScore)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
         GameRoom gameRoom = this.gameRooms.get(pinNumber);
         GameMember gameMember = gameRoom.getMembers().get(sessionId);
         gameMember.getImages().add(byteImage);
@@ -225,9 +250,11 @@ public class GameRoomRepository {
 
         if (gameRoom.getScoreCount() == gameRoom.getMembers().size()) {
             List<GameMemberRes> roundResultData = findRoundResult(gameRoom);
-            int maxRoundScore = Collections.max(roundResultData, Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
+            int maxRoundScore = Collections.max(roundResultData,
+                Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
             for (GameMember member : gameRoom.getMembers().values()) {
-                int scaledRoundScore = (int) (((double) member.getRoundScore() / maxRoundScore) * 100); //max score per round is +100 point
+                int scaledRoundScore = (int) (((double) member.getRoundScore() / maxRoundScore)
+                    * 100); //max score per round is +100 point
                 member.changeScaledRoundScore(scaledRoundScore);
                 member.changeTotalScore(member.getTotalScore() + scaledRoundScore);
             }
@@ -243,6 +270,7 @@ public class GameRoomRepository {
 
     /**
      * 최종 결과 반환
+     *
      * @param pinNumber
      * @throws JsonProcessingException
      */
@@ -257,18 +285,20 @@ public class GameRoomRepository {
 
     /**
      * 시그널 셍성
+     *
      * @param pinNumber
      * @param signalName
      * @param data
      * @return
      * @throws JsonProcessingException
      */
-    private String createSignal(String pinNumber, String signalName, String data) throws JsonProcessingException {
+    private String createSignal(String pinNumber, String signalName, String data)
+        throws JsonProcessingException {
         GameSignalReq req = GameSignalReq.builder()
-                .session(pinNumber)
-                .type(signalName)
-                .data(data)
-                .build();
+            .session(pinNumber)
+            .type(signalName)
+            .data(data)
+            .build();
 
         String stringReq = mapper.writeValueAsString(req);
         return stringReq;
@@ -276,6 +306,7 @@ public class GameRoomRepository {
 
     /**
      * 시그널 보내기
+     *
      * @param signal
      */
     private void sendSignal(String signal) {
@@ -295,6 +326,7 @@ public class GameRoomRepository {
 
     /**
      * 게임 유저의 이미지 조회
+     *
      * @param pinNumber
      * @param sessionId
      * @param index
@@ -307,16 +339,20 @@ public class GameRoomRepository {
 
     /**
      * 라운드 결과 반환
+     *
      * @param gameRoom
      * @return
      */
     public List<GameMemberRes> findRoundResult(GameRoom gameRoom) {
         List<GameMember> members = new ArrayList<>(gameRoom.getMembers().values());
-        PriorityQueue<GameMember> pq = new PriorityQueue<>((a, b) -> b.getRoundScore() - a.getRoundScore());
+        PriorityQueue<GameMember> pq = new PriorityQueue<>(
+            (a, b) -> b.getRoundScore() - a.getRoundScore());
         pq.addAll(members);
         List<GameMemberRes> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            if (pq.isEmpty()) break;
+            if (pq.isEmpty()) {
+                break;
+            }
             result.add(GameMemberRes.from(pq.poll(), gameRoom.getRound() - 1));
         }
         return result;
@@ -324,36 +360,24 @@ public class GameRoomRepository {
 
     /**
      * 최종 결과 반환 후 게임 이력 저장
+     *
      * @param gameRoom
      * @return
      */
     @Transactional
     public List<GameMemberRes> findFinalResult(GameRoom gameRoom) {
         List<GameMember> members = new ArrayList<>(gameRoom.getMembers().values());
-        PriorityQueue<GameMember> pq = new PriorityQueue<>((a, b) -> b.getTotalScore() - a.getTotalScore());
+        PriorityQueue<GameMember> pq = new PriorityQueue<>(
+            (a, b) -> b.getTotalScore() - a.getTotalScore());
         pq.addAll(members);
         List<GameMemberRes> finalResult = new ArrayList<>();
-        List<GameRoomHistory> historyList = new ArrayList<>();
         int ranking = 1;
         while (!pq.isEmpty()) {
             GameMember gameMember = pq.poll();
             finalResult.add(GameMemberRes.from(gameMember));
             Optional<Member> member = Optional.ofNullable(gameMember.getMember());
-            if (member.isPresent()) {
-                Member getMember = member.get();
-                GameRoomHistory grh = GameRoomHistory
-                        .builder()
-                        .gameTitle(gameRoom.getGameTitle())
-                        .memberId(getMember.getId())
-                        .ranking(ranking)
-                        .build();
-                historyList.add(grh);
-            }
-            ranking++;
         }
-        if (historyList.size() != 0) {
-            gameRoomHistoryRepository.saveAll(historyList);
-        }
+
         return finalResult;
     }
 }

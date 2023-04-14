@@ -28,11 +28,11 @@ public class CheckAdminInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.info("CheckAdminInterceptor 진입");
+//        log.info("CheckAdminInterceptor 진입");
 
         String accessToken = (request).getHeader("access-token");
 
-        log.info("accessToken {} ", accessToken);
+//        log.info("accessToken {} ", accessToken);
 
 
         if (!(accessToken == null || "".equals(accessToken))){

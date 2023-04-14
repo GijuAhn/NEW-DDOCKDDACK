@@ -2,12 +2,9 @@ package com.ddockddack.domain.gameRoom.service;
 
 import com.ddockddack.domain.game.entity.Game;
 import com.ddockddack.domain.game.repository.GameRepository;
-import com.ddockddack.domain.gameRoom.entity.GameRoomHistory;
-import com.ddockddack.domain.gameRoom.repository.GameMember;
-import com.ddockddack.domain.gameRoom.repository.GameRoom;
-import com.ddockddack.domain.gameRoom.repository.GameRoomHistoryRepository;
+import com.ddockddack.domain.gameRoom.entity.GameRoom;
+import com.ddockddack.domain.gameRoom.repository.GameRoomRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameRoomRepository;
-import com.ddockddack.domain.gameRoom.response.GameRoomHistoryRes;
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -17,16 +14,17 @@ import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.aws.AwsS3;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,9 +33,23 @@ public class GameRoomService {
     private final GameRoomRepository gameRoomRepository;
     private final GameRepository gameRepository;
     private final MemberRepository memberRepository;
-    private final GameRoomHistoryRepository gameRoomHistoryRepository;
     private final AwsS3 awsS3;
     private final EnsembleModel ensembleModel;
+    private final GameRoomRedisRepository gameRoomRedisRepository;
+
+    private OpenVidu openvidu;
+    @Value("${OPENVIDU_URL}")
+    private String OPENVIDU_URL;
+    @Value("${OPENVIDU_SECRET}")
+    private String OPENVIDU_SECRET;
+    private String OPENVIDU_HEADER;
+
+    @PostConstruct
+    public void init() {
+        this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
+        OPENVIDU_HEADER = "Basic " + java.util.Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + OPENVIDU_SECRET).getBytes());
+//        log.info("OPENVIDU_URL" + OPENVIDU_URL);
+    }
 
 
     /**
@@ -78,11 +90,11 @@ public class GameRoomService {
         GameRoom gameRoom = this.findGameRoom(pinNumber);
 
         //중복 접속 방지 (허용하려면 주석처리)
-        for (GameMember gameMember : gameRoom.getMembers().values()) {
-            if (clientIp.equals(gameMember.getClientIp())) {
-                throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
-            }
-        }
+//        for (GameMember gameMember : gameRoom.getMembers().values()) {
+//            if (clientIp.equals(gameMember.getClientIp())) {
+//                throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
+//            }
+//        }
 
         String token = gameRoomRepository.join(pinNumber, member, nickname, clientIp);
 
@@ -194,19 +206,4 @@ public class GameRoomService {
     }
 
 
-    /**
-     * 게임 이력 전체 조회
-     *
-     * @param memberId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public List<GameRoomHistoryRes> findAllRoomHistory(Long memberId) {
-        memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
-        List<GameRoomHistory> list = gameRoomHistoryRepository.findByMemberId(memberId);
-
-        return list.stream().map(GameRoomHistoryRes::of).collect(Collectors.toList());
-    }
 }
