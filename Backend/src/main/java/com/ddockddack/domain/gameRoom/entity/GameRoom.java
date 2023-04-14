@@ -18,9 +18,9 @@ import org.springframework.data.redis.core.RedisHash;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-//@RedisHash("gameRoom")
+@RedisHash("gameRoom")
 public class GameRoom {
-//    @Id
+    @Id
     private String pinNumber;
     private Long gameId;
     private String gameTitle;

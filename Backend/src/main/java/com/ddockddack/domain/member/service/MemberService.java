@@ -38,7 +38,6 @@ public class MemberService {
     private final GameImageRepository gameImageRepository;
     private final StarredGameRepository starredGameRepository;
     private final GameRepository gameRepository;
-    private final GameRoomHistoryRepository gameRoomHistoryRepository;
     private final AwsS3 awsS3;
 
 
@@ -107,12 +106,6 @@ public class MemberService {
         reportedGameRepository.deleteByMemberId(memberId);
         reportedGameRepository.deleteAllByGameId(gameIds);
         gameRepository.deleteAllByGameId(gameIds);
-
-        List<Long> gameRoomHistoryIds = gameRoomHistoryRepository.findAllGameRoomHistoryIdByMemberId(
-            memberId);
-
-        gameRoomHistoryRepository.deleteAllByGameId(gameRoomHistoryIds);
-
         memberRepository.deleteById(memberId);
     }
 

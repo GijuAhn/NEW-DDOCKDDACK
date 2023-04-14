@@ -14,10 +14,10 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @ToString
 @NoArgsConstructor
-//@RedisHash("gameMember")
+@RedisHash("gameMember")
 public class GameMember {
 
-//    @Id
+    @Id
     private String socketId;
     private Member member;
     private String nickname;
