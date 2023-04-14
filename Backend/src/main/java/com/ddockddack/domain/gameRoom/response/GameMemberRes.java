@@ -26,7 +26,9 @@ public class GameMemberRes {
         this.nickname = nickname;
     }
 
-    public static GameMemberRes from(GameMember gameMember, int round){
+    public static GameMemberRes of(GameMember gameMember, int round){
+        System.out.println("여기서 한번찍음");
+        System.out.println(gameMember);
         return GameMemberRes.builder()
                 .socketId(gameMember.getSocketId())
                 .nickname(gameMember.getNickname())

@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
+@ToString
 @NoArgsConstructor
 @RedisHash("gameMember")
 public class GameMember {

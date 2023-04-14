@@ -8,6 +8,7 @@ import com.ddockddack.domain.gameRoom.entity.GameRoom;
 import com.ddockddack.domain.gameRoom.repository.GameMemberRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameRoomRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameSignalReq;
+import com.ddockddack.domain.gameRoom.response.GameMemberRes;
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -25,22 +26,25 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -224,48 +228,56 @@ public class GameRoomService {
         // 게임 play count +1 증가
         game.increasePlayCount();
         gameRoom.start();
-        
+
         String signal = createSignal(pinNumber, "roundStart", String.valueOf(gameRoom.getRound()));
         sendSignal(signal);
 
     }
-//
-//    /**
-//     * 게임 멤버 이미지 채점 및 저장
-//     *
-//     * @param pinNumber
-//     * @param sessionId
-//     * @param param
-//     */
-//    public void scoringUserImage(String pinNumber, String sessionId, Map<String, String> param)
-//        throws Exception {
-//        gameRoomRepository.findById(pinNumber).orElseThrow(() ->
-//            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-//        byte[] byteGameImage = awsS3.getObject(param.get("gameImage"));
-//        byte[] byteImage = Base64.decodeBase64(param.get("memberGameImage"));
-//        int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
-//        gameRoomRepository.saveScore(pinNumber, sessionId, byteImage, rawScore);
-//    }
-//
-//    /**
-//     * 다음 라운드로 진행
-//     *
-//     * @param pinNumber
-//     * @return
-//     */
-//    public void nextRound(String pinNumber) throws JsonProcessingException {
-//        gameRoomRepository.nextRound(pinNumber);
-//    }
-//
-//    /**
-//     * 최종 결과
-//     *
-//     * @param pinNumber
-//     * @return
-//     */
-//    public void getFinalResult(String pinNumber) throws JsonProcessingException {
-//        gameRoomRepository.finalResult(pinNumber);
-//    }
+
+    /**
+     * 게임 멤버 이미지 채점 및 저장
+     *
+     * @param pinNumber
+     * @param sessionId
+     * @param param
+     */
+    public void scoringUserImage(String pinNumber, String sessionId, Map<String, String> param)
+        throws Exception {
+        gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+        byte[] byteGameImage = awsS3.getObject(param.get("gameImage"));
+        byte[] byteImage = Base64.decodeBase64(param.get("memberGameImage"));
+        int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
+        saveScore(pinNumber, sessionId, byteImage, rawScore);
+    }
+
+    /**
+     * 다음 라운드로 진행
+     *
+     * @param pinNumber
+     * @return
+     */
+    public void nextRound(String pinNumber) throws JsonProcessingException {
+        final int round = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND)).getRound();
+
+        String signal = createSignal(pinNumber, "roundStart", String.valueOf(round));
+        sendSignal(signal);
+    }
+
+    /**
+     * 최종 결과
+     *
+     * @param pinNumber
+     * @return
+     */
+    public void getFinalResult(String pinNumber) throws JsonProcessingException {
+        final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+        String resultData = mapper.writeValueAsString(findFinalResult(gameMembers));
+
+        String signal = createSignal(pinNumber, "finalResult", resultData);
+        sendSignal(signal);
+    }
 
     /**
      * 핀 넘버 생성
@@ -319,9 +331,104 @@ public class GameRoomService {
      */
     private void sendSignal(String signal) {
         String url = OPENVIDU_URL + "/api/signal";
-
         HttpEntity<String> httpEntity = new HttpEntity<>(signal, headers);
         restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+    }
+
+    /**
+     * 게임 점수 저장
+     *
+     * @param pinNumber
+     * @param socketId
+     * @param byteImage
+     * @param rawScore
+     * @throws JsonProcessingException
+     */
+    private void saveScore(String pinNumber, String socketId, byte[] byteImage, int rawScore)
+        throws JsonProcessingException {
+
+        final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+
+        final GameMember gameMember = gameMemberRedisRepository.findById(socketId).get();
+        List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+
+        gameMember.getImages().add(byteImage);
+        gameMember.changeRoundScore(rawScore);
+        gameRoom.increaseScoreCnt();
+
+        gameMemberRedisRepository.save(gameMember);
+
+        if (gameRoom.getScoreCount() == gameMembers.size()) {
+            gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+            List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
+
+            int maxRoundScore = Collections.max(roundResultData,
+                Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
+
+            for (GameMember member : gameMembers) {
+
+                int scaledRoundScore = (int) (((double) member.getRoundScore() / maxRoundScore)
+                    * 100); //max score per round is +100 point
+
+                member.changeScaledRoundScore(scaledRoundScore);
+                member.changeTotalScore(member.getTotalScore() + scaledRoundScore);
+
+                gameMemberRedisRepository.save(member);
+            }
+
+            String resultData = mapper.writeValueAsString(roundResultData);
+            String signal = createSignal(pinNumber, "roundResult", resultData);
+
+            sendSignal(signal);
+            gameRoom.resetScoreCnt();
+            gameRoom.increaseRound();
+        }
+
+        gameRoomRedisRepository.save(gameRoom);
+
+    }
+
+    /**
+     * 라운드 결과 반환
+     *
+     * @param gameMembers
+     * @return
+     */
+    private List<GameMemberRes> findRoundResult(List gameMembers, int round) {
+
+        PriorityQueue<GameMember> pq = new PriorityQueue<>(
+            (a, b) -> b.getRoundScore() - a.getRoundScore());
+
+        pq.addAll(gameMembers);
+        List<GameMemberRes> result = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            if (pq.isEmpty()) {
+                break;
+            }
+            result.add(GameMemberRes.of(pq.poll(), round - 1));
+        }
+        return result;
+    }
+
+    /**
+     * 최종 결과 반환 후 게임 이력 저장
+     *
+     * @param gameMembers
+     * @return
+     */
+    private List<GameMemberRes> findFinalResult(List gameMembers) {
+        PriorityQueue<GameMember> pq = new PriorityQueue<>(
+            (a, b) -> b.getTotalScore() - a.getTotalScore());
+        pq.addAll(gameMembers);
+        List<GameMemberRes> finalResult = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            GameMember gameMember = pq.poll();
+            finalResult.add(GameMemberRes.from(gameMember));
+        }
+
+        return finalResult;
     }
 
 }
