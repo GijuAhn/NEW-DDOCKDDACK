@@ -7,8 +7,6 @@ import com.ddockddack.domain.bestcut.repository.BestcutRepository;
 import com.ddockddack.domain.bestcut.request.BestcutSaveReq;
 import com.ddockddack.domain.bestcut.response.BestcutRes;
 import com.ddockddack.domain.bestcut.response.ReportedBestcutRes;
-import com.ddockddack.domain.game.entity.Game;
-import com.ddockddack.domain.gameRoom.repository.GameRoomRepository;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -37,7 +35,6 @@ public class BestcutService {
     private final BestcutLikeRepository bestcutLikeRepository;
     private final ReportedBestcutRepository reportedBestcutRepository;
     private final MemberRepository memberRepository;
-    private final GameRoomRepository gameRoomRepository;
     private final AwsS3 awsS3;
 
 
@@ -55,15 +52,15 @@ public class BestcutService {
         String pinNumber = saveReq.getPinNumber();
         String socketId = saveReq.getSocketId();
 
-        for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
-            int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
-            byte[] byteImage = gameRoomRepository.findByImageIndex(pinNumber, socketId,
-                userImageIndex);
-            String fileName = awsS3.InputStreamUpload(byteImage);
-
-            Bestcut bestcut = saveReq.toEntity(member, idx, fileName);
-            bestcutRepository.save(bestcut);
-        }
+//        for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
+//            int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
+//            byte[] byteImage = gameRoomRepository.findByImageIndex(pinNumber, socketId,
+//                userImageIndex);
+//            String fileName = awsS3.InputStreamUpload(byteImage);
+//
+//            Bestcut bestcut = saveReq.toEntity(member, idx, fileName);
+//            bestcutRepository.save(bestcut);
+//        }
     }
 
     /**
@@ -76,7 +73,8 @@ public class BestcutService {
     public void removeBestcut(Long bestcutId, MemberDetail memberDetail) {
         final Bestcut bestcut = checkBestValidation(bestcutId);
 
-        if (memberDetail.getRole() != Role.ADMIN && !bestcut.getMember().getId().equals(memberDetail.getId())) {
+        if (memberDetail.getRole() != Role.ADMIN && !bestcut.getMember().getId()
+            .equals(memberDetail.getId())) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
         }
 

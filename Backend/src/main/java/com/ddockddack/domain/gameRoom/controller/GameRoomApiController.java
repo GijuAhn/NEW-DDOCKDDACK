@@ -88,7 +88,7 @@ public class GameRoomApiController {
     public ResponseEntity gameMemberRemoveInGameRoom(@PathVariable String pinNumber,
         @PathVariable String socketId) {
 
-        gameRoomService.removeGameMember(pinNumber, socketId);
+        gameRoomService.removeGameMember(socketId);
         return ResponseEntity.ok().build();
 
     }
@@ -112,7 +112,7 @@ public class GameRoomApiController {
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
     public ResponseEntity gameStart(@PathVariable String pinNumber) throws JsonProcessingException {
-        gameRoomService.startGame(pinNumber);
+//        gameRoomService.startGame(pinNumber);
         return ResponseEntity.ok().build();
     }
 
@@ -125,7 +125,7 @@ public class GameRoomApiController {
     public ResponseEntity userImageScore(@PathVariable("pinNumber") String pinNumber,
         @PathVariable("socketId") String socketId,
         @RequestBody HashMap<String, String> param) throws Exception {
-        gameRoomService.scoringUserImage(pinNumber, socketId, param);
+//        gameRoomService.scoringUserImage(pinNumber, socketId, param);
 
         return ResponseEntity.ok().build();
     }
@@ -134,7 +134,7 @@ public class GameRoomApiController {
     @Operation(summary = "다음 라운드로 진행")
     public ResponseEntity nextRound(@PathVariable("pinNumber") String pinNumber)
         throws JsonProcessingException {
-        gameRoomService.nextRound(pinNumber);
+//        gameRoomService.nextRound(pinNumber);
         return ResponseEntity.ok().build();
     }
 
@@ -142,7 +142,7 @@ public class GameRoomApiController {
     @Operation(summary = "최종 결과 반환")
     public ResponseEntity finalResult(@PathVariable("pinNumber") String pinNumber)
         throws JsonProcessingException {
-        gameRoomService.getFinalResult(pinNumber);
+//        gameRoomService.getFinalResult(pinNumber);
         return ResponseEntity.ok().build();
     }
 
