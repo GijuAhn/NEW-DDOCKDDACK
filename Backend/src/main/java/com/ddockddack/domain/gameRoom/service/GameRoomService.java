@@ -7,6 +7,7 @@ import com.ddockddack.domain.gameRoom.entity.GameMember;
 import com.ddockddack.domain.gameRoom.entity.GameRoom;
 import com.ddockddack.domain.gameRoom.repository.GameMemberRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameRoomRedisRepository;
+import com.ddockddack.domain.gameRoom.repository.GameSignalReq;
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -15,6 +16,8 @@ import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.ConnectionProperties;
 import io.openvidu.java.client.OpenVidu;
@@ -31,8 +34,14 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +54,11 @@ public class GameRoomService {
     private final EnsembleModel ensembleModel;
     private final GameRoomRedisRepository gameRoomRedisRepository;
     private final GameMemberRedisRepository gameMemberRedisRepository;
-
     private final Integer PIN_NUMBER_BOUND = 1_000_000;
     private final Random random = new Random();
-
+    private final RestTemplate restTemplate = new RestTemplate();
+    private HttpHeaders headers = new HttpHeaders();
+    private ObjectMapper mapper = new ObjectMapper();
     private OpenVidu openvidu;
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
@@ -56,11 +66,14 @@ public class GameRoomService {
     private String OPENVIDU_SECRET;
     private String OPENVIDU_HEADER;
 
+
     @PostConstruct
     public void init() {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
         OPENVIDU_HEADER = "Basic " + java.util.Base64.getEncoder()
             .encodeToString(("OPENVIDUAPP:" + OPENVIDU_SECRET).getBytes());
+        headers.set("Authorization", OPENVIDU_HEADER);
+        headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -162,7 +175,8 @@ public class GameRoomService {
 
         gameMemberRedisRepository.save(gameMember);
 
-        GameRoomRes gameRoomRes = GameRoomRes.of(gameRoom, session.getConnections().size() == 1 ? true : false);
+        GameRoomRes gameRoomRes = GameRoomRes.of(gameRoom,
+            session.getConnections().size() == 1 ? true : false);
         gameRoomRes.setToken(connection.getToken());
         return gameRoomRes;
     }
@@ -176,6 +190,7 @@ public class GameRoomService {
         gameMemberRedisRepository.deleteById(socketId);
     }
 //
+
     /**
      * 게임방 삭제
      *
@@ -190,41 +205,30 @@ public class GameRoomService {
 
         gameRoomRedisRepository.deleteById(pinNumber);
     }
-//
-//    /**
-//     * 방 정보 조회
-//     *
-//     * @param pinNumber
-//     * @return GameRoom
-//     */
-//    public GameRoom findGameRoom(String pinNumber) {
-//
-//        return gameRoomRepository.findById(pinNumber).orElseThrow(() ->
-//            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-//    }
-//
-//    /**
-//     * 게임 시작
-//     *
-//     * @param pinNumber
-//     */
-//    @Transactional
-//    public void startGame(String pinNumber) throws JsonProcessingException {
-//        // 현재 존재하는 게임 방인지 확징
-//        gameRoomRepository.findSessionByPinNumber(pinNumber).orElseThrow(() ->
-//            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-//
-//        Long gameId = gameRoomRepository.findById(pinNumber).get().getGameId();
-//
-//        // 존재하는 게임인지 확인
-//        Game game = gameRepository.findById(gameId).orElseThrow(() ->
-//            new NotFoundException(ErrorCode.GAME_NOT_FOUND));
-//
-//        // 게임 play count +1 증가
-//        game.increasePlayCount();
-//        gameRoomRepository.startGame(pinNumber);
-//
-//    }
+
+
+    /**
+     * 게임 시작
+     *
+     * @param pinNumber
+     */
+    public void startGame(String pinNumber) throws JsonProcessingException {
+        // 현재 존재하는 게임 방인지 확인
+        final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+
+        // 존재하는 게임인지 확인
+        Game game = gameRepository.findById(gameRoom.getGameId()).orElseThrow(() ->
+            new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+
+        // 게임 play count +1 증가
+        game.increasePlayCount();
+        gameRoom.start();
+        
+        String signal = createSignal(pinNumber, "roundStart", String.valueOf(gameRoom.getRound()));
+        sendSignal(signal);
+
+    }
 //
 //    /**
 //     * 게임 멤버 이미지 채점 및 저장
@@ -284,6 +288,40 @@ public class GameRoomService {
      */
     private String formatPin(int num) {
         return String.format("%06d", num);
+    }
+
+    /**
+     * 시그널 셍성
+     *
+     * @param pinNumber
+     * @param signalName
+     * @param data
+     * @return
+     * @throws JsonProcessingException
+     */
+    private String createSignal(String pinNumber, String signalName, String data)
+        throws JsonProcessingException {
+
+        GameSignalReq req = GameSignalReq.builder()
+            .session(pinNumber)
+            .type(signalName)
+            .data(data)
+            .build();
+
+        String stringReq = mapper.writeValueAsString(req);
+        return stringReq;
+    }
+
+    /**
+     * 시그널 보내기
+     *
+     * @param signal
+     */
+    private void sendSignal(String signal) {
+        String url = OPENVIDU_URL + "/api/signal";
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(signal, headers);
+        restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
     }
 
 }

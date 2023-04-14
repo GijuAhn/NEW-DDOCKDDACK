@@ -69,7 +69,6 @@ public class GameRoomApiController {
         HttpServletRequest request) throws OpenViduJavaClientException, OpenViduHttpException {
 
         String clientIp = ClientUtils.etRemoteAddr(request);
-//        log.info("clientIp 확인 {}", clientIp);
         String nickname = param.get("nickname");
         Long memberId = null;
         if (memberDetail != null) {
@@ -112,7 +111,7 @@ public class GameRoomApiController {
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
     public ResponseEntity gameStart(@PathVariable String pinNumber) throws JsonProcessingException {
-//        gameRoomService.startGame(pinNumber);
+        gameRoomService.startGame(pinNumber);
         return ResponseEntity.ok().build();
     }
 
