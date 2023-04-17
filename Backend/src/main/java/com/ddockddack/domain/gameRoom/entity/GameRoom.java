@@ -2,6 +2,7 @@ package com.ddockddack.domain.gameRoom.entity;
 
 import com.ddockddack.domain.game.entity.GameImage;
 import com.ddockddack.domain.game.response.GameImageRes;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RedisHash(value = "gameRoom", timeToLive = 3600)
+@RedisHash(value = "gameRoom", timeToLive = 1800)
 public class GameRoom {
 
     @Id

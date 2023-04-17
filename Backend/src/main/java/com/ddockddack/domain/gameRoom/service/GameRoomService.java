@@ -110,7 +110,6 @@ public class GameRoomService {
             .pinNumber(pinNumber)
             .build();
         gameRoomRedisRepository.save(gameRoom);
-
         return pinNumber;
 
     }

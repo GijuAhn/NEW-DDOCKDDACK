@@ -1,6 +1,7 @@
 package com.ddockddack.domain.gameRoom.entity;
 
 import com.ddockddack.domain.member.entity.Member;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
@@ -15,8 +16,8 @@ import org.springframework.data.redis.core.index.Indexed;
 @Getter
 @ToString
 @NoArgsConstructor
-@RedisHash(value = "gameMember", timeToLive = 3600)
-public class GameMember {
+@RedisHash(value = "gameMember", timeToLive = 1800)
+public class GameMember{
 
     @Id
     private String socketId;

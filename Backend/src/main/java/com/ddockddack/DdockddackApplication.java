@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.repository.config.BootstrapMode;
 
 @EnableJpaAuditing
@@ -14,6 +15,7 @@ import org.springframework.data.repository.config.BootstrapMode;
     "com.ddockddack.domain.game.repository",
     "com.ddockddack.domain.member.repository",
     "com.ddockddack.domain.report.repository"}, bootstrapMode = BootstrapMode.DEFERRED)
+@EnableRedisRepositories(basePackages = {"com.ddockddack.domain.gameRoom.repository"})
 public class DdockddackApplication {
 
     static {

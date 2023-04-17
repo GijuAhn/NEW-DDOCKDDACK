@@ -84,7 +84,7 @@ public class TokenService {
 //                .parseClaimsJws(token));
 //            log.info("token verify {}", redisTemplate.opsForValue().get(token));
 //            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
-
+//
 //            if (logoutValueOperations.get(token) != null) {
 //                log.info("로그아웃 된 토큰입니다.");
 //                return false;

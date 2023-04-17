@@ -27,8 +27,6 @@ public class GameMemberRes {
     }
 
     public static GameMemberRes of(GameMember gameMember, int round){
-        System.out.println("여기서 한번찍음");
-        System.out.println(gameMember);
         return GameMemberRes.builder()
                 .socketId(gameMember.getSocketId())
                 .nickname(gameMember.getNickname())
