@@ -44,12 +44,16 @@ public class Game extends BaseEntity {
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     private List<GameImage> images;
 
+    @Column(length = 300, nullable = false)
+    private String thumbnail;
+
     @Builder
-    public Game(Member member, String title, Category category, String description) {
+    public Game(Member member, String title, Category category, String description, String thumbnail) {
         this.member = member;
         this.title = title;
         this.category = category;
         this.description = description;
+        this.thumbnail = thumbnail;
     }
 
     public void updateGame(String title, String gameDesc) {
