@@ -85,32 +85,16 @@ public class GameService {
      * @return gameId
      */
     public Long saveGame(Long memberId, GameSaveReq gameSaveReq) {
+        // 게임 이미지 업로드
+        List<String> fileNames = uploadGameImages(gameSaveReq);
 
         final Member member = memberRepository.getReferenceById(memberId);
 
         // 게임 생성
-        Game game = gameSaveReq.toEntity(member);
+        Game game = gameSaveReq.toEntity(member, fileNames.get(0));
         Long gameId = gameRepository.save(game).getId();
 
-        // 게임 이미지 업로드
-
-        List<GameImage> gameImages = new ArrayList<>();
-        for (GameImageParam gameImageParam : gameSaveReq.getImages()) {
-            String contentType = gameImageParam.getGameImage().getContentType();
-
-            // 이미지 확장자가 jpeg, png인 경우만 업로드 아닌경우 예외 발생
-            if (!contentType.contains("image/jpeg")) {
-                throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
-            }
-            // 파일 업로드
-            String fileName = awsS3.multipartFileUpload(gameImageParam.getGameImage());
-
-            GameImage gameImage = gameImageParam.toEntity(game, fileName);
-            // 리스트에 추가
-            gameImages.add(gameImage);
-
-        }
-
+        List<GameImage> gameImages = createGameImage(game, gameSaveReq, fileNames);
         // 리스트 안에 담긴 gameImage 객체 모두 등록
         gameImageRepository.saveAll(gameImages);
 
@@ -306,6 +290,49 @@ public class GameService {
         // 존재하는 게임 인지 검증
         return gameRepository.findById(gameId).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+    }
+
+    /**
+     * S3에 게임이미지 업로드
+     *
+     * @param gameSaveReq
+     * @return
+     */
+    private List<String> uploadGameImages(GameSaveReq gameSaveReq) {
+        List<String> fileNames = new ArrayList<>();
+        for (GameImageParam gameImageParam : gameSaveReq.getImages()) {
+            String contentType = gameImageParam.getGameImage().getContentType();
+
+            // 이미지 확장자가 jpeg, png인 경우만 업로드 아닌경우 예외 발생
+            if (!contentType.contains("image/jpeg")) {
+                throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
+            }
+
+            // 파일 업로드
+            String fileName = awsS3.multipartFileUpload(gameImageParam.getGameImage());
+
+            // 리스트에 추가
+            fileNames.add(fileName);
+        }
+        return fileNames;
+    }
+
+    /**
+     * 게임 이미지 Entity 생성
+     *
+     * @param game
+     * @param gameSaveReq
+     * @param fileNames
+     * @return
+     */
+    private List<GameImage> createGameImage(Game game, GameSaveReq gameSaveReq, List<String> fileNames){
+        List<GameImage> gameImages = new ArrayList<>();
+        for (int idx=0; idx<gameSaveReq.getImages().size(); idx++){
+            GameImage gameImage = gameSaveReq.getImages().get(idx).toEntity(game, fileNames.get(idx));
+            // 리스트에 추가
+            gameImages.add(gameImage);
+        }
+        return gameImages;
     }
 
 

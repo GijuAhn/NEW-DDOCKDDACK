@@ -49,21 +49,14 @@ public class GameRepositoryImpl implements GameRepositorySupport {
                     isStarred(memberId),
                     getStarredCnt(),
                     game.playCount.as("popularity"),
-                    gameImage.imageUrl.min().as("thumbnail")
+                    game.thumbnail.as("thumbnail")
                 ))
             .from(game)
             .innerJoin(game.member, member)
-            .innerJoin(game.images, gameImage)
             .where(searchCond(pageCondition.getSearch(), pageCondition),
                 periodCond(pageCondition.getPeriod()))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
-            .groupBy(game.id,
-                game.category,
-                game.title,
-                game.description,
-                game.member.nickname,
-                game.playCount)
             .orderBy(orderCond(pageCondition.getPageable()))
             .fetch();
 
@@ -103,22 +96,15 @@ public class GameRepositoryImpl implements GameRepositorySupport {
                     isStarred(memberId),
                     getStarredCnt(),
                     game.playCount.as("popularity"),
-                    gameImage.imageUrl.min().as("thumbnail")
+                    game.thumbnail.as("thumbnail")
                 ))
             .from(game)
             .innerJoin(game.member, member)
-            .innerJoin(game.images, gameImage)
             .where(member.id.eq(memberId),
                 searchCond(pageCondition.getSearch(), pageCondition),
                 periodCond(pageCondition.getPeriod()))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
-            .groupBy(game.id,
-                game.category,
-                game.title,
-                game.description,
-                game.member.nickname,
-                game.playCount)
             .orderBy(game.id.desc())
             .fetch();
         return new PageImpl<>(list, pageCondition.getPageable(),
@@ -142,7 +128,6 @@ public class GameRepositoryImpl implements GameRepositorySupport {
         return jpaQueryFactory.selectDistinct(game.id)
             .from(game)
             .innerJoin(game.member, member)
-            .innerJoin(game.images, gameImage)
             .where(searchCond(pageCondition.getSearch(), pageCondition),
                 periodCond(pageCondition.getPeriod())).fetch().size();
     }
