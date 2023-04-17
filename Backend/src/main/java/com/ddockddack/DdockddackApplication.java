@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.config.BootstrapMode;
 
 @EnableJpaAuditing
 @SpringBootApplication
@@ -12,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {"com.ddockddack.domain.bestcut.repository",
     "com.ddockddack.domain.game.repository",
     "com.ddockddack.domain.member.repository",
-    "com.ddockddack.domain.report.repository"})
+    "com.ddockddack.domain.report.repository"}, bootstrapMode = BootstrapMode.DEFERRED)
 public class DdockddackApplication {
 
     static {

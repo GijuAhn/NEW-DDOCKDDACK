@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @Getter
 @ToString
 @NoArgsConstructor
-@RedisHash("gameMember")
+@RedisHash(value = "gameMember", timeToLive = 3600)
 public class GameMember {
 
     @Id

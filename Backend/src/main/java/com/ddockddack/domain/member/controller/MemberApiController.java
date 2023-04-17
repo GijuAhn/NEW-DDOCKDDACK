@@ -46,7 +46,6 @@ public class MemberApiController {
     private final MemberService memberService;
     private final BestcutService bestcutService;
     private final GameService gameService;
-    private final GameRoomService gameRoomService;
 
     @Operation(summary = "회원 nickname 수정", description = "회원 nickname 수정 메소드입니다.")
     @ApiResponses(value = {
