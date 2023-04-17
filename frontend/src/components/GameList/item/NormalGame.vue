@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, onMounted, ref, computed } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { apiInstance } from "@/api/index";
 import router from "@/router/index.js";
@@ -101,9 +101,6 @@ const setCurrentModalAsync = (what) => {
     data: props.game,
   });
 };
-onMounted(() => {
-  // console.log(process.env);
-});
 
 const createSession = (gameId) => {
   api

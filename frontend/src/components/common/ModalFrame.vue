@@ -52,7 +52,6 @@ import FinalResultModal from "@/components/common/modal/FinalResultModal";
 import { computed } from "vue";
 
 const store = useStore();
-
 const currentModal = computed(() => store.state.commonStore.currentModal);
 
 const setCurrentModalAsync = () => {

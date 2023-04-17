@@ -27,7 +27,6 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -51,7 +50,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class GameRoomService {
 
-    //    private final GameRoomRepository gameRoomRepository;
     private final GameRepository gameRepository;
     private final MemberRepository memberRepository;
     private final AwsS3 awsS3;
@@ -69,7 +67,6 @@ public class GameRoomService {
     @Value("${OPENVIDU_SECRET}")
     private String OPENVIDU_SECRET;
     private String OPENVIDU_HEADER;
-
 
     @PostConstruct
     public void init() {

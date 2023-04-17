@@ -15,21 +15,18 @@
 <script setup>
 import { useStore } from "vuex";
 import process from "process";
+import { apiInstance } from "@/api/index";
+import { computed, ref } from "vue";
 
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
 
 const store = useStore();
 
-import { computed, ref } from "vue";
-
 const currentModal = computed(() => store.state.commonStore.currentModal);
-
-import { apiInstance } from "@/api/index";
 
 const api = apiInstance();
 
 const game = ref();
-
 api
   .get(`/api/games/${currentModal.value.data.gameId}`)
   .then((response) => {

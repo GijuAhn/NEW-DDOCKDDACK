@@ -1,6 +1,5 @@
 <template>
   <div id="session">
-    <modal-frame v-if="currentModal.length !== 0" />
     <div id="session-header">
       <span id="session-title">
         {{ room.gameTitle }} [방 코드 - {{ room.pinNumber }}]
@@ -171,12 +170,10 @@ import CaptureVideo from "@/components/Gameroom/item/CaptureVideo.vue";
 import { useStore } from "vuex";
 import router from "@/router/index.js";
 import process from "process";
-import ModalFrame from "@/components/common/ModalFrame";
 import html2canvas from "html2canvas";
 import captureSound from "@/assets/sounds/capture_sound.mp3";
 import backgroundSound from "@/assets/sounds/background_sound.mp3";
 
-const currentModal = computed(() => store.state.commonStore.currentModal);
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
 const api = apiInstance();
 const route = useRoute();
