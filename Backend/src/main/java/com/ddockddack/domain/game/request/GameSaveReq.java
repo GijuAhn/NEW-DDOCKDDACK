@@ -33,12 +33,13 @@ public class GameSaveReq {
     @Size(min = 10, max = 20, message = "Check the gameImage length.")
     private List<GameImageParam> images;
 
-    public Game toEntity(Member member) {
+    public Game toEntity(Member member, String thumbnail) {
         return Game.builder()
             .member(member)
             .title(this.gameTitle)
             .category(this.gameCategory)
             .description(this.gameDesc)
+            .thumbnail(thumbnail)
             .build();
     }
 
