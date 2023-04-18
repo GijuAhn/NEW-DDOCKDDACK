@@ -10,12 +10,17 @@
         @updateProps="(value) => updateMyGames(value)"
       ></my-game-item>
     </div>
-    <loading-spinner id="imgLoading" v-show="isLoading">
+    <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
-    <div id="noItem" v-show="(!myGames || !myGames.length) && !isLoading">
+    <div id="noItem" v-if="(!myGames || !myGames.length) && !isLoading">
       게임을 등록 해주세요!
     </div>
+    <page-nav
+      :totalPageCount="totalPages"
+      :value="pageConditionReq.page"
+      @change="(num) => changePage(num)"
+    ></page-nav>
   </div>
 </template>
 
@@ -26,13 +31,19 @@ import { apiInstance } from "@/api/index";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 import LoadingSpinner from "./item/LoadingSpinner.vue";
+import PageNav from "@/components/common/PageNav.vue";
 
 const store = useStore();
 const api = apiInstance();
 const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const isLoading = ref(true);
 const myGames = ref();
-
+let totalPages = ref();
+//페이징 이동
+const changePage = (page) => {
+  pageConditionReq.value.page = page;
+  callApi();
+};
 let pageConditionReq = ref({
   order: "RECENT",
   period: "ALL",
@@ -58,6 +69,7 @@ const callApi = () => {
     .then((response) => {
       console.log("access-games: ", response.data);
       myGames.value = response.data.content;
+      totalPages = response.data.totalPages;
     })
     .catch((error) => {
       console.log(error);
