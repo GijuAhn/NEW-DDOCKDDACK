@@ -23,12 +23,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 @Repository
 @RequiredArgsConstructor
@@ -39,29 +41,40 @@ public class GameRepositoryImpl implements GameRepositorySupport {
     // 검색 목록 조회
     @Override
     public PageImpl<GameRes> findAllBySearch(Long memberId, PageConditionReq pageCondition) {
+        List<Long> ids = jpaQueryFactory.select(game.id)
+                .from(game)
+                .join(game.member, member)
+                .where(searchCond(pageCondition.getSearch(), pageCondition),
+                        periodCond(pageCondition.getPeriod()))
+                .offset(pageCondition.getPageable().getOffset())
+                .limit(pageCondition.getPageable().getPageSize())
+                .orderBy(orderCond(pageCondition.getPageable()))
+                .fetch();
+
+        if (CollectionUtils.isEmpty(ids)) {
+            return new PageImpl<>(new ArrayList<>(), pageCondition.getPageable(),
+                    getTotalPageCount(pageCondition));
+        }
+
         List<GameRes> list = jpaQueryFactory.select(
-                new QGameRes(game.id.as("gameId"),
-                    game.category.as("gameCategory").stringValue(),
-                    game.title.as("gameTitle"),
-                    game.description.as("gameDesc"),
-                    game.member.id.as("memberId"),
-                    game.member.nickname.as("creator"),
-                    isStarred(memberId),
-                    getStarredCnt(),
-                    game.playCount.as("popularity"),
-                    game.thumbnail.as("thumbnail")
-                ))
-            .from(game)
-            .innerJoin(game.member, member)
-            .where(searchCond(pageCondition.getSearch(), pageCondition),
-                periodCond(pageCondition.getPeriod()))
-            .offset(pageCondition.getPageable().getOffset())
-            .limit(pageCondition.getPageable().getPageSize())
-            .orderBy(orderCond(pageCondition.getPageable()))
-            .fetch();
+                        new QGameRes(game.id.as("gameId"),
+                                game.category.as("gameCategory").stringValue(),
+                                game.title.as("gameTitle"),
+                                game.description.as("gameDesc"),
+                                game.member.id.as("memberId"),
+                                game.member.nickname.as("creator"),
+                                isStarred(memberId),
+                                getStarredCnt(),
+                                game.playCount.as("popularity"),
+                                game.thumbnail.as("thumbnail")
+                        ))
+                .from(game)
+                .where(game.id.in(ids))
+                .orderBy(orderCond(pageCondition.getPageable()))
+                .fetch();
 
         return new PageImpl<>(list, pageCondition.getPageable(),
-            getTotalPageCount(memberId, pageCondition));
+            getTotalPageCount(pageCondition));
     }
 
     // 게임 상세 조회
@@ -100,15 +113,13 @@ public class GameRepositoryImpl implements GameRepositorySupport {
                 ))
             .from(game)
             .innerJoin(game.member, member)
-            .where(member.id.eq(memberId),
-                searchCond(pageCondition.getSearch(), pageCondition),
-                periodCond(pageCondition.getPeriod()))
+            .where(member.id.eq(memberId))
             .offset(pageCondition.getPageable().getOffset())
             .limit(pageCondition.getPageable().getPageSize())
             .orderBy(game.id.desc())
             .fetch();
         return new PageImpl<>(list, pageCondition.getPageable(),
-            getTotalPageCount(memberId, pageCondition));
+            getTotalPageCount(memberId));
     }
 
     // 회원 탈퇴시 해당 회원이 만든 게임을 삭제 하기 위한 조회
@@ -124,12 +135,19 @@ public class GameRepositoryImpl implements GameRepositorySupport {
 
     // 나만 쓸 거야
 
-    private long getTotalPageCount(Long memberId, PageConditionReq pageCondition) {
-        return jpaQueryFactory.selectDistinct(game.id)
+    private long getTotalPageCount(PageConditionReq pageCondition) {
+        return jpaQueryFactory.select(game.id)
             .from(game)
             .innerJoin(game.member, member)
             .where(searchCond(pageCondition.getSearch(), pageCondition),
                 periodCond(pageCondition.getPeriod())).fetch().size();
+    }
+
+    private long getTotalPageCount(Long memberId) {
+        return jpaQueryFactory.select(game.id)
+                .from(game)
+                .innerJoin(game.member, member)
+                .where(member.id.eq(memberId)).fetch().size();
     }
 
     // memberId 가 null 이면 isStarred 0 반환

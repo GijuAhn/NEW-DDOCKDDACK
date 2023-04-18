@@ -2,6 +2,7 @@ package com.ddockddack.domain.bestcut.repository;
 
 import static com.ddockddack.domain.bestcut.entity.QBestcut.bestcut;
 import static com.ddockddack.domain.bestcut.entity.QBestcutLike.bestcutLike;
+import static com.ddockddack.domain.game.entity.QGame.game;
 import static com.ddockddack.domain.member.entity.QMember.member;
 import static com.ddockddack.domain.report.entity.QReportedBestcut.reportedBestcut;
 
@@ -21,6 +22,7 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 @Repository
 @RequiredArgsConstructor
@@ -37,6 +40,20 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
 
     public PageImpl<BestcutRes> findAllBySearch(Boolean my, Long loginMemberId,
         PageConditionReq pageCondition) {
+        List<Long> ids = jpaQueryFactory.select(bestcut.id)
+                .from(bestcut)
+                .join(bestcut.member, member)
+                .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriod()),
+                        searchCond(pageCondition.getSearch(), pageCondition.getKeyword()))
+                .offset(pageCondition.getPageable().getOffset())
+                .limit(pageCondition.getPageable().getPageSize())
+                .fetch();
+
+        if (CollectionUtils.isEmpty(ids)) {
+            return new PageImpl<>(new ArrayList<>(), pageCondition.getPageable(),
+                    getTotalPageCount(my, loginMemberId, pageCondition));
+        }
+
         List<BestcutRes> resultList = jpaQueryFactory.select(
                 new QBestcutRes(bestcut.id.as("bestcutId"), bestcut.title.as("bestcutImgTitle"),
                     bestcut.imageUrl.as("bestcutImgUrl"), bestcut.gameTitle,
@@ -44,13 +61,11 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     bestcut.member.id.as("memberId"),
                     bestcut.createdAt.as("createdDate"), getLikeCnt(),
                     getIsLiked(loginMemberId), member.profile.as("profileImgUrl"),
-                    member.nickname)).from(bestcut).join(bestcut.member, member)
-            .where(myBestcut(my, loginMemberId), periodCond(pageCondition.getPeriod()),
-                searchCond(pageCondition.getSearch(), pageCondition.getKeyword()))
-            .orderBy(orderCond(pageCondition.getPageable()))
-            .offset(pageCondition.getPageable().getOffset())
-            .limit(pageCondition.getPageable().getPageSize())
-            .fetch();
+                    member.nickname))
+                .from(bestcut)
+                .where(bestcut.id.in(ids))
+                .orderBy(orderCond(pageCondition.getPageable()))
+                .fetch();
 
         return new PageImpl<>(resultList, pageCondition.getPageable(),
             getTotalPageCount(my, loginMemberId, pageCondition));
