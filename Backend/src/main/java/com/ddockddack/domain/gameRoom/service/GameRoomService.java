@@ -244,7 +244,9 @@ public class GameRoomService {
         byte[] byteGameImage = awsS3.getObject(param.get("gameImage"));
         byte[] byteImage = Base64.decodeBase64(param.get("memberGameImage"));
         int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
+        System.out.println("aa");
         saveScore(pinNumber, sessionId, byteImage, rawScore);
+
     }
 
     /**
@@ -340,9 +342,9 @@ public class GameRoomService {
      * @param rawScore
      * @throws JsonProcessingException
      */
-    private void saveScore(String pinNumber, String socketId, byte[] byteImage, int rawScore)
+    private synchronized void saveScore(String pinNumber, String socketId, byte[] byteImage, int rawScore)
         throws JsonProcessingException {
-
+        
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
@@ -352,13 +354,16 @@ public class GameRoomService {
         gameMember.getImages().add(byteImage);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
-
+        System.out.println("gameRoom확인");
+        System.out.println(gameRoom);
         gameMemberRedisRepository.save(gameMember);
-
+        System.out.println("b 시작");
+        System.out.println(gameRoom.getScoreCount());
         if (gameRoom.getScoreCount() == gameMembers.size()) {
+            System.out.println("여기서 확인한번");
             gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
-
+            System.out.println("여기?????");
             int maxRoundScore = Collections.max(roundResultData,
                 Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
 
@@ -379,6 +384,7 @@ public class GameRoomService {
             sendSignal(signal);
             gameRoom.resetScoreCnt();
             gameRoom.increaseRound();
+            System.out.println("여기까지 잘간것인가....");
         }
 
         gameRoomRedisRepository.save(gameRoom);
