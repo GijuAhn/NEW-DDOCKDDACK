@@ -44,6 +44,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -92,6 +93,7 @@ public class GameRoomService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
 
         final String pinNumber = createPinNumber();
+
         Map<String, String> sessionPropertiesInfo = new HashMap<>();
 
         sessionPropertiesInfo.put("customSessionId", pinNumber);
@@ -109,7 +111,9 @@ public class GameRoomService {
             .gameImages(gameImages)
             .pinNumber(pinNumber)
             .build();
+
         gameRoomRedisRepository.save(gameRoom);
+
         return pinNumber;
 
     }
@@ -354,16 +358,11 @@ public class GameRoomService {
         gameMember.getImages().add(byteImage);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
-        System.out.println("gameRoom확인");
-        System.out.println(gameRoom);
         gameMemberRedisRepository.save(gameMember);
-        System.out.println("b 시작");
         System.out.println(gameRoom.getScoreCount());
         if (gameRoom.getScoreCount() == gameMembers.size()) {
-            System.out.println("여기서 확인한번");
             gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
-            System.out.println("여기?????");
             int maxRoundScore = Collections.max(roundResultData,
                 Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
 
@@ -384,7 +383,6 @@ public class GameRoomService {
             sendSignal(signal);
             gameRoom.resetScoreCnt();
             gameRoom.increaseRound();
-            System.out.println("여기까지 잘간것인가....");
         }
 
         gameRoomRedisRepository.save(gameRoom);
