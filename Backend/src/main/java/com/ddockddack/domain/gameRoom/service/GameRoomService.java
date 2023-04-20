@@ -8,6 +8,7 @@ import com.ddockddack.domain.gameRoom.entity.GameRoom;
 import com.ddockddack.domain.gameRoom.repository.GameMemberRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameRoomRedisRepository;
 import com.ddockddack.domain.gameRoom.repository.GameSignalReq;
+import com.ddockddack.domain.gameRoom.request.ScoringReq;
 import com.ddockddack.domain.gameRoom.response.GameMemberRes;
 import com.ddockddack.domain.gameRoom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
@@ -44,7 +45,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -93,7 +93,6 @@ public class GameRoomService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
 
         final String pinNumber = createPinNumber();
-
         Map<String, String> sessionPropertiesInfo = new HashMap<>();
 
         sessionPropertiesInfo.put("customSessionId", pinNumber);
@@ -111,9 +110,7 @@ public class GameRoomService {
             .gameImages(gameImages)
             .pinNumber(pinNumber)
             .build();
-
         gameRoomRedisRepository.save(gameRoom);
-
         return pinNumber;
 
     }
@@ -237,20 +234,17 @@ public class GameRoomService {
     /**
      * 게임 멤버 이미지 채점 및 저장
      *
-     * @param pinNumber
-     * @param sessionId
-     * @param param
+     * @param scoringReq
+     * @throws Exception
      */
-    public void scoringUserImage(String pinNumber, String sessionId, Map<String, String> param)
-        throws Exception {
-        gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
+    public void scoringUserImage(ScoringReq scoringReq) throws Exception {
+        gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-        byte[] byteGameImage = awsS3.getObject(param.get("gameImage"));
-        byte[] byteImage = Base64.decodeBase64(param.get("memberGameImage"));
-        int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
-        System.out.println("aa");
-        saveScore(pinNumber, sessionId, byteImage, rawScore);
 
+        byte[] byteGameImage = awsS3.getObject(scoringReq.getGameImage());
+        byte[] byteImage = scoringReq.getMemberGameImage().getBytes();
+        int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
+        saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), byteImage, rawScore);
     }
 
     /**
@@ -348,7 +342,7 @@ public class GameRoomService {
      */
     private synchronized void saveScore(String pinNumber, String socketId, byte[] byteImage, int rawScore)
         throws JsonProcessingException {
-        
+
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
@@ -358,11 +352,13 @@ public class GameRoomService {
         gameMember.getImages().add(byteImage);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
+
         gameMemberRedisRepository.save(gameMember);
-        System.out.println(gameRoom.getScoreCount());
+
         if (gameRoom.getScoreCount() == gameMembers.size()) {
             gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
+
             int maxRoundScore = Collections.max(roundResultData,
                 Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
 

@@ -499,13 +499,18 @@ const capture = async (index) => {
         openviduInfo.value.publisher.session.connection.connectionId;
       const pinNumber = openviduInfo.value.publisher.session.sessionId;
       myImg = canvas.toDataURL("image/jpeg");
-      let byteString = myImg.replace("data:image/jpeg;base64,", "");
+      let blob = dataURItoBlob(myImg);
+      let fd = new FormData();
+      fd.append("socketId", socketId);
+      fd.append("pinNumber", pinNumber);
+      fd.append("memberGameImage", new File([blob], "img.jpeg"));
+      fd.append("gameImage", room.value.gameImages[index].gameImage);
 
-      let param = {
-        gameImage: room.value.gameImages[index].gameImage,
-        memberGameImage: byteString,
-      };
-      api.post(`/api/game-rooms/${pinNumber}/${socketId}/images`, param);
+      api.post(`/api/game-rooms/score`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       resultImages.value.push(myImg);
     })
     .catch((err) => {
@@ -551,6 +556,19 @@ const backgroundSoundOff = () => {
 const captureSoundOff = () => {
   captureAudio.pause();
   captureAudio.currenttime = 0;
+};
+
+const dataURItoBlob = (dataURI) => {
+  let byteString = window.atob(dataURI.split(",")[1]);
+  let mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+  let ab = new ArrayBuffer(byteString.length);
+  let ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  let bb = new Blob([ab], { type: mimeString });
+  return bb;
 };
 
 // setCurrentModalAsync("intermediateResult"); //체크
