@@ -7,7 +7,8 @@ import com.ddockddack.domain.bestcut.repository.BestcutRepository;
 import com.ddockddack.domain.bestcut.request.BestcutSaveReq;
 import com.ddockddack.domain.bestcut.response.BestcutRes;
 import com.ddockddack.domain.bestcut.response.ReportedBestcutRes;
-import com.ddockddack.domain.gameRoom.repository.GameMemberRedisRepository;import com.ddockddack.domain.member.entity.Member;
+import com.ddockddack.domain.gameRoom.repository.GameMemberRedisRepository;
+import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.report.entity.ReportType;
@@ -54,7 +55,8 @@ public class BestcutService {
         String socketId = saveReq.getSocketId();
 
         for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
-            byte[] byteImage = gameMemberRedisRepository.findById(socketId).get().getImages().get(idx);
+            int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
+            byte[] byteImage = gameMemberRedisRepository.findById(socketId).get().getImages().get(userImageIndex);
             String fileName = awsS3.InputStreamUpload(byteImage);
 
             Bestcut bestcut = saveReq.toEntity(member, idx, fileName);
@@ -160,19 +162,18 @@ public class BestcutService {
             .bestcut(bestcut)
             .member(member)
             .build();
-
+        bestcut.increaseLikeCnt();
         bestcutLikeRepository.save(bestcutLike);
-        bestcutRepository.plusBestcutLikeCount(bestcutId);
     }
 
     @Transactional
     public void removeBestcutLike(Long bestcutId, Long memberId) {
-
         BestcutLike bestcutLike = bestcutLikeRepository.findByMemberIdAndBestcutId(memberId,
                 bestcutId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_LIKE_NOT_FOUND));
+
         bestcutLikeRepository.delete(bestcutLike);
-        bestcutRepository.minusBestcutLikeCount(bestcutId);
+        bestcutLikeRepository.minusByBestcutId(bestcutId);
     }
 
     /**
