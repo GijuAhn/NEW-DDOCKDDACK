@@ -58,7 +58,8 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     bestcut.imageUrl.as("bestcutImgUrl"), bestcut.gameTitle,
                     bestcut.gameImageUrl, bestcut.gameImgDesc,
                     bestcut.member.id.as("memberId"),
-                    bestcut.createdAt.as("createdDate"), getLikeCnt(),
+                    bestcut.createdAt.as("createdDate"),
+                    bestcut.likeCount.as("popularity"),
                     getIsLiked(loginMemberId), bestcut.member.profile.as("profileImgUrl"),
                     bestcut.member.nickname))
                 .from(bestcut)
@@ -76,7 +77,8 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     bestcut.imageUrl.as("bestcutImgUrl"), bestcut.gameTitle,
                     bestcut.gameImageUrl, bestcut.gameImgDesc,
                     bestcut.member.id.as("memberId"),
-                    bestcut.createdAt.as("createdDate"), getLikeCnt(),
+                    bestcut.createdAt.as("createdDate"),
+                    bestcut.likeCount.as("popularity"),
                     getIsLiked(loginMemberId), member.profile.as("profileImgUrl"),
                     member.nickname)).from(bestcut).join(bestcut.member, member)
             .where(bestcut.id.eq(bestcutId))
@@ -114,6 +116,24 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
             .innerJoin(reportedBestcut.reportedMember, member)
             .orderBy(reportedBestcut.id.desc())
             .fetch();
+    }
+
+    @Override
+    public void minusBestcutLikeCount(Long bestcutId) {
+        jpaQueryFactory
+                .update(bestcut)
+                .set(bestcut.likeCount, bestcut.likeCount.add(-1))
+                .where(bestcut.id.eq(bestcutId))
+                .execute();
+    }
+
+    @Override
+    public void plusBestcutLikeCount(Long bestcutId) {
+        jpaQueryFactory
+                .update(bestcut)
+                .set(bestcut.likeCount, bestcut.likeCount.add(1))
+                .where(bestcut.id.eq(bestcutId))
+                .execute();
     }
 
 
