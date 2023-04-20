@@ -2,7 +2,6 @@ package com.ddockddack.domain.bestcut.repository;
 
 import static com.ddockddack.domain.bestcut.entity.QBestcut.bestcut;
 import static com.ddockddack.domain.bestcut.entity.QBestcutLike.bestcutLike;
-import static com.ddockddack.domain.game.entity.QGame.game;
 import static com.ddockddack.domain.member.entity.QMember.member;
 import static com.ddockddack.domain.report.entity.QReportedBestcut.reportedBestcut;
 
@@ -60,8 +59,8 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                     bestcut.gameImageUrl, bestcut.gameImgDesc,
                     bestcut.member.id.as("memberId"),
                     bestcut.createdAt.as("createdDate"), getLikeCnt(),
-                    getIsLiked(loginMemberId), member.profile.as("profileImgUrl"),
-                    member.nickname))
+                    getIsLiked(loginMemberId), bestcut.member.profile.as("profileImgUrl"),
+                    bestcut.member.nickname))
                 .from(bestcut)
                 .where(bestcut.id.in(ids))
                 .orderBy(orderCond(pageCondition.getPageable()))
