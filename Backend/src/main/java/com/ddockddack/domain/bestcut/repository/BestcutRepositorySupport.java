@@ -16,4 +16,8 @@ public interface BestcutRepositorySupport {
     List<Long> findAllBestcutIdByMemberId(Long memberId);
 
     List<ReportedBestcutRes> findAllReportedBestcut();
+
+    void minusBestcutLikeCount(Long bestcutId);
+
+    void plusBestcutLikeCount(Long bestcutId);
 }
