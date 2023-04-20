@@ -28,6 +28,7 @@ import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.PageConditionReq;
+import com.querydsl.core.Tuple;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -60,6 +61,7 @@ public class GameService {
      */
     @Transactional(readOnly = true)
     public PageImpl<GameRes> findAllGames(Long memberId, PageConditionReq pageConditionReq) {
+
         return gameRepository.findAllBySearch(memberId, pageConditionReq);
     }
 
@@ -171,7 +173,10 @@ public class GameService {
             .member(member)
             .build();
 
+        
+        game.increaseStarredCnt();
         starredGameRepository.save(starredGame);
+
     }
 
     /**
@@ -183,12 +188,13 @@ public class GameService {
     public void unStarredGame(Long memberId, Long gameId) {
 
         // 검증
-        checkGameValidation(gameId);
+        final Game game = checkGameValidation(gameId);
 
         StarredGame getStarredGame = starredGameRepository.findByMemberIdAndGameId(memberId, gameId)
             .orElseThrow(() ->
                 new NotFoundException(ErrorCode.STARREDGAME_NOT_FOUND));
 
+        game.decreaseStarredCnt();
         starredGameRepository.delete(getStarredGame);
     }
 

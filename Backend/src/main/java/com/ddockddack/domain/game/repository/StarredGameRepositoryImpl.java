@@ -41,13 +41,7 @@ public class StarredGameRepositoryImpl implements StarredGameRepositorySupport {
             .innerJoin(starredGame.game.images, gameImage)
             .where(starredGame.member.id.eq(memberId))
             .groupBy(
-                starredGame.id,
-                starredGame.game.id,
-                starredGame.game.category,
-                starredGame.game.title,
-                starredGame.game.member.nickname,
-                starredGame.game.createdAt,
-                starredGame.game.playCount)
+                starredGame.game.id)
             .orderBy(starredGame.id.desc())
             .fetch();
     }

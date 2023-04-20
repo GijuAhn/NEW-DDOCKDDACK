@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -47,6 +48,10 @@ public class Game extends BaseEntity {
     @Column(length = 300, nullable = false)
     private String thumbnail;
 
+    @Column()
+    @ColumnDefault("1")
+    private int starredCnt;
+
     @Builder
     public Game(Member member, String title, Category category, String description, String thumbnail) {
         this.member = member;
@@ -64,5 +69,8 @@ public class Game extends BaseEntity {
     public void increasePlayCount() {
         this.playCount++;
     }
+    public void increaseStarredCnt() {this.starredCnt ++;}
+    public void decreaseStarredCnt() { this.starredCnt--;}
+
 
 }

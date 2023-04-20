@@ -17,6 +17,7 @@ import com.ddockddack.domain.game.response.QGameRes;
 import com.ddockddack.global.util.PageConditionReq;
 import com.ddockddack.global.util.PeriodCondition;
 import com.ddockddack.global.util.SearchCondition;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -64,7 +65,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
                                 game.member.id.as("memberId"),
                                 game.member.nickname.as("creator"),
                                 isStarred(memberId),
-                                getStarredCnt(),
+                                game.starredCnt.as("starredCnt"),
                                 game.playCount.as("popularity"),
                                 game.thumbnail.as("thumbnail")
                         ))
@@ -107,7 +108,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
                     game.member.id.as("memberId"),
                     game.member.nickname.as("creator"),
                     isStarred(memberId),
-                    getStarredCnt(),
+                    game.starredCnt.as("starredCnt"),
                     game.playCount.as("popularity"),
                     game.thumbnail.as("thumbnail")
                 ))
@@ -166,13 +167,15 @@ public class GameRepositoryImpl implements GameRepositorySupport {
     }
 
     // 게임의 즐겨찾기 수 구하기
-    private Expression<Integer> getStarredCnt() {
-        return as(
-            select(starredGame.count().intValue())
-                .from(starredGame)
-                .where(starredGame.game.id.eq(game.id)),
-            "starredCnt"
-        );
+    @Override
+    public List<Tuple> getStarredCnt() {
+        return jpaQueryFactory
+            .select(starredGame.game.id,
+                starredGame.count())
+            .from(starredGame)
+            .where(starredGame.game.id.eq(game.id))
+            .groupBy(starredGame.game.id)
+            .fetch();
     }
 
 
