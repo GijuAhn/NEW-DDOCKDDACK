@@ -172,8 +172,9 @@ public class BestcutService {
                 bestcutId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.BESTCUT_LIKE_NOT_FOUND));
 
-        bestcutLikeRepository.delete(bestcutLike);
-        bestcutLikeRepository.minusByBestcutId(bestcutId);
+        bestcutRepository.minusByBestcutId(bestcutId);
+        bestcutLikeRepository.deleteById(bestcutLike.getId());
+
     }
 
     /**
