@@ -62,4 +62,6 @@ public class Bestcut extends BaseEntity {
         this.title = title;
         this.likeCount = likeCount;
     }
+
+    public void increaseLikeCnt() {this.likeCount++;}
 }
