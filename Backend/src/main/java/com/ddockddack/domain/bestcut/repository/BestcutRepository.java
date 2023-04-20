@@ -14,4 +14,8 @@ public interface BestcutRepository extends JpaRepository<Bestcut, Long>, Bestcut
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM Bestcut b WHERE b.id in :id")
     void deleteAllById(@Param("id") List<Long> bestcutId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Bestcut b SET b.likeCount = b.likeCount - 1 WHERE b.id = :bestcutId")
+    void minusByBestcutId(Long bestcutId);
 }
