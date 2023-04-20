@@ -118,25 +118,6 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
             .fetch();
     }
 
-    @Override
-    public void minusBestcutLikeCount(Long bestcutId) {
-        jpaQueryFactory
-                .update(bestcut)
-                .set(bestcut.likeCount, bestcut.likeCount.add(-1))
-                .where(bestcut.id.eq(bestcutId))
-                .execute();
-    }
-
-    @Override
-    public void plusBestcutLikeCount(Long bestcutId) {
-        jpaQueryFactory
-                .update(bestcut)
-                .set(bestcut.likeCount, bestcut.likeCount.add(1))
-                .where(bestcut.id.eq(bestcutId))
-                .execute();
-    }
-
-
     private Expression<Integer> getLikeCnt() {
         return ExpressionUtils.as(
             JPAExpressions.select(bestcutLike.count().intValue()).from(bestcutLike)
