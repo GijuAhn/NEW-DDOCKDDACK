@@ -18,4 +18,14 @@ public interface BestcutRepository extends JpaRepository<Bestcut, Long>, Bestcut
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Bestcut b SET b.likeCount = b.likeCount - 1 WHERE b.id = :bestcutId")
     void minusByBestcutId(Long bestcutId);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update bestcut bc " +
+            "set like_count = " +
+            "(select count(bestcut_id) as cnt " +
+            "    from bestcut_like bl " +
+            "    where bc.bestcut_id = bl.bestcut_id " +
+            "    group by bestcut_id);", nativeQuery = true)
+    void syncLikeCount();
+
 }
