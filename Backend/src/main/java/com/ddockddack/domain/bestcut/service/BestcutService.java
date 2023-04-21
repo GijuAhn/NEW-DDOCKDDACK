@@ -25,6 +25,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,6 +187,12 @@ public class BestcutService {
         // 존재하는 베스트 컷 인지 검증
         return bestcutRepository.findById(bestcutId).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+    }
+
+    @Scheduled(cron = "00 00 04 ? * *", zone = "Asia/Seoul")
+    @Transactional
+    public void syncLikeCount(){
+        bestcutRepository.syncLikeCount();
     }
 
 }
