@@ -189,10 +189,4 @@ public class BestcutService {
             new NotFoundException(ErrorCode.GAME_NOT_FOUND));
     }
 
-    @Scheduled(cron = "00 00 04 ? * *", zone = "Asia/Seoul")
-    @Transactional
-    public void syncLikeCount(){
-        bestcutRepository.syncLikeCount();
-    }
-
 }
