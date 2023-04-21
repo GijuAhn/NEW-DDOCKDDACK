@@ -14,7 +14,7 @@ public class GameScheduler {
 
     @Scheduled(cron = "00 00 04 ? * *", zone = "Asia/Seoul")
     @Transactional
-    public void updateAllGames() {
+    public void syncStarredCount() {
         gameRepository.updateAll();
     }
 }
