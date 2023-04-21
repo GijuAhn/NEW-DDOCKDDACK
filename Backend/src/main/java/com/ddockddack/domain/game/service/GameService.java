@@ -28,17 +28,12 @@ import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.PageConditionReq;
-import com.querydsl.core.Tuple;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileSystemUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -173,7 +168,6 @@ public class GameService {
             .member(member)
             .build();
 
-        
         game.increaseStarredCnt();
         starredGameRepository.save(starredGame);
 
@@ -331,45 +325,16 @@ public class GameService {
      * @param fileNames
      * @return
      */
-    private List<GameImage> createGameImage(Game game, GameSaveReq gameSaveReq, List<String> fileNames){
+    private List<GameImage> createGameImage(Game game, GameSaveReq gameSaveReq,
+        List<String> fileNames) {
         List<GameImage> gameImages = new ArrayList<>();
-        for (int idx=0; idx<gameSaveReq.getImages().size(); idx++){
-            GameImage gameImage = gameSaveReq.getImages().get(idx).toEntity(game, fileNames.get(idx));
+        for (int idx = 0; idx < gameSaveReq.getImages().size(); idx++) {
+            GameImage gameImage = gameSaveReq.getImages().get(idx)
+                .toEntity(game, fileNames.get(idx));
             // 리스트에 추가
             gameImages.add(gameImage);
         }
         return gameImages;
-    }
-
-
-    /**
-     * 게임 이미지 수정 실패 시 업로드 되었던 이미지 개별 삭제
-     *
-     * @param path
-     * @param list
-     */
-    private void deleteImageFile(String path, List<String> list) {
-
-        String absolutePath = new File("").getAbsolutePath() + File.separator;
-        if (list.size() != 0) {
-            for (int i = 0; i < list.size(); i++) {
-                new File(absolutePath + path + File.separator + list.get(i)).delete();
-            }
-        }
-    }
-
-    /**
-     * 해당 게임 이미지 업로드 디렉토리 삭제
-     *
-     * @param path
-     */
-    private void deleteDirectory(String path) {
-
-        try {
-            FileSystemUtils.deleteRecursively(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
