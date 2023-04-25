@@ -201,11 +201,13 @@ public class GameRoomService {
      */
     public void removeGameRoom(String pinNumber) {
 
-        final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+        Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
-        gameMembers.forEach(gm ->
-            gameMemberRedisRepository.deleteById(gm.getSocketId()));
-
+        session.getConnections().forEach(connection -> {
+            gameMemberRedisRepository.deleteById(connection.getConnectionId());
+        });
         gameRoomRedisRepository.deleteById(pinNumber);
     }
 
@@ -354,7 +356,6 @@ public class GameRoomService {
         gameMember.getImages().add(byteImage);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
-
         gameMemberRedisRepository.save(gameMember);
 
         if (gameRoom.getScoreCount() == gameMembers.size()) {
