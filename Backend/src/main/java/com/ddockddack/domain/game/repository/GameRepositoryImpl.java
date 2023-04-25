@@ -137,11 +137,11 @@ public class GameRepositoryImpl implements GameRepositorySupport {
     // 나만 쓸 거야
 
     private long getTotalPageCount(PageConditionReq pageCondition) {
-        return jpaQueryFactory.select(game.id)
+        return jpaQueryFactory.select(game.count())
             .from(game)
             .innerJoin(game.member, member)
             .where(searchCond(pageCondition.getSearch(), pageCondition),
-                periodCond(pageCondition.getPeriod())).fetch().size();
+                periodCond(pageCondition.getPeriod())).fetchOne();
     }
 
     private long getTotalPageCount(Long memberId) {
@@ -191,7 +191,7 @@ public class GameRepositoryImpl implements GameRepositorySupport {
     // 검색 조건
     private BooleanExpression searchCond(SearchCondition searchCondition,
         PageConditionReq pageCondition) {
-        if (searchCondition == null) {
+        if("".equals(pageCondition.getKeyword())) {
             return null;
         }
 

@@ -45,6 +45,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -86,6 +87,7 @@ public class GameRoomService {
      * @throws OpenViduJavaClientException
      * @throws OpenViduHttpException
      */
+    @Transactional
     public String createGameRoom(Long gameId)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
