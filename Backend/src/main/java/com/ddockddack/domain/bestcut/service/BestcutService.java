@@ -57,10 +57,9 @@ public class BestcutService {
 
         for (int idx = 0; idx < saveReq.getImages().size(); idx++) {
             int userImageIndex = saveReq.getImages().get(idx).getBestcutIndex();
-            byte[] byteImage = gameMemberRedisRepository.findById(socketId).get().getImages().get(userImageIndex);
-            String fileName = awsS3.InputStreamUpload(byteImage);
-
-            Bestcut bestcut = saveReq.toEntity(member, idx, fileName);
+            String imageUrl = gameMemberRedisRepository.findById(socketId).get().getImages()
+                .get(userImageIndex);
+            Bestcut bestcut = saveReq.toEntity(member, idx, imageUrl);
             bestcutRepository.save(bestcut);
         }
     }

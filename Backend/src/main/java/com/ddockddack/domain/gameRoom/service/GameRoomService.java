@@ -38,7 +38,6 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -246,9 +245,12 @@ public class GameRoomService {
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         byte[] byteGameImage = awsS3.getObject(scoringReq.getGameImage());
+        String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
+
         byte[] byteImage = scoringReq.getMemberGameImage().getBytes();
+
         int rawScore = ensembleModel.CalculateSimilarity(byteGameImage, byteImage);
-        saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), byteImage, rawScore);
+        saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
     }
 
     /**
@@ -340,11 +342,12 @@ public class GameRoomService {
      *
      * @param pinNumber
      * @param socketId
-     * @param byteImage
+     * @param imageUrl
      * @param rawScore
      * @throws JsonProcessingException
      */
-    private synchronized void saveScore(String pinNumber, String socketId, byte[] byteImage, int rawScore)
+    private synchronized void saveScore(String pinNumber, String socketId, String imageUrl,
+        int rawScore)
         throws JsonProcessingException {
 
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
@@ -353,7 +356,7 @@ public class GameRoomService {
         final GameMember gameMember = gameMemberRedisRepository.findById(socketId).get();
         List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
-        gameMember.getImages().add(byteImage);
+        gameMember.getImages().add(imageUrl);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
         gameMemberRedisRepository.save(gameMember);

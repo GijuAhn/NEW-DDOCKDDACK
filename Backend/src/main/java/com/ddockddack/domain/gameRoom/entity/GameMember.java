@@ -29,7 +29,7 @@ public class GameMember{
     private Integer scaledRoundScore = 0;
     private Integer totalScore = 0;
     private String clientIp;
-    private List<byte[]> images = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 
     @Builder
     public GameMember(String socketId, String pinNumber, Member member, String nickname, String clientIp) {
