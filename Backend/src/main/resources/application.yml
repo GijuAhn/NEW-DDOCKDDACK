@@ -45,8 +45,9 @@ spring:
     static-path-pattern: /static/**
 
   redis:
-    host: localhost
+    host: ddockddack.com
     port: 6379
+    password: ddockddack123!
 
 logging:
   level:
