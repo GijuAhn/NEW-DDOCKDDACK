@@ -216,6 +216,7 @@ public class GameRoomService {
      *
      * @param pinNumber
      */
+    @Transactional
     public void startGame(String pinNumber) throws JsonProcessingException {
         // 현재 존재하는 게임 방인지 확인
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
