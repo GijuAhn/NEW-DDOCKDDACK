@@ -6,6 +6,7 @@ import com.ddockddack.domain.game.entity.StarredGame;
 import com.ddockddack.domain.game.repository.GameImageRepository;
 import com.ddockddack.domain.game.repository.GameRepository;
 import com.ddockddack.domain.game.repository.StarredGameRepository;
+import com.ddockddack.domain.game.request.FaceSimilarityReq;
 import com.ddockddack.domain.game.request.GameImageModifyReq;
 import com.ddockddack.domain.game.request.GameImageParam;
 import com.ddockddack.domain.game.request.GameModifyReq;
@@ -20,6 +21,7 @@ import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
+import com.ddockddack.global.aws.CompareFaces;
 import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
@@ -28,6 +30,7 @@ import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
 import com.ddockddack.global.util.PageConditionReq;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +49,7 @@ public class GameService {
     private final StarredGameRepository starredGameRepository;
     private final ReportedGameRepository reportedGameRepository;
     private final AwsS3 awsS3;
+    private final CompareFaces compareFaces;
 
     /**
      * 게임 목록 조회
@@ -256,6 +260,19 @@ public class GameService {
     public List<ReportedGameRes> findAllReportedGames() {
 
         return reportedGameRepository.findAllReportedGame();
+    }
+
+    /**
+     * 얼굴 유사도 비교
+     *
+     * @param faceSimilarityReq
+     * @return
+     */
+    public Float scoreSimilarity(FaceSimilarityReq faceSimilarityReq) throws IOException {
+        byte[] target = awsS3.getObject(faceSimilarityReq.getTarget());
+        byte[] source = faceSimilarityReq.getSource().getBytes();
+
+        return compareFaces.compare(target, source);
     }
 
     /**
