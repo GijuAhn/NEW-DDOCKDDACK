@@ -16,7 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaRepositories(basePackages = {"com.ddockddack.domain.bestcut.repository",
     "com.ddockddack.domain.game.repository",
     "com.ddockddack.domain.member.repository",
-    "com.ddockddack.domain.report.repository"}, bootstrapMode = BootstrapMode.DEFERRED)
+    "com.ddockddack.domain.report.repository",
+    "com.ddockddack.domain.ranking.repository"}, bootstrapMode = BootstrapMode.DEFERRED)
 @EnableRedisRepositories(basePackages = {"com.ddockddack.domain.gameRoom.repository"})
 public class DdockddackApplication {
 
