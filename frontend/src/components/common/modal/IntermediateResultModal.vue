@@ -6,7 +6,7 @@
           <span>{{ rankTitle[1] }}</span>
         </div>
         <div v-if="result[1]">
-          <img id="rank1" :src="`data:image/jpeg;base64, ${result[1].image}`" />
+          <img id="rank1" :src="`${IMAGE_PATH}/${result[1].image}`" />
         </div>
         <div v-if="result[1]">
           <span>{{ result[1].nickname }}</span>
@@ -17,7 +17,7 @@
           <span>{{ rankTitle[0] }}</span>
         </div>
         <div v-if="result[0]">
-          <img id="rank0" :src="`data:image/jpeg;base64, ${result[0].image}`" />
+          <img id="rank0" :src="`${IMAGE_PATH}/${result[0].image}`" />
         </div>
         <div v-if="result[0]">
           <span>{{ result[0].nickname }}</span>
@@ -28,7 +28,7 @@
           <span>{{ rankTitle[2] }}</span>
         </div>
         <div v-if="result[2]">
-          <img id="rank2" :src="`data:image/jpeg;base64, ${result[2].image}`" />
+          <img id="rank2" :src="`${IMAGE_PATH}/${result[2].image}`" />
         </div>
         <div v-if="result[2]">
           <span>{{ result[2].nickname }}</span>
@@ -56,6 +56,7 @@ const store = useStore();
 const currentModal = computed(() => store.state.commonStore.currentModal);
 // const round = ref(currentModal.value.data[0]);
 const result = ref(currentModal.value.data[1]);
+const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
 // const isEnd = ref(currentModal.value.data[2]);
 // const winner = ref(currentModal.value.data[3]);
 // const publisher = ref(currentModal.value.data[4]);

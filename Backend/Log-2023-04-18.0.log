@@ -1,3 +1,0 @@
-[00:29:17.202][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy:line651] - Closing JPA EntityManagerFactory for persistence unit 'default'
-[00:29:17.210][INFO ][com.zaxxer.hikari.HikariDataSource.close:line350] - HikariPool-1 - Shutdown initiated...
-[00:29:17.224][INFO ][com.zaxxer.hikari.HikariDataSource.close:line352] - HikariPool-1 - Shutdown completed.
