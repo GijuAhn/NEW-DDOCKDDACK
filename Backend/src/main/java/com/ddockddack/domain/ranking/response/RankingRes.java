@@ -1,6 +1,6 @@
-package com.ddockddack.domain.rank.response;
+package com.ddockddack.domain.ranking.response;
 
-import com.ddockddack.domain.rank.entity.Ranking;
+import com.ddockddack.domain.ranking.entity.Ranking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class RankRes {
+public class RankingRes {
 
     private Integer index;
     private Float score;
     private String imageUrl;
     private String nickname;
 
-    public static RankRes from(int index, Ranking ranking) {
-        RankRes res = new RankRes();
+    public static RankingRes from(int index, Ranking ranking) {
+        RankingRes res = new RankingRes();
         res.index = index;
         res.score = ranking.getScore();
         res.imageUrl = ranking.getImageUrl();

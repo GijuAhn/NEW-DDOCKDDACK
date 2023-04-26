@@ -1,4 +1,4 @@
-package com.ddockddack.domain.rank.entity;
+package com.ddockddack.domain.ranking.entity;
 
 import com.ddockddack.domain.game.entity.Game;
 import com.ddockddack.domain.member.entity.Member;
@@ -48,5 +48,10 @@ public class Ranking {
         this.imageUrl = imageUrl;
         this.score = score;
         this.member = member;
+    }
+
+    public void changeScoreAndImage(Float score, String imageUrl){
+        this.score = score;
+        this.imageUrl = imageUrl;
     }
 }
