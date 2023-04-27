@@ -49,7 +49,7 @@ public class Game extends BaseEntity {
     private String thumbnail;
 
     @Column()
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int starredCnt;
 
     @Builder

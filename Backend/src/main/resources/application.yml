@@ -43,7 +43,6 @@ spring:
   mvc:
     static-path-pattern: /static/**
 
-
 logging:
   level:
     #    org.hibernate.SQL: debug

@@ -216,6 +216,7 @@ public class GameRoomService {
      *
      * @param pinNumber
      */
+    @Transactional
     public void startGame(String pinNumber) throws JsonProcessingException {
         // 현재 존재하는 게임 방인지 확인
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
@@ -332,7 +333,7 @@ public class GameRoomService {
      * @param signal
      */
     private void sendSignal(String signal) {
-        String url = OPENVIDU_URL + "/api/signal";
+        String url = OPENVIDU_URL + "/openvidu/api/signal";
         HttpEntity<String> httpEntity = new HttpEntity<>(signal, headers);
         restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
     }
@@ -354,14 +355,15 @@ public class GameRoomService {
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         final GameMember gameMember = gameMemberRedisRepository.findById(socketId).get();
-        List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
         gameMember.getImages().add(imageUrl);
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
         gameMemberRedisRepository.save(gameMember);
 
-        if (gameRoom.getScoreCount() == gameMembers.size()) {
+        if (gameRoom.getScoreCount() == openvidu.getActiveSession(pinNumber).getConnections().size()) {
+            List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+
             gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
 
