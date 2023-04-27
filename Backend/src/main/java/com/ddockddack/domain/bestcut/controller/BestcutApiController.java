@@ -5,7 +5,7 @@ import com.ddockddack.domain.bestcut.response.BestcutRes;
 import com.ddockddack.domain.bestcut.service.BestcutService;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.global.oauth.MemberDetail;
-import com.ddockddack.global.util.PageConditionReq;
+import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

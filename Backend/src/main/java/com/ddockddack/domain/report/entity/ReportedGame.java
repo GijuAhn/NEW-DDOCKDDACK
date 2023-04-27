@@ -1,6 +1,6 @@
 package com.ddockddack.domain.report.entity;
 
-import com.ddockddack.domain.game.entity.Game;
+import com.ddockddack.domain.multigame.entity.MultiGame;
 import com.ddockddack.domain.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,18 +28,18 @@ public class ReportedGame {
     private Member reportedMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id", foreignKey = @ForeignKey(name = "fk_reported_game_game_id_idx"))
-    private Game game;
+    @JoinColumn(name = "multi_game_id", foreignKey = @ForeignKey(name = "fk_reported_game_game_id_idx"))
+    private MultiGame multiGame;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private ReportType reportType;
 
     @Builder
-    public ReportedGame(Member reportMember, Member reportedMember, Game game, ReportType reportType) {
+    public ReportedGame(Member reportMember, Member reportedMember, MultiGame multiGame, ReportType reportType) {
         this.reportMember = reportMember;
         this.reportedMember = reportedMember;
-        this.game = game;
+        this.multiGame = multiGame;
         this.reportType = reportType;
     }
 }

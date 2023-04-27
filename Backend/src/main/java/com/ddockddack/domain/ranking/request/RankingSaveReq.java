@@ -1,6 +1,6 @@
 package com.ddockddack.domain.ranking.request;
 
-import com.ddockddack.domain.game.entity.Game;
+import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.ranking.entity.Ranking;
 import javax.validation.constraints.NotNull;
@@ -23,9 +23,9 @@ public class RankingSaveReq {
     @NotNull(message = "score can't be null.")
     private Float score;
 
-    public Ranking toEntity(Game game, String imageUrl, Member member){
+    public Ranking toEntity(SingleGame singleGame, String imageUrl, Member member){
         return Ranking.builder()
-            .game(game)
+            .singleGame(singleGame)
             .imageUrl(imageUrl)
             .score(score)
             .member(member)

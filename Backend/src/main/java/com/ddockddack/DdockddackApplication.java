@@ -14,11 +14,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableJpaRepositories(basePackages = {"com.ddockddack.domain.bestcut.repository",
-    "com.ddockddack.domain.game.repository",
+        "com.ddockddack.domain.multigame.repository",
+        "com.ddockddack.domain.singlegame.repository",
     "com.ddockddack.domain.member.repository",
     "com.ddockddack.domain.report.repository",
     "com.ddockddack.domain.ranking.repository"}, bootstrapMode = BootstrapMode.DEFERRED)
-@EnableRedisRepositories(basePackages = {"com.ddockddack.domain.gameRoom.repository"})
+@EnableRedisRepositories(basePackages = {"com.ddockddack.domain.gameroom.repository"})
 public class DdockddackApplication {
 
     static {

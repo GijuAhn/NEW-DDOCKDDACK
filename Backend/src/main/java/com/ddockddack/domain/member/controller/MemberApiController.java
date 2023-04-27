@@ -3,17 +3,16 @@ package com.ddockddack.domain.member.controller;
 
 import com.ddockddack.domain.bestcut.response.BestcutRes;
 import com.ddockddack.domain.bestcut.service.BestcutService;
-import com.ddockddack.domain.game.response.GameRes;
-import com.ddockddack.domain.game.response.StarredGameRes;
-import com.ddockddack.domain.game.service.GameService;
-import com.ddockddack.domain.gameRoom.service.GameRoomService;
+import com.ddockddack.domain.multigame.response.MultiGameRes;
+import com.ddockddack.domain.multigame.response.StarredGameRes;
+import com.ddockddack.domain.multigame.service.MultiGameService;
 import com.ddockddack.domain.member.request.MemberModifyNameReq;
 import com.ddockddack.domain.member.response.MemberInfoRes;
 import com.ddockddack.domain.member.service.MemberService;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
-import com.ddockddack.global.util.PageConditionReq;
+import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -45,7 +44,7 @@ public class MemberApiController {
 
     private final MemberService memberService;
     private final BestcutService bestcutService;
-    private final GameService gameService;
+    private final MultiGameService multiGameService;
 
     @Operation(summary = "회원 nickname 수정", description = "회원 nickname 수정 메소드입니다.")
     @ApiResponses(value = {
@@ -152,7 +151,7 @@ public class MemberApiController {
     public ResponseEntity myGameList(
         @ModelAttribute PageConditionReq pageConditionReq,
         @AuthenticationPrincipal MemberDetail memberDetail) {
-        PageImpl<GameRes> gameResList = gameService.findAllGamesByMemberId(memberDetail.getId(),
+        PageImpl<MultiGameRes> gameResList = multiGameService.findAllGamesByMemberId(memberDetail.getId(),
             pageConditionReq);
         return ResponseEntity.ok(gameResList);
     }
@@ -166,7 +165,7 @@ public class MemberApiController {
     })
     @GetMapping("/starred")
     public ResponseEntity StarredGameList(@AuthenticationPrincipal MemberDetail memberDetail) {
-        List<StarredGameRes> starredGameResList = gameService.findAllStarredGames(
+        List<StarredGameRes> starredGameResList = multiGameService.findAllStarredGames(
             memberDetail.getId());
         return ResponseEntity.ok(starredGameResList);
 

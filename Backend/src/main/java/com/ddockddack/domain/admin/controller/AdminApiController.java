@@ -2,8 +2,8 @@ package com.ddockddack.domain.admin.controller;
 
 import com.ddockddack.domain.bestcut.response.ReportedBestcutRes;
 import com.ddockddack.domain.bestcut.service.BestcutService;
-import com.ddockddack.domain.game.response.ReportedGameRes;
-import com.ddockddack.domain.game.service.GameService;
+import com.ddockddack.domain.multigame.response.ReportedGameRes;
+import com.ddockddack.domain.multigame.service.MultiGameService;
 import com.ddockddack.domain.member.service.BanLevel;
 import com.ddockddack.domain.member.service.MemberService;
 import com.ddockddack.domain.report.service.ReportService;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminApiController {
 
     private final BestcutService bestcutService;
-    private final GameService gameService;
+    private final MultiGameService multiGameService;
     private final MemberService memberService;
     private final ReportService reportService;
 
@@ -51,7 +51,7 @@ public class AdminApiController {
     })
     public ResponseEntity<List<ReportedGameRes>> reportedGameList() {
 
-        return ResponseEntity.ok(gameService.findAllReportedGames());
+        return ResponseEntity.ok(multiGameService.findAllReportedGames());
     }
 
     @GetMapping("/reported/bestcuts")
@@ -81,7 +81,7 @@ public class AdminApiController {
         @RequestHeader(value = "banLevel", required = true) String banLevel,
         @AuthenticationPrincipal MemberDetail memberDetail) {
 
-        gameService.removeGame(memberDetail, gameId);
+        multiGameService.removeGame(memberDetail, gameId);
         if (stringToEnum(banLevel) != BanLevel.NO_PENALTY) {
             memberService.banMember(banMemberId, stringToEnum(banLevel));
         }
