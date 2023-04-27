@@ -24,8 +24,7 @@ spring:
     active:
       - develop
     group:
-      green: "server"
-      develop: "dev,env"
+      develop: "env"
 
   jpa:
     hibernate:
@@ -44,15 +43,18 @@ spring:
   mvc:
     static-path-pattern: /static/**
 
+<<<<<<< HEAD
   redis:
-    host: ddockddack.com
+    host: localhost
     port: 6379
-    password: ddockddack123!
+    # password: ddockddack123!
+=======
+>>>>>>> e1e8212 (chore : yml 파일 수정)
 
 logging:
   level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type: trace
+    #    org.hibernate.SQL: debug
+    #    org.hibernate.type: trace
     org:
       springframework: INFO
   pattern:
@@ -77,95 +79,3 @@ springdoc:
     disabled: true
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
-
-OPENVIDU_URL: http://localhost:4443/
-OPENVIDU_SECRET: MY_SECRET
-
-LOGIN_SUCCESS_URL: http://localhost:8080/login-success?accessToken=
-
----
-spring:
-  config:
-    activate:
-      on-profile: "dev"
-
-server:
-  port: 9999
-
----
-spring:
-  config:
-    activate:
-      on-profile: "server"
-
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: ${KAKAO_CLIENT_ID}
-            redirect-uri: ${KAKAO_REDIRECT_URL}
-            client-authentication-method: POST
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            authorization-grant-type: authorization_code
-            scope:
-              - profile_nickname
-              - account_email
-            client_name: kakao
-          google:
-            client_id: ${GOOGLE_CLIENT_ID}
-            client_secret: ${GOOGLE_CLIENT_SECRET}
-            redirect_uri: ${GOOGLE_REDIRECT_URI}
-            scope:
-              - email
-              - profile
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
-
-OPENVIDU_URL: ${OPENVIDU_URL}
-OPENVIDU_SECRET: ${OPENVIDU_SECRET}
-
-LOGIN_SUCCESS_URL: ${LOGIN_SUCCESS_URL}
-
-server:
-  port: 8080
-
-logging:
-  pattern:
-    file: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
-  file:
-    name: /logs/spring.log
-  level:
-    org:
-      springframework: INFO
-
-jwt:
-  token:
-    secret-key: ${JWT_TOKEN_SECRET_KEY}
-  access-token:
-    expire-length: 8640000 #하루 #10분 300000 #5분
-  refresh-token:
-    expire-length: 1209600000 #14일
-
-cloud:
-  aws:
-    s3:
-      bucket: ${AWS_S3_BUCKET}
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
