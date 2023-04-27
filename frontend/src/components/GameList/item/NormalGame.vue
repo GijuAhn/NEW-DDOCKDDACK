@@ -125,7 +125,7 @@ const starredGame = () => {
   open();
   api
     .post(
-      `/api/games/starred/${props.game.gameId}`,
+      `/api/multi-games/starred/${props.game.gameId}`,
       {},
       { headers: { "access-token": accessToken } }
     )
@@ -140,7 +140,7 @@ const starredGame = () => {
 const unstarredGame = () => {
   open();
   api
-    .delete(`/api/games/unstarred/${props.game.gameId}`, {
+    .delete(`/api/multi-games/unstarred/${props.game.gameId}`, {
       headers: { "access-token": accessToken },
     })
     .then(() => {

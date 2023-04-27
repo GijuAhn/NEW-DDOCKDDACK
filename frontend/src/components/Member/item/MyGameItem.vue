@@ -129,7 +129,7 @@ const starredGame = () => {
   open();
   api
     .post(
-      `/api/games/starred/${props.game.gameId}`,
+      `/api/multi-games/starred/${props.game.gameId}`,
       {},
       { headers: { "access-token": accessToken } }
     )
@@ -144,7 +144,7 @@ const starredGame = () => {
 const unstarredGame = () => {
   open();
   api
-    .delete(`/api/games/unstarred/${props.game.gameId}`, {
+    .delete(`/api/multi-games/unstarred/${props.game.gameId}`, {
       headers: { "access-token": accessToken },
     })
     .then(() => {
@@ -159,7 +159,7 @@ const deleteGame = () => {
   const result = confirm("삭제 하시겠습니까?");
   if (result) {
     api
-      .delete(`/api/games/${props.game.gameId}`, {
+      .delete(`/api/multi-games/${props.game.gameId}`, {
         headers: { "access-token": accessToken },
       })
       .then(() => {

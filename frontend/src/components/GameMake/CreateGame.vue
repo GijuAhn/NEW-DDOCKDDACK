@@ -247,7 +247,9 @@ const createGame = () => {
   }
 
   api
-    .post(`/api/games`, formData, { headers: { "access-token": accessToken } })
+    .post(`/api/multi-games`, formData, {
+      headers: { "access-token": accessToken },
+    })
     .then(() => {
       router.push({ path: "/member/myGame" });
     })

@@ -74,9 +74,6 @@ const changePage = (page) => {
 };
 
 let pageConditionReq = ref({
-  order: "POPULARITY",
-  period: "ALL",
-  search: "GAME",
   keyword: "",
   page: 1,
 });
@@ -101,13 +98,10 @@ const ready = (value) => {
 
 const callApi = () => {
   api
-    .get(`/api/games`, {
+    .get(`/api/single-games`, {
       params: {
-        order: pageConditionReq.value.order,
-        period: pageConditionReq.value.period,
-        search: pageConditionReq.value.search,
         keyword: pageConditionReq.value.keyword,
-        page: pageConditionReq.value.page,
+        page: pageConditionReq.value.page - 1,
       },
       headers: { "access-token": accessToken },
     })

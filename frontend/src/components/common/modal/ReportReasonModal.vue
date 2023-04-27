@@ -31,7 +31,7 @@ const reportGame = (reportType) => {
   }
   api
     .post(
-      `/api/games/report/${currentModal.value.data.gameId}`,
+      `/api/multi-games/report/${currentModal.value.data.gameId}`,
       {
         reportType: reportType,
       },

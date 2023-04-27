@@ -9,7 +9,7 @@
     </div>
     <div id="bottomSection">
       <div id="gameTitle">
-        <span>{{ props.game.gameTitle }}</span>
+        <span>{{ props.game.title }}</span>
       </div>
 
       <div id="createRoomButton">

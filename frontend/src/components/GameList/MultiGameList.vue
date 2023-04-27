@@ -171,7 +171,7 @@ let pageConditionReq = ref({
 });
 const callApi = () => {
   api
-    .get(`/api/games`, {
+    .get(`/api/multi-games`, {
       params: {
         order: pageConditionReq.value.order,
         period: pageConditionReq.value.period,

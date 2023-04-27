@@ -43,13 +43,11 @@ spring:
   mvc:
     static-path-pattern: /static/**
 
-<<<<<<< HEAD
   redis:
     host: localhost
     port: 6379
     # password: ddockddack123!
-=======
->>>>>>> e1e8212 (chore : yml 파일 수정)
+
 
 logging:
   level:
