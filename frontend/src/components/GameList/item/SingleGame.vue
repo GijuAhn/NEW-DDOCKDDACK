@@ -24,17 +24,11 @@
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
-// import { useStore } from "vuex";
-// import { apiInstance } from "@/api/index";
-// import router from "@/router/index.js";
 import process from "process";
 
-// const store = useStore();
 const emit = defineEmits(["ready"]);
 const props = defineProps(["game", "index"]);
-// const api = apiInstance();
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
-// const accessToken = computed(() => store.state.memberStore.accessToken).value;
 
 const ready = () => {
   emit("ready", { index: props.index });

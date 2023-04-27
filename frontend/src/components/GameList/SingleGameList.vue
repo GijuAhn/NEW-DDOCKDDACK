@@ -21,8 +21,11 @@
       ></single-game>
     </div>
 
-    <div id="container" v-if="!isShow">
-      <img :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`" />
+    <div id="container" v-show="!isShow">
+      <img
+        id="gameImage"
+        :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`"
+      />
       <video autoplay="true" id="videoElement"></video>
     </div>
 
@@ -300,14 +303,21 @@ input {
 }
 
 #container {
-  margin: 0px auto;
-  width: 500px;
-  height: 375px;
-  border: 10px #333 solid;
+  display: flex;
+  gap: 35px 0;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: space-between;
 }
+
+#gameImage {
+  width: 500px;
+  height: 460px;
+}
+
 #videoElement {
   width: 500px;
-  height: 375px;
+  height: 460px;
   background-color: #666;
+  object-fit: fill;
 }
 </style>
