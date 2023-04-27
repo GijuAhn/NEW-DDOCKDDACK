@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long>, RankingRepositorySupport {
-    Optional<Ranking> findByGameIdAndMemberId(Long gameId, Long memberId);
+    Optional<Ranking> findBySingleGameIdAndMemberId(Long gameId, Long memberId);
 }

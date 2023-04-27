@@ -1,6 +1,6 @@
 package com.ddockddack.domain.ranking.entity;
 
-import com.ddockddack.domain.game.entity.Game;
+import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.member.entity.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "idx_game_score", columnList = "game_id ,score DESC"))
+@Table(indexes = @Index(name = "idx_game_score", columnList = "single_game_id ,score DESC"))
 public class Ranking {
 
     @Id
@@ -30,8 +30,8 @@ public class Ranking {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id", foreignKey = @ForeignKey(name = "fk_rank_game_idx"))
-    private Game game;
+    @JoinColumn(name = "single_game_id", foreignKey = @ForeignKey(name = "fk_rank_game_idx"))
+    private SingleGame singleGame;
 
     @Column(length = 300, nullable = false)
     private String imageUrl;
@@ -43,8 +43,8 @@ public class Ranking {
     private Member member;
 
     @Builder
-    public Ranking(Game game, String imageUrl, Float score, Member member) {
-        this.game = game;
+    public Ranking(SingleGame singleGame, String imageUrl, Float score, Member member) {
+        this.singleGame = singleGame;
         this.imageUrl = imageUrl;
         this.score = score;
         this.member = member;

@@ -21,9 +21,7 @@ public class RankingRepositoryImpl implements RankingRepositorySupport {
     public List<Ranking> findByGameId(Long gameId) {
         List<Long> ids = jpaQueryFactory.select(ranking.id)
             .from(ranking)
-            .leftJoin(ranking.member, member)
-            .fetchJoin()
-            .where(ranking.game.id.eq(gameId))
+            .where(ranking.singleGame.id.eq(gameId))
             .orderBy(ranking.score.desc())
             .limit(20)
             .fetch();
@@ -35,6 +33,8 @@ public class RankingRepositoryImpl implements RankingRepositorySupport {
         return jpaQueryFactory
             .selectFrom(ranking)
             .where(ranking.id.in(ids))
+            .leftJoin(ranking.member, member)
+            .fetchJoin()
             .orderBy(ranking.score.desc())
             .fetch();
     }

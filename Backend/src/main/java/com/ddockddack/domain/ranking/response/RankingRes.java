@@ -10,17 +10,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RankingRes {
 
-    private Integer index;
     private Float score;
     private String imageUrl;
     private String nickname;
 
-    public static RankingRes from(int index, Ranking ranking) {
+    public static RankingRes from(Ranking ranking) {
         RankingRes res = new RankingRes();
-        res.index = index;
-        res.score = ranking.getScore();
-        res.imageUrl = ranking.getImageUrl();
-        res.nickname = ranking.getMember().getNickname();
+        res.setScore(ranking.getScore());
+        res.setImageUrl(ranking.getImageUrl());
+        res.setNickname(ranking.getMember().getNickname());
         return res;
     }
 }
