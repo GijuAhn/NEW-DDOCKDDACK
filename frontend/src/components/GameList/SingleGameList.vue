@@ -21,7 +21,7 @@
       ></single-game>
     </div>
 
-    <div id="container" v-show="!isShow">
+    <div id="container" v-if="!isShow">
       <img :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`" />
       <video autoplay="true" id="videoElement"></video>
     </div>
@@ -81,7 +81,6 @@ let pageConditionReq = ref({
 const ready = (value) => {
   targetGameIdx.value = value.index;
   isShow.value = false;
-  console.log(games.value[targetGameIdx.value]);
   const video = document.getElementById("videoElement");
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices

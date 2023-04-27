@@ -17,9 +17,13 @@
       <router-link class="b" to="/bestcut">베스트 컷</router-link>
     </span>
     <span class="right">
-      <a v-if="!accessToken" @click="setCurrentModalAsync(`login`)">로그인</a>
-      <router-link v-if="accessToken" to="/member">마이 페이지</router-link>
-      <a v-if="accessToken" @click="logout">로그아웃</a>
+      <a v-if="!accessToken" class="b" @click="setCurrentModalAsync(`login`)"
+        >로그인</a
+      >
+      <router-link class="b" v-if="accessToken" to="/member"
+        >마이 페이지</router-link
+      >
+      <a class="b" v-if="accessToken" @click="logout">로그아웃</a>
       <router-link v-if="isAdmin" to="/admin">관리자 페이지</router-link>
     </span>
   </div>
