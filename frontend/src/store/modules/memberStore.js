@@ -37,12 +37,10 @@ export const memberStore = {
       commit("setToken", accessToken);
     },
     async userConfirm({ commit }, user) {
-      // console.log(user,"^^");
       await login(
         //accessToken과 refreshToken이 생성되게
         user,
         ({ data }) => {
-          console.log(data, "^^");
           if (data.status === 200) {
             // let accessToken = data["access-token"];
             // let refreshToken = data["refresh-token"];
@@ -81,7 +79,6 @@ export const memberStore = {
     },
 
     async accesstokenReissue({ commit, state, store }, isAuthPage) {
-      console.log("이슈 진입");
       await accesstokenRegeneration(
         ({ data }) => {
           if (data) {

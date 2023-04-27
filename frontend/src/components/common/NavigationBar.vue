@@ -1,12 +1,20 @@
 <template>
   <div id="navbar" :class="view">
     <span class="left">
-      <router-link to="/">똑딱</router-link>
+      <router-link class="b" to="/">똑딱</router-link>
     </span>
     <span class="mid">
-      <router-link to="/gameList">게임 목록</router-link>
-      <router-link to="/gameMake">게임 만들기</router-link>
-      <router-link to="/bestcut">베스트 컷</router-link>
+      <span @click="open"> 게임 목록 </span>
+      <div id="etc" v-show="state" @click="open">
+        <router-link class="c" to="/single-games"
+          ><span>혼자 하기</span></router-link
+        >
+        <router-link class="c" to="/multi-games"
+          ><span>같이 하기</span></router-link
+        >
+      </div>
+      <router-link class="b" to="/gameMake">게임 만들기</router-link>
+      <router-link class="b" to="/bestcut">베스트 컷</router-link>
     </span>
     <span class="right">
       <a v-if="!accessToken" @click="setCurrentModalAsync(`login`)">로그인</a>
@@ -19,7 +27,7 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -30,6 +38,12 @@ const accessToken = computed(() => store.state.memberStore.accessToken);
 const isAdmin = computed(
   () => "ADMIN" == store.state.memberStore.memberInfo.role
 );
+
+const state = ref(false);
+
+const open = () => {
+  state.value = !state.value;
+};
 
 const setCurrentModalAsync = (what) => {
   store.dispatch("commonStore/setCurrentModalAsync", {
@@ -88,7 +102,7 @@ const logout = () => {
 .variant3 span {
   color: white;
 }
-a {
+.b {
   text-decoration: none;
   line-height: 95px;
   margin: 40px;
@@ -106,6 +120,10 @@ span:hover {
   font-size: 24px;
   font-family: "NanumSquareRoundEB";
 }
+.mid span {
+  font-size: 24px;
+  font-family: "NanumSquareRoundEB";
+}
 .right a {
   font-size: 24px;
   font-family: "NanumSquareRoundEB";
@@ -113,6 +131,11 @@ span:hover {
 .right span {
   font-size: 24px;
   font-family: "NanumSquareRoundEB";
+}
+.c span {
+  font-size: 18px;
+  font-family: "NanumSquareRoundEB";
+  color: black;
 }
 
 .left {
@@ -128,5 +151,46 @@ span:hover {
 
 .right {
   float: right;
+}
+
+.etc {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* #content:hover {
+  box-shadow: 0 0 20px #8b8b8b;
+  transition: 0.3s;
+} */
+#etc {
+  position: absolute;
+  top: 65px;
+  left: -20px;
+  background-color: white;
+  width: 130px;
+  box-shadow: 0 0 10px #8b8b8b;
+  z-index: 1;
+  border-radius: 10px;
+  padding: 10px 0;
+  display: block;
+}
+#etc :hover {
+  cursor: pointer;
+}
+#etc span {
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  /* color: black; */
+}
+span .c {
+  color: black;
+  text-decoration: none;
+}
+#etc span:hover {
+  background-color: #d9d9d9;
 }
 </style>

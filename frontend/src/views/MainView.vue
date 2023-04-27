@@ -40,6 +40,7 @@ store.dispatch("commonStore/setColorAsync", "default");
   height: calc(100vh - 95px + 1000px);
   position: relative;
   overflow: hidden;
+  z-index: -1;
 }
 .box {
   position: absolute;

@@ -182,7 +182,6 @@ const callApi = () => {
       headers: { "access-token": accessToken },
     })
     .then((response) => {
-      console.log(response);
       games.value = response.data.content;
       totalPages = response.data.totalPages;
     })
