@@ -31,7 +31,6 @@ const isLogin = async () => {
     await store.dispatch("memberStore/getMemberInfo");
   }
   accessToken = computed(() => store.state.memberStore.accessToken).value;
-  console.log("isLogin ", accessToken);
 };
 
 const routes = [
@@ -42,10 +41,16 @@ const routes = [
     beforeEnter: isLogin,
   },
   {
-    path: "/gameList",
-    name: "gameList",
+    path: "/single-games",
+    name: "singleGames",
     beforeEnter: isLogin,
-    component: () => import("@/views/GameListView.vue"),
+    component: () => import("@/views/SingleGameListView.vue"),
+  },
+  {
+    path: "/multi-games",
+    name: "multiGames",
+    beforeEnter: isLogin,
+    component: () => import("@/views/MultiGameListView.vue"),
   },
   {
     path: "/gameMake",
@@ -81,12 +86,6 @@ const routes = [
     component: () => import("@/views/MemberView.vue"),
     redirect: "/member/myBestcut", // /member/recentGame 기본
     children: [
-      {
-        path: "recentGame",
-        name: "recentGame",
-        beforeEnter: authMember,
-        component: () => import("@/components/Member/RecentGameList.vue"),
-      },
       {
         path: "starGame",
         name: "starGame",

@@ -13,9 +13,6 @@
       <span :class="tab3"
         ><router-link to="/member/myGame">내가 만든 게임</router-link></span
       >
-      <span :class="tab1">
-        <router-link to="/member/recentGame">최근 플레이</router-link></span
-      >
     </div>
   </div>
 </template>
@@ -28,7 +25,6 @@ import { useStore } from "vuex";
 
 const store = useStore();
 
-const tab1 = computed(() => store.state.commonStore.tab.member[0]);
 const tab2 = computed(() => store.state.commonStore.tab.member[1]);
 const tab3 = computed(() => store.state.commonStore.tab.member[2]);
 const tab4 = computed(() => store.state.commonStore.tab.member[3]);
@@ -37,8 +33,9 @@ const tab4 = computed(() => store.state.commonStore.tab.member[3]);
 <style scoped>
 #navbar {
   background-color: #fdf8ec;
-
   border-bottom: 1px solid #c9c9c9;
+  width: 100%;
+  text-align: center;
 }
 a {
   text-decoration: none;
@@ -64,7 +61,6 @@ a {
 }
 .tab-info {
   height: 68px;
-  margin-left: 15%;
   /* border-bottom: 1px solid #c9c9c9; */
 }
 .tab-info span {

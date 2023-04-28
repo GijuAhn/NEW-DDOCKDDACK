@@ -1,10 +1,4 @@
-import router from "@/router";
-import {
-  getMyBestcut,
-  getMygame,
-  getRecentGame,
-  getStarGame,
-} from "@/api/mypage";
+import { getMyBestcut, getMygame, getStarGame } from "@/api/mypage";
 
 export const mypageStore = {
   namespaced: true,
@@ -82,47 +76,6 @@ export const mypageStore = {
         },
         async (error) => {
           console.log(error.response.status);
-        }
-      );
-    },
-    async getRecentGameList({ commit, state }, pageConditionReq) {
-      let accessToken = state.accessToken;
-      await getRecentGame(
-        pageConditionReq,
-        accessToken,
-        ({ data }) => {
-          if (data.status === 200) {
-            let accessToken = data.accessToken;
-            console.log("재발급 완료 >> 새로운 토큰 : {}", accessToken);
-            commit("SET_ACCESSTOKEN", data.memberInfo);
-            commit("SET_IS_VALID_TOKEN", true);
-          }
-        },
-        async (error) => {
-          //AccessToken 갱신 실패시 refreshToken이 문제임 >> 다시 로그인해야함
-          if (error.reembersponse.status === 401) {
-            console.log("갱신 실패");
-            await getRecentGame(
-              state.memberInfo.id,
-              ({ data }) => {
-                if (data.status === 200) {
-                  console.log("리프레시 토큰 제거 성공");
-                } else {
-                  console.log("리프레시 토큰 제거 실패");
-                }
-                alert("RefreshToken 기간 만료!!! 다시 로그인해 주세요.");
-                commit("SET_IS_LOGIN", false);
-                commit("SET_MEMBER_INFO", null);
-                commit("SET_IS_VALID_TOKEN", false);
-                router.push({ name: "login" });
-              },
-              (error) => {
-                console.log(error);
-                commit("SET_IS_LOGIN", false);
-                commit("SET_MEMBER_INFO", null);
-              }
-            );
-          }
         }
       );
     },

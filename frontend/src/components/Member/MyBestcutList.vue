@@ -1,6 +1,6 @@
 <template>
   <div id="view">
-    <div id="list">
+    <div id="list" v-if="!isLoading">
       <my-bestcut
         v-for="bestcut in myBestcuts"
         :key="bestcut"
@@ -10,12 +10,12 @@
         @deleteBestcut="(bestcutId) => deleteBestcut(bestcutId)"
       ></my-bestcut>
     </div>
-    <loading-spinner id="imgLoading" v-show="isLoading">
+    <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
-    <div id="noItem" v-show="(!myBestcuts || !myBestcuts.length) && !isLoading">
+    <!-- <div id="noItem" v-show="(!myBestcuts || !myBestcuts.length) && !isLoading">
       베스트컷을 등록 해주세요!
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -134,12 +134,10 @@ const deleteBestcut = (bestcutId) => {
 
 <style scoped>
 #view {
-  /* border: 2px solid black; */
-  width: 1200px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: white;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 #list {
@@ -148,13 +146,6 @@ const deleteBestcut = (bestcutId) => {
   grid-template-columns: repeat(3, 1fr);
   width: 1090px;
   margin: 2%;
-}
-#noItem {
-  font-size: 20px;
-  margin-top: 10%;
-  margin-left: 25%;
-}
-#imgLoading {
-  margin-left: 30%;
+  text-align: left;
 }
 </style>

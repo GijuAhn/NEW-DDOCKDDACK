@@ -28,7 +28,7 @@ const api = apiInstance();
 
 const game = ref();
 api
-  .get(`/api/games/${currentModal.value.data.gameId}`)
+  .get(`/api/multi-games/${currentModal.value.data.gameId}`)
   .then((response) => {
     console.log(response.data);
     game.value = response.data;

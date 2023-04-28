@@ -12,10 +12,10 @@ import java.util.List;
 @Repository
 public interface ReportedGameRepository extends JpaRepository<ReportedGame, Long>, ReportedGameRepositorySupport {
 
-    boolean existsByReportMemberIdAndGameId(Long memberId, Long gameId);
+    boolean existsByReportMemberIdAndMultiGameId(Long memberId, Long gameId);
 
     @Modifying(clearAutomatically = true)
-    @Query("DELETE FROM ReportedGame rg WHERE rg.game.id = :id")
+    @Query("DELETE FROM ReportedGame rg WHERE rg.multiGame.id = :id")
     void deleteByGameId(Long id);
 
     @Modifying(clearAutomatically = true)
@@ -23,6 +23,6 @@ public interface ReportedGameRepository extends JpaRepository<ReportedGame, Long
     void deleteByMemberId(Long id);
 
     @Modifying(clearAutomatically = true)
-    @Query("DELETE FROM ReportedGame rg WHERE rg.game.id in :id")
-    void deleteAllByGameId(@Param("id") List<Long> gameId);
+    @Query("DELETE FROM ReportedGame rg WHERE rg.multiGame.id in :id")
+    void deleteAllByGameId(@Param("id") List<Long> multiGameId);
 }

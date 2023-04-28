@@ -1,9 +1,9 @@
 package com.ddockddack.domain.member.service;
 
 import com.ddockddack.domain.bestcut.service.BestcutService;
-import com.ddockddack.domain.game.repository.GameImageRepository;
-import com.ddockddack.domain.game.repository.GameRepository;
-import com.ddockddack.domain.game.repository.StarredGameRepository;
+import com.ddockddack.domain.multigame.repository.GameImageRepository;
+import com.ddockddack.domain.multigame.repository.MultiGameRepository;
+import com.ddockddack.domain.multigame.repository.StarredGameRepository;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
@@ -37,7 +37,7 @@ public class MemberService {
     private final ReportedGameRepository reportedGameRepository;
     private final GameImageRepository gameImageRepository;
     private final StarredGameRepository starredGameRepository;
-    private final GameRepository gameRepository;
+    private final MultiGameRepository multiGameRepository;
     private final AwsS3 awsS3;
 
 
@@ -99,13 +99,13 @@ public class MemberService {
         bestcutService.removeBestcutByMemberId(memberId);
         bestcutService.removeAllBestcutByIds(bestcutIds);
 
-        List<Long> gameIds = gameRepository.findGameIdsByMemberId(memberId);
+        List<Long> gameIds = multiGameRepository.findGameIdsByMemberId(memberId);
         gameImageRepository.deleteAllByGameId(gameIds);
         starredGameRepository.deleteByMemberId(memberId);
         starredGameRepository.deleteAllByGameId(gameIds);
         reportedGameRepository.deleteByMemberId(memberId);
         reportedGameRepository.deleteAllByGameId(gameIds);
-        gameRepository.deleteAllByGameId(gameIds);
+        multiGameRepository.deleteAllByGameId(gameIds);
         memberRepository.deleteById(memberId);
     }
 

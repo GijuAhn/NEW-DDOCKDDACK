@@ -20,6 +20,7 @@ const view = computed(() => store.state.commonStore.view);
 #header {
   height: 790px;
   position: relative;
+  z-index: -1;
 }
 .variant1 {
   background-color: #f87c7b;
