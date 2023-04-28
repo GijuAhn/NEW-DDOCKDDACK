@@ -87,12 +87,6 @@ const routes = [
     redirect: "/member/myBestcut", // /member/recentGame 기본
     children: [
       {
-        path: "recentGame",
-        name: "recentGame",
-        beforeEnter: authMember,
-        component: () => import("@/components/Member/RecentGameList.vue"),
-      },
-      {
         path: "starGame",
         name: "starGame",
         beforeEnter: authMember,
