@@ -39,6 +39,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -48,6 +49,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GameRoomService {
@@ -152,6 +154,7 @@ public class GameRoomService {
 //        }
 
         //존재하는 session 인지 확인
+
         Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
             .orElseThrow(() ->
                 new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
@@ -364,7 +367,7 @@ public class GameRoomService {
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
         gameMemberRedisRepository.save(gameMember);
-
+        log.info("openvidu connection size : {}",openvidu.getActiveSession(pinNumber).getConnections().size());
         if (gameRoom.getScoreCount() == openvidu.getActiveSession(pinNumber).getConnections().size()) {
             List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
