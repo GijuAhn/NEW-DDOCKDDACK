@@ -160,7 +160,8 @@ public class GameRoomService {
                 new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         // 방 인원 제한 최대 7명
-        if (session.getActiveConnections().size() == 7) {
+        session.fetch();
+        if (session.getConnections().size() == 7) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
@@ -208,7 +209,14 @@ public class GameRoomService {
             .orElseThrow(() ->
                 new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
-        session.getActiveConnections().forEach(connection -> {
+        try {
+            session.fetch();
+        } catch (OpenViduJavaClientException e) {
+            e.printStackTrace();
+        } catch (OpenViduHttpException e) {
+            e.printStackTrace();
+        }
+        session.getConnections().forEach(connection -> {
             gameMemberRedisRepository.deleteById(connection.getConnectionId());
         });
         gameRoomRedisRepository.deleteById(pinNumber);
@@ -367,8 +375,15 @@ public class GameRoomService {
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
         gameMemberRedisRepository.save(gameMember);
-        log.info("openvidu connection size : {}",openvidu.getActiveSession(pinNumber).getActiveConnections().size());
-        if (gameRoom.getScoreCount() == openvidu.getActiveSession(pinNumber).getActiveConnections().size()) {
+        try {
+            openvidu.fetch();
+        } catch (OpenViduJavaClientException e) {
+            e.printStackTrace();
+        } catch (OpenViduHttpException e) {
+            e.printStackTrace();
+        }
+        log.info("openvidu connection size : {}",openvidu.getActiveSession(pinNumber).getConnections().size());
+        if (gameRoom.getScoreCount() == openvidu.getActiveSession(pinNumber).getConnections().size()) {
             List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
             gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
