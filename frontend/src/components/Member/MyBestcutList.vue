@@ -1,6 +1,6 @@
 <template>
   <div id="view">
-    <div id="list">
+    <div id="list" v-if="!isLoading">
       <my-bestcut
         v-for="bestcut in myBestcuts"
         :key="bestcut"
@@ -10,7 +10,7 @@
         @deleteBestcut="(bestcutId) => deleteBestcut(bestcutId)"
       ></my-bestcut>
     </div>
-    <loading-spinner id="imgLoading" v-show="isLoading">
+    <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
     <div id="noItem" v-show="(!myBestcuts || !myBestcuts.length) && !isLoading">

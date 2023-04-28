@@ -1,6 +1,6 @@
 <template>
   <div id="view">
-    <div id="list">
+    <div id="list" v-if="!isLoading">
       <normal-game
         v-for="(game, index) in starredGames"
         :key="index"
@@ -9,7 +9,7 @@
         @updateProps="(value) => updateMyGames(value)"
       ></normal-game>
     </div>
-    <loading-spinner id="imgLoading" v-show="isLoading">
+    <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
     <div id="noItem" v-show="!starredGames && !isLoading">
@@ -63,12 +63,10 @@ store.dispatch("commonStore/setMemberTabAsync", 1);
 
 <style scoped>
 #view {
-  /* border: 2px solid black; */
-  width: 1200px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: white;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 #list {
   display: grid;
@@ -76,13 +74,11 @@ store.dispatch("commonStore/setMemberTabAsync", 1);
   grid-template-columns: repeat(3, 1fr);
   width: 1090px;
   margin: 2%;
+  text-align: left;
 }
 #noItem {
   margin-top: 10%;
   font-size: 20px;
   margin-left: 25%;
-}
-#imgLoading {
-  margin-left: 30%;
 }
 </style>

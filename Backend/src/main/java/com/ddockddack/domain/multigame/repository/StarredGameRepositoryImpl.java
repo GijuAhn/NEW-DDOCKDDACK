@@ -32,15 +32,12 @@ public class StarredGameRepositoryImpl implements StarredGameRepositorySupport {
                 isStarred(memberId),
                 getStarredCnt(),
                 starredGame.multiGame.playCount.as("playCnt"),
-                gameImage.imageUrl.min().as("thumbnail")
+                starredGame.multiGame.thumbnail.as("thumbnail")
             ))
             .from(starredGame)
             .innerJoin(starredGame.multiGame, multiGame)
             .innerJoin(starredGame.multiGame.member, member)
-            .innerJoin(starredGame.multiGame.images, gameImage)
             .where(starredGame.member.id.eq(memberId))
-            .groupBy(
-                starredGame.multiGame.id)
             .orderBy(starredGame.id.desc())
             .fetch();
     }
