@@ -66,7 +66,8 @@ store.dispatch("commonStore/setMemberTabAsync", 1);
   width: 100%;
   text-align: center;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 #list {
   display: grid;
@@ -77,8 +78,6 @@ store.dispatch("commonStore/setMemberTabAsync", 1);
   text-align: left;
 }
 #noItem {
-  margin-top: 10%;
   font-size: 20px;
-  margin-left: 25%;
 }
 </style>

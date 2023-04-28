@@ -137,7 +137,8 @@ const deleteBestcut = (bestcutId) => {
   width: 100%;
   text-align: center;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 #list {
@@ -147,5 +148,9 @@ const deleteBestcut = (bestcutId) => {
   width: 1090px;
   margin: 2%;
   text-align: left;
+}
+
+#noItem {
+  font-size: 20px;
 }
 </style>

@@ -93,12 +93,11 @@ store.dispatch("commonStore/setMemberTabAsync", 2);
 
 <style scoped>
 #view {
-  /* border: 2px solid black; */
-  width: 1200px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: white;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #list {
@@ -111,11 +110,5 @@ store.dispatch("commonStore/setMemberTabAsync", 2);
 
 #noItem {
   font-size: 20px;
-  margin-top: 10%;
-  margin-left: 25%;
-}
-
-#imgLoading {
-  margin-left: 30%;
 }
 </style>

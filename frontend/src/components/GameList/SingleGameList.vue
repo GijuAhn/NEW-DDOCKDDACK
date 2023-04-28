@@ -1,6 +1,6 @@
 <template>
   <div id="view" v-if="games">
-    <div id="searchBar">
+    <div id="searchBar" v-show="isShow">
       <div>
         <input
           @keyup.enter="callApi"
@@ -36,6 +36,7 @@
       :totalPageCount="totalPages"
       :value="pageConditionReq.page"
       @change="(num) => changePage(num)"
+      v-if="isShow"
     ></page-nav>
   </div>
 </template>
