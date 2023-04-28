@@ -28,6 +28,7 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -245,14 +246,15 @@ public class GameRoomService {
         gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
-        Map<String, byte[]> map = new HashMap<>();
-        map.put("gameImage",scoringReq.getGameImage().getBytes());
-        map.put("userImage",scoringReq.getMemberGameImage().getBytes());
+        Map<String, byte[]> event = new HashMap<>();
+        final byte[] gameImage = awsS3.getObject(scoringReq.getGameImage());
+        event.put("gameImage", gameImage);
+        final byte[] userImage = scoringReq.getMemberGameImage().getBytes();
+        event.put("userImage", userImage);
         String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
         final Integer rawScore = restTemplate.postForObject(
-            "https://3kr9hsso2m.execute-api.ap-northeast-2.amazonaws.com/scoring/score", map,
+            "https://3kr9hsso2m.execute-api.ap-northeast-2.amazonaws.com/scoring/score", event,
             Integer.class);
-
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
     }
 
