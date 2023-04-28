@@ -12,9 +12,9 @@
     <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
-    <div id="noItem" v-show="!starredGames && !isLoading">
+    <!-- <div id="noItem" v-show="!starredGames && !isLoading">
       즐겨찾기한 게임이 없습니다!
-    </div>
+    </div> -->
   </div>
 </template>
 

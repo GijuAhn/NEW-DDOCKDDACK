@@ -13,9 +13,9 @@
     <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
-    <div id="noItem" v-if="(!myGames || !myGames.length) && !isLoading">
+    <!-- <div id="noItem" v-if="(!myGames || !myGames.length) && !isLoading">
       게임을 등록 해주세요!
-    </div>
+    </div> -->
     <page-nav
       :totalPageCount="totalPages"
       :value="pageConditionReq.page"

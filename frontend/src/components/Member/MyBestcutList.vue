@@ -13,9 +13,9 @@
     <loading-spinner id="imgLoading" v-if="isLoading">
       <!-- 이미지 로딩 중 -->
     </loading-spinner>
-    <div id="noItem" v-show="(!myBestcuts || !myBestcuts.length) && !isLoading">
+    <!-- <div id="noItem" v-show="(!myBestcuts || !myBestcuts.length) && !isLoading">
       베스트컷을 등록 해주세요!
-    </div>
+    </div> -->
   </div>
 </template>
 
