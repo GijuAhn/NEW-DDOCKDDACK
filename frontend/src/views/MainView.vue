@@ -14,10 +14,10 @@
         <div class="button" @click="join(pinNumber)">입력</div>
       </div>
     </div>
-    <div class="cirle">
-      <div class="cirle1"></div>
-      <div class="cirle2"></div>
-      <div class="cirle3"></div>
+    <div class="circle">
+      <div class="circle1"></div>
+      <div class="circle2"></div>
+      <div class="circle3"></div>
     </div>
   </div>
 </template>
@@ -40,7 +40,6 @@ store.dispatch("commonStore/setColorAsync", "default");
   height: calc(100vh - 95px + 1000px);
   position: relative;
   overflow: hidden;
-  z-index: -1;
 }
 .box {
   position: absolute;
@@ -99,7 +98,7 @@ store.dispatch("commonStore/setColorAsync", "default");
   cursor: pointer;
 }
 
-.cirle1 {
+.circle1 {
   width: 800px;
   height: 800px;
   border-radius: 50%;
@@ -108,7 +107,7 @@ store.dispatch("commonStore/setColorAsync", "default");
   top: -350px;
   right: -250px;
 }
-.cirle2 {
+.circle2 {
   width: 800px;
   height: 800px;
   border-radius: 50%;
@@ -118,7 +117,7 @@ store.dispatch("commonStore/setColorAsync", "default");
   left: -250px;
 }
 
-.cirle3 {
+.circle3 {
   width: 800px;
   height: 800px;
   border-radius: 50%;

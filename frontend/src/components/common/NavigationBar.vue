@@ -151,6 +151,7 @@ span:hover {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
+  z-index: 1;
 }
 
 .right {
@@ -176,7 +177,6 @@ span:hover {
   background-color: white;
   width: 130px;
   box-shadow: 0 0 10px #8b8b8b;
-  z-index: 1;
   border-radius: 10px;
   padding: 10px 0;
   display: block;
