@@ -34,6 +34,16 @@
       class="modalContent"
       v-if="currentModal.name === `finalResult`"
     />
+    <ranking-image-modal
+      class="modalContent"
+      v-if="currentModal.name === `rankingImage`"
+    >
+    </ranking-image-modal>
+    <ranking-regist-modal
+      class="modalContent"
+      v-if="currentModal.name === `rankingRegist`"
+    >
+    </ranking-regist-modal>
   </div>
 </template>
 
@@ -48,6 +58,8 @@ import LoginModal from "@/components/common/modal/LoginModal";
 import BestcutUploadModal from "@/components/common/modal/BestcutUploadModal";
 import IntermediateResultModal from "@/components/common/modal/IntermediateResultModal";
 import FinalResultModal from "@/components/common/modal/FinalResultModal";
+import RankingImageModal from "@/components/common/modal/RankingImageModal";
+import RankingRegistModal from "@/components/common/modal/RankingRegistModal";
 
 import { computed } from "vue";
 
