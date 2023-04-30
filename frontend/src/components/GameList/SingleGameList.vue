@@ -40,7 +40,14 @@
         <div class="myBar"></div>
         <div class="percent">{{ per }}%</div>
       </div>
-      <div><button @click="capture" class="captureButton">촬 영</button></div>
+      <div>
+        <button @click="capture" class="captureButton">
+          <img
+            :src="require(`@/assets/images/camera-button.png`)"
+            @click="getImage(r.imageUrl)"
+          />
+        </button>
+      </div>
     </div>
 
     <div id="board" v-if="rank">
@@ -327,10 +334,12 @@ input {
   color: #fff;
   border: none;
   border-radius: 10px;
-  padding: 15px;
+  height: 30px;
   min-height: 30px;
-  min-width: 120px;
+  min-width: 110px;
   font-size: 20px;
+  text-align: center;
+  line-height: 0px;
   font-family: "NanumSquareRoundB";
 }
 
@@ -343,7 +352,8 @@ input {
 .myProgress {
   width: 380px;
   height: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-right: 5px;
   border-radius: 32px;
   background-color: #f1f1f1;
   display: flex;
@@ -404,7 +414,8 @@ input {
 }
 #etcSection {
   display: flex;
-  justify-content: space-between;
+  margin-top: 10px;
+  justify-content: right;
 }
 
 #videoElement {

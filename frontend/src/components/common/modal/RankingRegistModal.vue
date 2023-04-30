@@ -34,7 +34,7 @@ const currentModal = computed(() => store.state.commonStore.currentModal);
 const regist = () => {
   let fd = new FormData();
   fd.append("gameId", currentModal.value.data.gameId);
-  fd.append("image", new File([currentModal.value.data.blob], "img.jpeg"));
+  fd.append("image", new File([currentModal.value.data.image], "img.jpeg"));
   fd.append("score", currentModal.value.data.score);
   api
     .post(`/api/ranks`, fd, {

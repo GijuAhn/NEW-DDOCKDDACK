@@ -8,13 +8,15 @@
           <img :src="require(`@/assets/images/medal${index + 1}.png`)" />
         </span>
         <span v-else class="number">{{ index + 1 }}</span>
+
+        <span>
+          {{ r.nickname }}
+        </span>
         <span
-          >{{ r.nickname }}
-          <img
+          ><img
             :src="require(`@/assets/images/camera.png`)"
             @click="getImage(r.imageUrl)"
         /></span>
-
         <span>{{ r.score }}%</span>
       </div>
     </div>
@@ -35,7 +37,7 @@ const getImage = (image) => {
 <style scoped>
 .bg {
   background-color: #f87c7b;
-  width: 700px;
+  width: 100%;
   height: 930px;
   border-radius: 20px;
   position: relative;
@@ -52,7 +54,7 @@ const getImage = (image) => {
 #ranking {
   background-color: white;
   border-radius: 10px;
-  width: 580px;
+  width: 90%;
   height: 680px;
   position: absolute;
   left: 50%;
@@ -90,12 +92,14 @@ const getImage = (image) => {
 }
 #ranking > div > span:nth-child(2) {
   /* border: 1px solid yellow; */
-  width: 250px;
+  width: 400px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
 }
-#ranking > div > span:nth-child(3) {
+
+#ranking > div > span:nth-child(4) {
   color: #ffb800;
   /* border: 1px solid blue; */
   width: 80px;
