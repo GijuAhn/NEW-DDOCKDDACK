@@ -122,7 +122,7 @@ const createSession = (gameId) => {
     })
     .catch((err) => {
       if (err.response.status === 500) {
-        alert("로그인이 필요한 기능입니다.");
+        alert("방 생성에 실패 했습니다.");
       }
     });
 };
