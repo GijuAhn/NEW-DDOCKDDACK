@@ -103,8 +103,6 @@ const setCurrentModalAsync = (what) => {
 };
 
 const createSession = (gameId) => {
-  alert("aaaaaaa");
-  console.log(accessToken);
   api
     .post(
       "/api/game-rooms",
@@ -119,6 +117,7 @@ const createSession = (gameId) => {
       }
     )
     .then((res) => {
+      console.log(res.data);
       router.replace(`/gameroom/${res.data}`);
     })
     .catch((err) => {

@@ -77,7 +77,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 // 정상 진행
 
-            } else if (request.getRequestURI().contains("api/game-room") || (request.getRequestURI().contains("api/single-games"))) {
+            } else if ((!request.getRequestURI().equals("/api/game-rooms") && request.getRequestURI().contains("api/game-rooms") )|| (request.getRequestURI().contains("api/single-games"))) {
 
                 // 정상 진행
 
