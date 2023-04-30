@@ -76,7 +76,6 @@ import { useStore } from "vuex";
 import { apiInstance } from "@/api/index";
 import router from "@/router/index.js";
 import process from "process";
-import { access } from "fs";
 
 const store = useStore();
 const emit = defineEmits(["updateProps"]);
