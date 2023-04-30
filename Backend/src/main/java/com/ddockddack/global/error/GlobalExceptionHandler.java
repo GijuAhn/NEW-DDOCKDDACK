@@ -1,9 +1,12 @@
 package com.ddockddack.global.error;
 
+import com.amazonaws.services.rekognition.model.InvalidParameterException;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.ImageExtensionException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +45,8 @@ public class GlobalExceptionHandler {
      * 이미 존재하는 자원인 경우 발생
      */
     @ExceptionHandler(AlreadyExistResourceException.class)
-    protected ResponseEntity<ErrorResponse> handleAlreadyExistResourceException(AlreadyExistResourceException e) {
+    protected ResponseEntity<ErrorResponse> handleAlreadyExistResourceException(
+        AlreadyExistResourceException e) {
         log.error("handleAlreadyExistResourceException", e);
 
         final ErrorResponse response = ErrorResponse.of(e.getErrorCode());
@@ -53,7 +57,8 @@ public class GlobalExceptionHandler {
      * 확장자가 이미지 타입이 아닌 경우 발생
      */
     @ExceptionHandler(ImageExtensionException.class)
-    protected ResponseEntity<ErrorResponse> handleImageExtensionException(ImageExtensionException e) {
+    protected ResponseEntity<ErrorResponse> handleImageExtensionException(
+        ImageExtensionException e) {
         log.error("handleImageExtensionException", e);
 
         final ErrorResponse response = ErrorResponse.of(e.getErrorCode());
@@ -64,9 +69,11 @@ public class GlobalExceptionHandler {
      * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e) {
         log.error("handleMethodArgumentNotValidException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE,
+            e.getBindingResult());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -76,9 +83,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         log.error("handleBindException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE,
+            e.getBindingResult());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 이미지 비교 시 잘못된 입력이 들어온 경우 발생
+     */
+    @ExceptionHandler(InvalidParameterException.class)
+    protected ResponseEntity<ErrorResponse> invalidParameterException(InvalidParameterException e) {
+        log.error("invalidParameterException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
+    /**
+     * OpenVidu 서버에러
+     */
+    @ExceptionHandler(OpenViduJavaClientException.class)
+    protected ResponseEntity<ErrorResponse> openViduJavaClientException(OpenViduJavaClientException e) {
+        log.error("openViduJavaClientException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.OPENVIDU_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * OpenVidu 서버에러
+     */
+    @ExceptionHandler(OpenViduHttpException.class)
+    protected ResponseEntity<ErrorResponse> openViduHttpException(OpenViduHttpException e) {
+        log.error("openViduHttpException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.OPENVIDU_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

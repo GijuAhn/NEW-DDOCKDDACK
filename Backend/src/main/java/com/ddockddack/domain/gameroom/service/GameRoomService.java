@@ -27,6 +27,7 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -253,7 +254,7 @@ public class GameRoomService {
      * @param scoringReq
      * @throws Exception
      */
-    public void scoringUserImage(ScoringReq scoringReq) throws Exception {
+    public void scoringUserImage(ScoringReq scoringReq) throws IOException {
         gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 

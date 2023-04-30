@@ -22,7 +22,8 @@ public enum ErrorCode {
     BESTCUT_NOT_FOUND(404, "bestcut not found"),
     BESTCUT_LIKE_NOT_FOUND(404, "bestcut_like not found"),
     EXCEED_FILE_SIZE(413, "file size can't exceed 2MB"),
-    EXTENSION_NOT_ALLOWED(415, "extension not allowed.")
+    EXTENSION_NOT_ALLOWED(415, "extension not allowed."),
+    OPENVIDU_SERVER_ERROR(500, "openvidu server error");
     ;
 
     private int code;
