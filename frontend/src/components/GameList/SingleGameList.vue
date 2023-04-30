@@ -189,7 +189,7 @@ const capture = () => {
             }
           }
           if (
-            rank.value.length == 0 ||
+            rank.value.length < 20 ||
             rank.value[rank.value.length - 1].score < per.value
           ) {
             store.dispatch("commonStore/setCurrentModalAsync", {
