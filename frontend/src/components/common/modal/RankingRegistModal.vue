@@ -39,7 +39,7 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { apiInstance } from "@/api/index";
 
 const store = useStore();
@@ -49,10 +49,6 @@ const currentModal = computed(() => store.state.commonStore.currentModal);
 const agreement = ref(false);
 
 const regist = () => {
-  if (!agreement.value) {
-    alert("동의 항목에 체크 해주세요.");
-    return;
-  }
   let fd = new FormData();
   fd.append("gameId", currentModal.value.data.gameId);
   fd.append("image", new File([currentModal.value.data.image], "img.jpeg"));
