@@ -4,7 +4,7 @@
       <router-link class="b" to="/">똑딱</router-link>
     </span>
     <span class="mid">
-      <span @click="open"> 게임 목록 </span>
+      <span class="b" @click="open"> 게임 목록 </span>
       <div id="etc" v-show="state" @click="open">
         <router-link class="c" to="/single-games"
           ><span>혼자 하기</span></router-link
@@ -13,7 +13,9 @@
           ><span>같이 하기</span></router-link
         >
       </div>
-      <router-link class="b" to="/gameMake">게임 만들기</router-link>
+      <router-link v-if="accessToken" class="b" to="/gameMake"
+        >게임 만들기</router-link
+      >
       <router-link class="b" to="/bestcut">베스트 컷</router-link>
     </span>
     <span class="right">
@@ -173,7 +175,7 @@ span:hover {
 #etc {
   position: absolute;
   top: 65px;
-  left: -20px;
+  left: 20px;
   background-color: white;
   width: 130px;
   box-shadow: 0 0 10px #8b8b8b;
