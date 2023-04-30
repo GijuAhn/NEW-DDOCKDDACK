@@ -76,6 +76,7 @@ import { useStore } from "vuex";
 import { apiInstance } from "@/api/index";
 import router from "@/router/index.js";
 import process from "process";
+import { access } from "fs";
 
 const store = useStore();
 const emit = defineEmits(["updateProps"]);
@@ -103,6 +104,8 @@ const setCurrentModalAsync = (what) => {
 };
 
 const createSession = (gameId) => {
+  alert("aaaaaaa");
+  console.log(accessToken);
   api
     .post(
       "/api/game-rooms",
