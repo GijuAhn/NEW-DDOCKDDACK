@@ -4,6 +4,8 @@ import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.multigame.entity.MultiGame;
+import com.ddockddack.domain.multigame.entity.StarredGame;
+import com.ddockddack.domain.multigame.repository.GameImageRepository;
 import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.domain.multigame.repository.StarredGameRepository;
 import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
@@ -13,6 +15,7 @@ import com.ddockddack.domain.multigame.response.StarredGameRes;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
+import com.ddockddack.global.oauth.MemberDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,12 +51,15 @@ class MultiGameServiceTest {
     MemberRepository memberRepository;
     @Mock
     MultiGameRepository multiGameRepository;
+    @Mock
+    GameImageRepository gameImageRepository;
 
     Logger log;
 
     private Member memberOne;
     private Member memberTwo;
     private MultiGame multiGameOne;
+    private StarredGame starredGame;
 
 
     @Transactional
@@ -88,9 +94,12 @@ class MultiGameServiceTest {
             .thumbnail("멀티게임 1번 썸네일.jpeg")
             .build();
 
-
+        // starredGame
+        starredGame = StarredGame.builder()
+            .multiGame(multiGameOne)
+            .member(memberOne)
+            .build();
     }
-
 
     @Test
     void findAllGames() {
@@ -109,15 +118,73 @@ class MultiGameServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("게임 삭제")
     void removeGame() {
+        // given
+        MemberDetail memberDetail = new MemberDetail("tempToken", 2L, Role.MEMBER);
+        when(multiGameRepository.getReferenceById(any(Long.class))).thenReturn(multiGameOne);
+
+        // when
+        multiGameService.removeGame(memberDetail, gameOneId);
+
+        // then
+
+        // verify
     }
 
     @Test
+    @Transactional
+    @DisplayName("즐겨 찾기 등록")
     void starredGame() {
+        // given
+        int starredCnt = multiGameOne.getStarredCnt();
+        log.info("BEFORE starredCnt : {}", starredCnt);
+
+        when(starredGameRepository.existsByMemberIdAndMultiGameId(any(Long.class), any(Long.class))).thenReturn(false);
+        when(multiGameRepository.getReferenceById(any(Long.class))).thenReturn(multiGameOne);
+        when(memberRepository.getReferenceById(any(Long.class))).thenReturn(memberOne);
+        when(starredGameRepository.save(any(StarredGame.class))).thenReturn(starredGame);
+
+        starredGame = StarredGame.builder()
+            .multiGame(multiGameOne)
+            .member(memberOne)
+            .build();
+
+        // when
+        multiGameService.starredGame(memberOneId, gameOneId);
+
+        // then
+        log.info("AFTER starredCnt : {}, multiGameStarredCnt : {}", starredCnt + 1, multiGameOne.getStarredCnt());
+        assertThat(multiGameOne.getStarredCnt()).isEqualTo(starredCnt + 1);
+
+        // verify
+        verify(starredGameRepository, times(1)).existsByMemberIdAndMultiGameId(memberOneId, gameOneId);
+        verify(multiGameRepository, times(1)).getReferenceById(gameOneId);
+        verify(memberRepository, times(1)).getReferenceById(memberOneId);
     }
 
     @Test
+    @Transactional
+    @DisplayName("즐겨 찾기 취소")
     void unStarredGame() {
+        // given
+        int starredCnt = multiGameOne.getStarredCnt();
+        log.info("BEFORE starredCnt : {}", starredCnt);
+        when(multiGameRepository.findById(any(Long.class))).thenReturn(Optional.of(multiGameOne));
+        when(starredGameRepository.findByMemberIdAndMultiGameId(memberOneId, gameOneId)).thenReturn(Optional.of(starredGame));
+
+        // when
+        multiGameService.unStarredGame(memberOneId, gameOneId);
+
+        // then
+        log.info("AFTER starredCnt : {}, multiGameStarredCnt : {}", starredCnt - 1, multiGameOne.getStarredCnt());
+        assertThat(multiGameOne.getStarredCnt()).isEqualTo(starredCnt - 1);
+
+        // verify
+        verify(multiGameRepository, times(1)).findById(gameOneId);
+        verify(starredGameRepository, times(1)).findByMemberIdAndMultiGameId(memberOneId, gameOneId);
+        verify(starredGameRepository, times(1)).delete(starredGame);
     }
 
     @Test
