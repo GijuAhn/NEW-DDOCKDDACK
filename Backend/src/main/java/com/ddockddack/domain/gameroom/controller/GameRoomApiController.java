@@ -87,7 +87,8 @@ public class GameRoomApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
     public ResponseEntity gameMemberRemoveInGameRoom(@PathVariable String pinNumber,
-            @PathVariable String socketId) {
+            @PathVariable String socketId)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
         gameRoomService.removeGameMember(socketId);
         return ResponseEntity.ok().build();

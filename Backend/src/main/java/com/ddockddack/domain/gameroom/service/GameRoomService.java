@@ -194,8 +194,10 @@ public class GameRoomService {
      *
      * @param socketId
      */
-    public void removeGameMember(String socketId) {
+    public void removeGameMember(String socketId)
+        throws OpenViduJavaClientException, OpenViduHttpException {
         gameMemberRedisRepository.deleteById(socketId);
+        openvidu.fetch();
     }
 //
 
@@ -208,11 +210,18 @@ public class GameRoomService {
     public void removeGameRoom(String pinNumber)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
+<<<<<<< HEAD
         final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
         gameMembers.forEach(gameMember -> {
+=======
+        gameMemberRedisRepository.findByPinNumber(pinNumber).forEach(gameMember -> {
+>>>>>>> fc2f2cc (refactor : 게임방 session 로직 수정)
             gameMemberRedisRepository.deleteById(gameMember.getSocketId());
         });
+
         gameRoomRedisRepository.deleteById(pinNumber);
+        openvidu.fetch();
+
     }
 
 
