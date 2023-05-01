@@ -153,22 +153,24 @@ public class GameRoomService {
 //            }
 //        }
 
+
+
         //존재하는 session 인지 확인
         Session session = findSessionByPinNumber(pinNumber);
+
+        // 방 인원 제한 최대 7명
+        if (session.getConnections().size() == 7) {
+            throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
+        }
 
         //openvidu에 connection 요청
         ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
         Connection connection = session.createConnection(properties);
         String socketId = connection.getConnectionId();
 
-        // 방 인원 제한 최대 7명
+        // openvidu server 와 fetch
         session.fetch();
         log.info("connections size : {}", session.getConnections().size());
-        if (session.getConnections().size() == 8) {
-            throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
-        }
-
-
 
         // member를 gameMember으로 변환하여 gameRoom에 저장
         GameMember gameMember = GameMember.builder()
