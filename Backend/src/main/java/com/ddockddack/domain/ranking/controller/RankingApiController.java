@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/ranks")
+@RequestMapping("/ranks")
 public class RankingApiController {
 
     private final RankingService rankingService;

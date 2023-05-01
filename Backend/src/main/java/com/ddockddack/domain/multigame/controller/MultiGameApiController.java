@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/multi-games")
+@RequestMapping("/multi-games")
 public class MultiGameApiController {
 
     private final MultiGameService multiGameService;

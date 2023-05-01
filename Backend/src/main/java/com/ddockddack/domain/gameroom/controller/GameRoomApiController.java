@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/game-rooms")
+@RequestMapping("/game-rooms")
 public class GameRoomApiController {
 
     private final GameRoomService gameRoomService;

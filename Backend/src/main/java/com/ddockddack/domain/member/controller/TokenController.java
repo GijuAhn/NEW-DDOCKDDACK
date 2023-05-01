@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/api/token")
+@RequestMapping("/token")
 public class TokenController {
 
     private final MemberRepository memberRepository;
