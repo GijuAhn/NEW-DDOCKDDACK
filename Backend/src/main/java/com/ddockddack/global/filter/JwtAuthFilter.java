@@ -36,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         throws IOException, ServletException {
 
         String accessToken = (request).getHeader("access-token");
+        System.out.println("access token : "+accessToken);
         String refreshToken = null;
 
         Cookie[] cookies = request.getCookies();
@@ -110,7 +111,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
                 // 정상 진행
-
             } else {
                 log.info(String.valueOf(ErrorCode.EXPIRED_ACCESSTOKEN));
                 throw new AccessDeniedException(ErrorCode.EXPIRED_ACCESSTOKEN);
