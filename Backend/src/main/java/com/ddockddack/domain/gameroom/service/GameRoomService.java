@@ -159,7 +159,7 @@ public class GameRoomService {
         Session session = findSessionByPinNumber(pinNumber);
 
         // 방 인원 제한 최대 7명
-        if (session.getConnections().size() == 7) {
+        if (session.getActiveConnections().size() == 7) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
