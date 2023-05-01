@@ -3,12 +3,15 @@ package com.ddockddack.domain.multigame.service;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
+import com.ddockddack.domain.multigame.entity.MultiGame;
 import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.domain.multigame.repository.StarredGameRepository;
 import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import com.ddockddack.domain.multigame.response.MultiGameRes;
 import com.ddockddack.domain.multigame.response.ReportedGameRes;
 import com.ddockddack.domain.multigame.response.StarredGameRes;
+import com.ddockddack.domain.report.entity.ReportType;
+import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +35,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class MultiGameServiceTest {
     private final Long memberOneId = 1L;
+    private final Long memberTwoId = 2L;
+    private final Long gameOneId = 2L;
 
     @InjectMocks
     MultiGameService multiGameService;
@@ -47,6 +52,8 @@ class MultiGameServiceTest {
     Logger log;
 
     private Member memberOne;
+    private Member memberTwo;
+    private MultiGame multiGameOne;
 
 
     @Transactional
@@ -54,6 +61,7 @@ class MultiGameServiceTest {
     public void setUp() {
         log = (Logger) LoggerFactory.getLogger(ReportedGameRepository.class);
 
+        // member
         memberOne = Member.builder()
             .email("test@test.com")
             .nickname("테스터닉네임")
@@ -62,6 +70,25 @@ class MultiGameServiceTest {
             .build();
         memberOne.setId(memberOneId);
         memberOne.setReleaseDate(LocalDate.now().plusDays(30));
+
+        memberTwo = Member.builder()
+            .email("test2@test.com")
+            .nickname("테스터닉네임 2")
+            .profile("tester2Profile.jpg")
+            .role(Role.MEMBER)
+            .build();
+        memberTwo.setId(memberTwoId);
+        memberTwo.setReleaseDate(LocalDate.now().plusDays(30));
+
+        // multiGame
+        multiGameOne = MultiGame.builder()
+            .member(memberTwo)
+            .title("멀티게임 1번 타이틀")
+            .description("멀티게임 1번의 설명")
+            .thumbnail("멀티게임 1번 썸네일.jpeg")
+            .build();
+
+
     }
 
 
@@ -94,7 +121,36 @@ class MultiGameServiceTest {
     }
 
     @Test
+    @DisplayName("게임 신고")
     void reportGame() {
+        // given
+        when(reportedGameRepository.existsByReportMemberIdAndMultiGameId(any(Long.class), any(Long.class))).thenReturn(false);
+        when(multiGameRepository.findById(any(Long.class))).thenReturn(Optional.of(multiGameOne));
+        when(memberRepository.getReferenceById(any(Long.class))).thenReturn(memberTwo);
+
+        ReportedGame reportedGame = ReportedGame.builder()
+            .multiGame(multiGameOne)
+            .reportMember(memberOne)
+            .reportedMember(multiGameOne.getMember())
+            .reportType(ReportType.SPAM)
+            .build();
+
+        when(reportedGameRepository.save(any(ReportedGame.class))).thenReturn(reportedGame);
+
+        // when
+        multiGameService.reportGame(memberOneId, gameOneId, ReportType.SPAM);
+
+        // then
+        assertThat(reportedGameRepository.save(reportedGame).getMultiGame().getId()).isEqualTo(multiGameOne.getId());
+        assertThat(reportedGame.getReportedMember().getId()).isEqualTo(memberTwoId);
+
+        // verify
+        verify(reportedGameRepository, times(1)).existsByReportMemberIdAndMultiGameId(memberOneId, gameOneId);
+        verify(multiGameRepository, times(1)).findById(gameOneId);
+        verify(memberRepository, times(1)).getReferenceById(memberOneId);
+        verify(reportedGameRepository, times(1)).save(reportedGame);
+
+
     }
 
     @Test
@@ -129,7 +185,6 @@ class MultiGameServiceTest {
 
     @Test
     @DisplayName("즐겨찾기한 게임 리스트 조회")
-    @Order(2)
     void findAllStarredGames() {
         // given
         List<StarredGameRes> allStarredGames = new ArrayList<>();
@@ -143,7 +198,7 @@ class MultiGameServiceTest {
 
         // then
         assertThat(result.size()).isEqualTo(1);
-        assertThat(result.get(0).getGameId()).isEqualTo(1L);
+        assertThat(result.get(0).getGameId()).isEqualTo(gameOneId);
         assertThat(result.get(0).getGameTitle()).isEqualTo("테스트 게임 타이틀");
 
         // verify
@@ -154,7 +209,6 @@ class MultiGameServiceTest {
 
     @Test
     @DisplayName("신고된 게임 리스트 조회")
-    @Order(1)
     void findAllReportedGames() {
         // given
         List<ReportedGameRes> allReportedGames = new ArrayList<>();
@@ -179,7 +233,7 @@ class MultiGameServiceTest {
         reportedGameRes.setReportId(1L);
         reportedGameRes.setReportMemberId(2L);
         reportedGameRes.setReportedMemberId(3L);
-        reportedGameRes.setGameId(4L);
+        reportedGameRes.setGameId(gameOneId);
         reportedGameRes.setReason("테스트 사유입니다.");
         reportedGameRes.setGameTitle("테스트 게임 타이틀");
         reportedGameRes.setReportMemberNickname("테스트 신고자 닉네임");
@@ -190,7 +244,7 @@ class MultiGameServiceTest {
 
     private StarredGameRes makeStarredGameRes() {
         StarredGameRes starredGameRes = new StarredGameRes();
-        starredGameRes.setGameId(1L);
+        starredGameRes.setGameId(gameOneId);
         starredGameRes.setGameTitle("테스트 게임 타이틀");
         starredGameRes.setGameDesc("테스트 게임 상세 설명");
         starredGameRes.setCreator("creator");
@@ -204,7 +258,7 @@ class MultiGameServiceTest {
 
     private MultiGameRes makeMultiGameRes() {
         MultiGameRes multiGameRes = new MultiGameRes();
-        multiGameRes.setGameId(1L);
+        multiGameRes.setGameId(gameOneId);
         multiGameRes.setGameTitle("테스트 게임 타이틀");
         multiGameRes.setGameDesc("테스트 게임 상세 설명");
         multiGameRes.setCreator("creator");
