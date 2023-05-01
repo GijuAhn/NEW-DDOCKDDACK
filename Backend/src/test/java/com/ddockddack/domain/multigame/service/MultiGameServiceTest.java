@@ -3,7 +3,10 @@ package com.ddockddack.domain.multigame.service;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
+import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.domain.multigame.repository.StarredGameRepository;
+import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
+import com.ddockddack.domain.multigame.response.MultiGameRes;
 import com.ddockddack.domain.multigame.response.ReportedGameRes;
 import com.ddockddack.domain.multigame.response.StarredGameRes;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
@@ -14,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -37,6 +41,8 @@ class MultiGameServiceTest {
     StarredGameRepository starredGameRepository;
     @Mock
     MemberRepository memberRepository;
+    @Mock
+    MultiGameRepository multiGameRepository;
 
     Logger log;
 
@@ -92,8 +98,34 @@ class MultiGameServiceTest {
     }
 
     @Test
+    @DisplayName("모든 게임 리스트 조회")
     void findAllGamesByMemberId() {
+        // given
+        List<MultiGameRes> multiGameResList = new ArrayList<>();
+        MultiGameRes multiGameRes = makeMultiGameRes();
+        multiGameResList.add(multiGameRes);
+        multiGameResList.add(multiGameRes);
+        PageImpl<MultiGameRes> multiGameResPage = new PageImpl<>(multiGameResList);
+
+        PageConditionReq pageConditionReq = PageConditionReq.builder()
+            .page(1)
+            .build();
+
+        when(memberRepository.findById(memberOneId)).thenReturn(Optional.of(memberOne));
+        when(multiGameRepository.findAllByMemberId(memberOneId, pageConditionReq)).thenReturn(multiGameResPage);
+
+        // when
+        PageImpl<MultiGameRes> allGamesByMemberId = multiGameService.findAllGamesByMemberId(memberOneId, pageConditionReq);
+
+        // then
+        assertThat(allGamesByMemberId.getTotalPages()).isEqualTo(1);
+        assertThat(allGamesByMemberId.getTotalElements()).isEqualTo(2);
+
+        // verify
+        verify(memberRepository, times(1)).findById(memberOneId);
+        verify(multiGameRepository, times(1)).findAllByMemberId(memberOneId, pageConditionReq);
     }
+
 
     @Test
     @DisplayName("즐겨찾기한 게임 리스트 조회")
@@ -168,5 +200,19 @@ class MultiGameServiceTest {
         starredGameRes.setThumbnail("테스트 썸네일.jpeg");
 
         return starredGameRes;
+    }
+
+    private MultiGameRes makeMultiGameRes() {
+        MultiGameRes multiGameRes = new MultiGameRes();
+        multiGameRes.setGameId(1L);
+        multiGameRes.setGameTitle("테스트 게임 타이틀");
+        multiGameRes.setGameDesc("테스트 게임 상세 설명");
+        multiGameRes.setCreator("creator");
+        multiGameRes.setIsStarred(1);
+        multiGameRes.setStarredCnt(10);
+        multiGameRes.setPopularity(100);
+        multiGameRes.setThumbnail("테스트 썸네일.jpeg");
+
+        return multiGameRes;
     }
 }
