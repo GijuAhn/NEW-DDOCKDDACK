@@ -20,6 +20,9 @@ server:
       rename-on-rotate: true # rotation 시, 새로운 이름 지정 여부 (rotate 될 때의 날짜명이 로그 파일이름에 찍힘)
     threads:
       max: 200
+    mbeanregistry:
+      enabled: true
+
 spring:
   profiles:
     active:
@@ -57,6 +60,12 @@ logging:
   logback:
     rollingpolicy:
       file-name-pattern: Log-%d{yyyy-MM-dd}.%i.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 springdoc:
   swagger-ui:
