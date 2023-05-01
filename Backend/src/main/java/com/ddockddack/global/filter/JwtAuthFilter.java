@@ -36,7 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         throws IOException, ServletException {
 
         String accessToken = (request).getHeader("access-token");
-        System.out.println("access token : "+accessToken);
         String refreshToken = null;
 
         Cookie[] cookies = request.getCookies();
