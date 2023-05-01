@@ -63,7 +63,7 @@ const regist = () => {
     })
     .then(() => {
       closeModal();
-      // window.location.reload();
+      window.location.reload();
     })
     .catch((err) => {
       err;
