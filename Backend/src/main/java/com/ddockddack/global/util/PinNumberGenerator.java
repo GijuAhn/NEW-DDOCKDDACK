@@ -4,7 +4,7 @@ import java.util.Random;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PinNumber {
+public class PinNumberGenerator {
 
     private final Integer PIN_NUMBER_BOUND = 1_000_000;
     private final Random random = new Random();

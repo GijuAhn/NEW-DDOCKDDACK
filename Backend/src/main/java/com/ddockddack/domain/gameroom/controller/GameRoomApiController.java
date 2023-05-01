@@ -100,7 +100,8 @@ public class GameRoomApiController {
             @ApiResponse(responseCode = "200", description = "방 삭제 성공"),
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
-    public ResponseEntity gameRoomRemove(@PathVariable String pinNumber) {
+    public ResponseEntity gameRoomRemove(@PathVariable String pinNumber)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
         gameRoomService.removeGameRoom(pinNumber);
         return ResponseEntity.ok().build();

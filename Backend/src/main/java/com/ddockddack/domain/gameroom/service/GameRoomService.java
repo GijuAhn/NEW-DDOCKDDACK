@@ -13,11 +13,11 @@ import com.ddockddack.domain.gameroom.response.GameMemberRes;
 import com.ddockddack.domain.gameroom.response.GameRoomRes;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
-import com.ddockddack.domain.similarity.service.EnsembleModel;
 import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.ddockddack.global.util.PinNumberGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openvidu.java.client.Connection;
@@ -29,7 +29,6 @@ import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -60,8 +59,7 @@ public class GameRoomService {
     private final AwsS3 awsS3;
     private final GameRoomRedisRepository gameRoomRedisRepository;
     private final GameMemberRedisRepository gameMemberRedisRepository;
-    private final Integer PIN_NUMBER_BOUND = 1_000_000;
-    private final Random random = new Random();
+    private final PinNumberGenerator pinNumberGenerator;
     private final RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers = new HttpHeaders();
     private ObjectMapper mapper = new ObjectMapper();
@@ -93,18 +91,18 @@ public class GameRoomService {
     public String createGameRoom(Long gameId)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
+        final String pinNumber = createPinNumber();
+
         final MultiGame multiGame = multiGameRepository.findById(gameId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
-
-        final String pinNumber = createPinNumber();
-        Map<String, String> sessionPropertiesInfo = new HashMap<>();
-
-        sessionPropertiesInfo.put("customSessionId", pinNumber);
 
         List<GameImage> gameImages = multiGame.getImages();
         Collections.shuffle(gameImages);
 
+        Map<String, String> sessionPropertiesInfo = new HashMap<>();
+        sessionPropertiesInfo.put("customSessionId", pinNumber);
         SessionProperties properties = SessionProperties.fromJson(sessionPropertiesInfo).build();
+
         openvidu.createSession(properties);
 
         final GameRoom gameRoom = GameRoom.builder()
@@ -115,6 +113,7 @@ public class GameRoomService {
             .pinNumber(pinNumber)
             .build();
         gameRoomRedisRepository.save(gameRoom);
+
         return pinNumber;
 
     }
@@ -132,6 +131,7 @@ public class GameRoomService {
     public GameRoomRes joinGameRoom(String pinNumber, Long memberId, String nickname,
         String clientIp)
         throws OpenViduJavaClientException, OpenViduHttpException {
+
         Member member = null;
         //로그인 한 유저면 memberId로 검색해서 넘겨줌
         if (memberId != null) {
@@ -154,10 +154,7 @@ public class GameRoomService {
 //        }
 
         //존재하는 session 인지 확인
-
-        Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
-            .orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+        Session session = findSessionByPinNumber(pinNumber);
 
         // 방 인원 제한 최대 7명
         session.fetch();
@@ -199,23 +196,17 @@ public class GameRoomService {
 //
 
     /**
-     * 게임방 삭제
-     *
+     * 게임 방 삭제
      * @param pinNumber
+     * @throws OpenViduJavaClientException
+     * @throws OpenViduHttpException
      */
-    public void removeGameRoom(String pinNumber) {
+    public void removeGameRoom(String pinNumber)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
-        Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
-            .orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+        Session session = findSessionByPinNumber(pinNumber);
+        session.fetch();
 
-        try {
-            session.fetch();
-        } catch (OpenViduJavaClientException e) {
-            e.printStackTrace();
-        } catch (OpenViduHttpException e) {
-            e.printStackTrace();
-        }
         session.getConnections().forEach(connection -> {
             gameMemberRedisRepository.deleteById(connection.getConnectionId());
         });
@@ -303,21 +294,11 @@ public class GameRoomService {
      * @return
      */
     private String createPinNumber() {
-        String pin = formatPin(random.nextInt(PIN_NUMBER_BOUND));
+        String pin = pinNumberGenerator.createPinNumber();
         while (gameRoomRedisRepository.existsById(pin)) {
-            pin = formatPin(random.nextInt(PIN_NUMBER_BOUND));
+            pin = pinNumberGenerator.createPinNumber();
         }
         return pin;
-    }
-
-    /**
-     * 핀 넘버 포맷팅
-     *
-     * @param num
-     * @return
-     */
-    private String formatPin(int num) {
-        return String.format("%06d", num);
     }
 
     /**
@@ -455,6 +436,17 @@ public class GameRoomService {
         }
 
         return finalResult;
+    }
+
+    /**
+     * openvidu 세션 정보 조회
+     * @param pinNumber
+     * @return
+     */
+    private Session findSessionByPinNumber(String pinNumber) {
+        return Optional.ofNullable(openvidu.getActiveSession(pinNumber))
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
     }
 
 }
