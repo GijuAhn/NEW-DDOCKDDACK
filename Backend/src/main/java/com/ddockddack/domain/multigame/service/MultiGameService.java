@@ -142,7 +142,7 @@ public class MultiGameService {
         checkAccessValidation(memberDetail, gameId);
         gameImageRepository.deleteByMultiGameId(gameId);
         starredGameRepository.deleteByMultiGameId(gameId);
-        reportedGameRepository.deleteByGameId(gameId);
+        reportedGameRepository.deleteByMultiGameId(gameId);
         multiGameRepository.deleteById(gameId);
 
     }
