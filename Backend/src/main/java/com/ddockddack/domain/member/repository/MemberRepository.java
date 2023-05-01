@@ -1,7 +1,7 @@
 package com.ddockddack.domain.member.repository;
 
 import com.ddockddack.domain.member.entity.Member;
-import org.springframework.core.env.PropertyResolverExtensionsKt;
+import io.micrometer.core.annotation.Counted;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member getByEmail(String email);
 
-
+    @Counted("ddockddack.signup")
+    Member save(Member member);
 //    public Member getBySocialId(String email) {return }
 }
