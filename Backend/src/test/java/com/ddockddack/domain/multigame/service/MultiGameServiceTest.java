@@ -123,14 +123,19 @@ class MultiGameServiceTest {
     void removeGame() {
         // given
         MemberDetail memberDetail = new MemberDetail("tempToken", 2L, Role.MEMBER);
-        when(multiGameRepository.getReferenceById(any(Long.class))).thenReturn(multiGameOne);
+        when(multiGameRepository.findById(any(Long.class))).thenReturn(Optional.of(multiGameOne));
 
         // when
         multiGameService.removeGame(memberDetail, gameOneId);
 
         // then
+        assertThat(memberDetail.getId()).isEqualTo(multiGameOne.getMember().getId());
 
         // verify
+        verify(gameImageRepository, times(1)).deleteByMultiGameId(gameOneId);
+        verify(starredGameRepository, times(1)).deleteByMultiGameId(gameOneId);
+        verify(reportedGameRepository, times(1)).deleteByGameId(gameOneId);
+        verify(multiGameRepository, times(1)).deleteById(gameOneId);
     }
 
     @Test
