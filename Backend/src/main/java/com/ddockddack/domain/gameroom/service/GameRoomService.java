@@ -156,6 +156,11 @@ public class GameRoomService {
         //존재하는 session 인지 확인
         Session session = findSessionByPinNumber(pinNumber);
 
+        //openvidu에 connection 요청
+        ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
+        Connection connection = session.createConnection(properties);
+        String socketId = connection.getConnectionId();
+        
         // 방 인원 제한 최대 7명
         session.fetch();
         log.info("connections size : {}", session.getConnections().size());
@@ -163,13 +168,9 @@ public class GameRoomService {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
-        //openvidu에 connection 요청
-        ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
-        Connection connection = session.createConnection(properties);
+
 
         // member를 gameMember으로 변환하여 gameRoom에 저장
-        String socketId = connection.getConnectionId();
-
         GameMember gameMember = GameMember.builder()
             .socketId(socketId)
             .pinNumber(pinNumber)
@@ -205,11 +206,9 @@ public class GameRoomService {
     public void removeGameRoom(String pinNumber)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
-        Session session = findSessionByPinNumber(pinNumber);
-        session.fetch();
-
-        session.getConnections().forEach(connection -> {
-            gameMemberRedisRepository.deleteById(connection.getConnectionId());
+        final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+        gameMembers.forEach(gameMember -> {
+            gameMemberRedisRepository.deleteById(gameMember.getSocketId());
         });
         gameRoomRedisRepository.deleteById(pinNumber);
     }
