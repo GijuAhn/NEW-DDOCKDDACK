@@ -58,7 +58,6 @@ public class GameRoomService {
     private final MultiGameRepository multiGameRepository;
     private final MemberRepository memberRepository;
     private final AwsS3 awsS3;
-    private final EnsembleModel ensembleModel;
     private final GameRoomRedisRepository gameRoomRedisRepository;
     private final GameMemberRedisRepository gameMemberRedisRepository;
     private final Integer PIN_NUMBER_BOUND = 1_000_000;
