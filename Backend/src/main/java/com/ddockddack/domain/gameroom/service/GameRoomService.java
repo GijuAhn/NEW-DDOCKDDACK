@@ -160,11 +160,11 @@ public class GameRoomService {
         ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
         Connection connection = session.createConnection(properties);
         String socketId = connection.getConnectionId();
-        
+
         // 방 인원 제한 최대 7명
         session.fetch();
         log.info("connections size : {}", session.getConnections().size());
-        if (session.getConnections().size() == 7) {
+        if (session.getConnections().size() == 8) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
