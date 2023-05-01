@@ -158,6 +158,7 @@ public class GameRoomService {
 
         // 방 인원 제한 최대 7명
         session.fetch();
+        log.info("connections size : {}", session.getConnections().size());
         if (session.getConnections().size() == 7) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
