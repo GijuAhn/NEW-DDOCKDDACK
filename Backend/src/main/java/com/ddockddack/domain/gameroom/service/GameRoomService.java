@@ -136,20 +136,11 @@ public class GameRoomService {
         }
 
         //openvidu에 connection 요청
-<<<<<<< HEAD
-        ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
-        Connection connection = session.createConnection(properties);
-        String socketId = connection.getConnectionId();
-
-        // openvidu server 와 fetch
-        session.fetch();
         log.info("connections size : {}", session.getConnections().size());
 
-=======
         Connection connection = openViduManager.createConnection(session);
         String socketId = connection.getConnectionId();
 
->>>>>>> 42c70ce (refactor : gameRoomService, Openvidu 로직 분리)
         // member를 gameMember으로 변환하여 gameRoom에 저장
         GameMember gameMember = GameMember.builder()
             .socketId(socketId)
@@ -189,22 +180,12 @@ public class GameRoomService {
     public void removeGameRoom(String pinNumber)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
         gameMembers.forEach(gameMember -> {
-=======
-        gameMemberRedisRepository.findByPinNumber(pinNumber).forEach(gameMember -> {
->>>>>>> fc2f2cc (refactor : 게임방 session 로직 수정)
-=======
-        List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
-        gameMembers.forEach(gameMember -> {
->>>>>>> 42c70ce (refactor : gameRoomService, Openvidu 로직 분리)
             gameMemberRedisRepository.deleteById(gameMember.getSocketId());
         });
         gameRoomRedisRepository.deleteById(pinNumber);
         openViduManager.fetch();
-
     }
 
 
