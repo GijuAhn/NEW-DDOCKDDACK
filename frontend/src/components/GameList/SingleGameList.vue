@@ -166,100 +166,66 @@ const callApi = () => {
 };
 
 const analysis = async () => {
-  if (mode.value == "video") {
+  let fd = new FormData();
+  fd.append("target", games.value[targetGameIdx.value].thumbnail);
+  let file = await getFile(mode.value);
+
+  fd.append("source", file);
+  api
+    .post("/api/single-games/score", fd, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      per.value = res.data.toFixed(1);
+      let elem = document.querySelector(".myBar");
+      var width = 1;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (width >= per.value) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+      if (
+        rank.value.length < 20 ||
+        rank.value[rank.value.length - 1].score < per.value
+      ) {
+        store.dispatch("commonStore/setCurrentModalAsync", {
+          name: "rankingRegist",
+          data: {
+            gameId: games.value[targetGameIdx.value].id,
+            image: fd.get("source"),
+            score: per.value,
+          },
+        });
+      }
+    });
+};
+
+const getFile = async (mode) => {
+  let file;
+  if (mode == "video") {
     let me = document.getElementById("videoElement");
     captureMode.value = true;
     setTimeout(() => {
       captureMode.value = false;
     }, 500);
     me.pause();
-    html2canvas(me)
-      .then((canvas) => {
-        let myImg = canvas.toDataURL("image/jpeg");
-        let blob = dataURItoBlob(myImg);
-        let fd = new FormData();
-        fd.append("target", games.value[targetGameIdx.value].thumbnail);
-        fd.append("source", new File([blob], "img.jpeg"));
-        api
-          .post(`/api/single-games/score`, fd, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            per.value = res.data.toFixed(1);
-            let elem = document.querySelector(".myBar");
-            var width = 1;
-            var id = setInterval(frame, 10);
-            function frame() {
-              if (width >= per.value) {
-                clearInterval(id);
-              } else {
-                width++;
-                elem.style.width = width + "%";
-              }
-            }
-            if (
-              rank.value.length < 20 ||
-              rank.value[rank.value.length - 1].score < per.value
-            ) {
-              store.dispatch("commonStore/setCurrentModalAsync", {
-                name: "rankingRegist",
-                data: {
-                  gameId: games.value[targetGameIdx.value].id,
-                  image: fd.get("source"),
-                  score: per.value,
-                },
-              });
-            }
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const canvas = await html2canvas(me);
+    let myImg = canvas.toDataURL("image/jpeg");
+    let blob = dataURItoBlob(myImg);
+    file = new File([blob], "img.jpeg");
+    return file;
   } else {
-    let fd = new FormData();
-    fd.append("target", games.value[targetGameIdx.value].thumbnail);
-    fd.append("source", uploadImage.value);
-    api
-      .post(`/api/single-games/score`, fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        per.value = res.data.toFixed(1);
-        let elem = document.querySelector(".myBar");
-        var width = 1;
-        var id = setInterval(frame, 10);
-        function frame() {
-          if (width >= per.value) {
-            clearInterval(id);
-          } else {
-            width++;
-            elem.style.width = width + "%";
-          }
-        }
-        if (
-          rank.value.length < 20 ||
-          rank.value[rank.value.length - 1].score < per.value
-        ) {
-          store.dispatch("commonStore/setCurrentModalAsync", {
-            name: "rankingRegist",
-            data: {
-              gameId: games.value[targetGameIdx.value].id,
-              image: fd.get("source"),
-              score: per.value,
-            },
-          });
-        }
-      });
+    return uploadImage.value;
   }
 };
 
-const dataURItoBlob = async (dataURI) => {
+const dataURItoBlob = (dataURI) => {
   let byteString = window.atob(dataURI.split(",")[1]);
   let mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
   let ab = new ArrayBuffer(byteString.length);
