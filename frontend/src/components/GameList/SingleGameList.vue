@@ -23,58 +23,69 @@
     <div id="ifTotalPagesIsZero" v-if="totalPages === 0">
       <p>게임 검색 결과가 없습니다.</p>
     </div>
-
-    <div class="container" v-show="!isShow">
-      <img
-        id="gameImage"
-        :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`"
-      />
-      <span id="info" v-if="!mode"
-        >이미지 업로드는 jpg 또는 png 파일만 가능합니다.</span
-      >
-      <video
-        autoplay="true"
-        id="videoElement"
-        v-show="mode === 'video'"
-        :class="{ blinking: captureMode }"
-      ></video>
-      <img
-        v-if="uploadImage"
-        :src="convertFile(uploadImage)"
-        id="imgElement"
-        alt="이미지 미리보기"
-      />
-    </div>
-    <div id="buttonSection" v-if="rank">
-      <div id="buttonList">
-        <button @click="onVideo" class="selectButton">캠 연결</button>
-        <input
-          type="file"
-          @change="fileUploadEvent"
-          accept=".jpg,.jpeg,.png"
-          id="fileInput"
-          style="display: none"
-        />
-        <button class="selectButton">
-          <label for="fileInput" class="file-label">사진 올리기</label>
-        </button>
-      </div>
-    </div>
-    <div id="etcSection" v-if="rank">
-      <div class="myProgress">
-        <div class="myBar"></div>
-        <div class="percent">{{ per }}%</div>
-      </div>
+    <div v-if="!isShow">
       <div>
-        <button @click="analysis" class="captureButton">분석</button>
+        <img
+          id="backButton"
+          :src="require(`@/assets/images/back-arrow.png`)"
+          @click="back"
+          alt="뒤로가기"
+        />
       </div>
-    </div>
+      <div class="container" v-show="!isShow">
+        <img
+          id="gameImage"
+          :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`"
+        />
+        <span id="info" v-if="!mode"
+          >이미지 업로드는 jpg 또는 png 파일만 가능합니다.<br /><br /><span
+            >*동일 인물 사진의 경우 랭킹 등록이 불가능합니다.</span
+          ></span
+        >
+        <video
+          autoplay="true"
+          id="videoElement"
+          v-show="mode === 'video'"
+          :class="{ blinking: captureMode }"
+        ></video>
+        <img
+          v-if="uploadImage"
+          :src="convertFile(uploadImage)"
+          id="imgElement"
+          alt="이미지 미리보기"
+        />
+      </div>
+      <div id="buttonSection" v-if="!isShow">
+        <div id="buttonList">
+          <button @click="onVideo" class="selectButton">캠 연결</button>
+          <input
+            type="file"
+            @change="fileUploadEvent"
+            accept=".jpg,.jpeg,.png"
+            id="fileInput"
+            style="display: none"
+          />
+          <button class="selectButton">
+            <label for="fileInput" class="file-label">사진 올리기</label>
+          </button>
+        </div>
+      </div>
+      <div id="etcSection" v-if="!isShow">
+        <div class="myProgress">
+          <div class="myBar"></div>
+          <div class="percent">{{ per }}%</div>
+        </div>
+        <div>
+          <button @click="analysis" class="captureButton">분석</button>
+        </div>
+      </div>
 
-    <div id="board" v-if="rank">
-      <leader-board
-        :rank="rank"
-        @getImage="(image) => openRankingImageModal(image)"
-      />
+      <div id="board" v-if="rank">
+        <leader-board
+          :rank="rank"
+          @getImage="(image) => openRankingImageModal(image)"
+        />
+      </div>
     </div>
 
     <page-nav
@@ -190,6 +201,10 @@ const analysis = async () => {
           elem.style.width = width + "%";
         }
       }
+      if (per.value > 98) {
+        alert("동일 인물입니다.");
+        return;
+      }
       if (
         rank.value.length < 20 ||
         rank.value[rank.value.length - 1].score < per.value
@@ -202,6 +217,11 @@ const analysis = async () => {
             score: per.value,
           },
         });
+      }
+    })
+    .catch((err) => {
+      if (err.response.status === 400) {
+        alert("사진에서 얼굴을 찾을 수 없습니다.");
       }
     });
 };
@@ -269,6 +289,11 @@ const fileUploadEvent = (e) => {
 const convertFile = (file) => {
   //파일 미리보기
   return URL.createObjectURL(file);
+};
+
+const back = () => {
+  isShow.value = true;
+  per.value = 0;
 };
 callApi();
 </script>
@@ -464,7 +489,7 @@ input {
 }
 #board {
   display: flex;
-  margin-top: 70px;
+  margin-top: 30px;
   justify-content: center;
 }
 
@@ -495,6 +520,17 @@ input {
   left: 55%;
 }
 
+#backButton {
+  position: relative;
+  margin: 0px;
+  width: 50px;
+  top: -40px;
+  left: -40px;
+}
+
+#backButton:hover {
+  cursor: pointer;
+}
 #imgElement,
 #videoElement {
   width: 500px;

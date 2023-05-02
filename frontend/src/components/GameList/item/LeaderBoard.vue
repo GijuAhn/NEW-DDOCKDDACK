@@ -38,7 +38,7 @@ const getImage = (image) => {
 .bg {
   background-color: #f87c7b;
   width: 100%;
-  height: 930px;
+  height: 880px;
   border-radius: 20px;
   position: relative;
 }
@@ -55,7 +55,7 @@ const getImage = (image) => {
   background-color: white;
   border-radius: 10px;
   width: 90%;
-  height: 680px;
+  height: 630px;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
