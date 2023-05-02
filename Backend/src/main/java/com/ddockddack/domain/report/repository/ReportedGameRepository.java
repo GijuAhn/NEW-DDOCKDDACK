@@ -14,9 +14,9 @@ public interface ReportedGameRepository extends JpaRepository<ReportedGame, Long
 
     boolean existsByReportMemberIdAndMultiGameId(Long memberId, Long gameId);
 
-    @Modifying(clearAutomatically = true)
-    @Query("DELETE FROM ReportedGame rg WHERE rg.multiGame.id = :id")
-    void deleteByGameId(Long id);
+//    @Modifying(clearAutomatically = true)
+//    @Query("DELETE FROM ReportedGame rg WHERE rg.multiGame.id = :id")
+    void deleteByMultiGameId(Long id);
 
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM ReportedGame rg WHERE rg.reportMember.id = :id OR rg.reportedMember.id = :id")

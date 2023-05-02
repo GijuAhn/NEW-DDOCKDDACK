@@ -51,18 +51,8 @@
           />
         </div>
         <div id="etc" v-show="state">
-          <div v-if="props.game.isStarred === 0" @click="starredGame">
-            <span>즐겨찾기</span>
-          </div>
-          <div v-if="props.game.isStarred === 1" @click="unstarredGame">
-            <span>즐겨찾기 해제</span>
-          </div>
-          <!-- <div><span>베스트 컷</span></div> -->
           <div @click="setCurrentModalAsync(`preview`)">
             <span>문제 미리보기</span>
-          </div>
-          <div @click="setCurrentModalAsync(`reportReason`)">
-            <span>신고</span>
           </div>
           <div @click="deleteGame">
             <span>삭제</span>
@@ -125,36 +115,6 @@ const createSession = (gameId) => {
     });
 };
 
-const starredGame = () => {
-  open();
-  api
-    .post(
-      `/api/multi-games/starred/${props.game.gameId}`,
-      {},
-      { headers: { "access-token": accessToken } }
-    )
-    .then(() => {
-      emit("updateProps", { status: "starred", index: props.index });
-    })
-    .catch((error) => {
-      error;
-      alert("로그인이 필요한 기능입니다.");
-    });
-};
-const unstarredGame = () => {
-  open();
-  api
-    .delete(`/api/multi-games/unstarred/${props.game.gameId}`, {
-      headers: { "access-token": accessToken },
-    })
-    .then(() => {
-      emit("updateProps", { status: "unstarred", index: props.index });
-    })
-    .catch((error) => {
-      error;
-      alert("로그인이 필요한 기능입니다.");
-    });
-};
 const deleteGame = () => {
   const result = confirm("삭제 하시겠습니까?");
   if (result) {

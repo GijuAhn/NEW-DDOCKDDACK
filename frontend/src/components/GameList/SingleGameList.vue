@@ -23,38 +23,69 @@
     <div id="ifTotalPagesIsZero" v-if="totalPages === 0">
       <p>게임 검색 결과가 없습니다.</p>
     </div>
-
-    <div id="container" v-show="!isShow">
-      <img
-        id="gameImage"
-        :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`"
-      />
-      <video
-        autoplay="true"
-        id="videoElement"
-        :class="{ blinking: captureMode }"
-      ></video>
-    </div>
-    <div id="etcSection" v-if="rank">
-      <div class="myProgress">
-        <div class="myBar"></div>
-        <div class="percent">{{ per }}%</div>
-      </div>
+    <div v-if="!isShow">
       <div>
-        <button @click="capture" class="captureButton">
-          <img
-            :src="require(`@/assets/images/camera-button.png`)"
-            @click="getImage(r.imageUrl)"
-          />
-        </button>
+        <img
+          id="backButton"
+          :src="require(`@/assets/images/back-arrow.png`)"
+          @click="back"
+          alt="뒤로가기"
+        />
       </div>
-    </div>
+      <div class="container" v-show="!isShow">
+        <img
+          id="gameImage"
+          :src="`${IMAGE_PATH}/${games[targetGameIdx].thumbnail}`"
+        />
+        <span id="info" v-if="!mode"
+          >이미지 업로드는 jpg 또는 png 파일만 가능합니다.<br /><br /><span
+            >*동일 인물 사진의 경우 랭킹 등록이 불가능합니다.</span
+          ></span
+        >
+        <video
+          autoplay="true"
+          id="videoElement"
+          v-show="mode === 'video'"
+          :class="{ blinking: captureMode }"
+        ></video>
+        <img
+          v-if="uploadImage"
+          :src="convertFile(uploadImage)"
+          id="imgElement"
+          alt="이미지 미리보기"
+        />
+      </div>
+      <div id="buttonSection" v-if="!isShow">
+        <div id="buttonList">
+          <button @click="onVideo" class="selectButton">캠 연결</button>
+          <input
+            type="file"
+            @change="fileUploadEvent"
+            accept=".jpg,.jpeg,.png"
+            id="fileInput"
+            style="display: none"
+          />
+          <button class="selectButton">
+            <label for="fileInput" class="file-label">사진 올리기</label>
+          </button>
+        </div>
+      </div>
+      <div id="etcSection" v-if="!isShow">
+        <div class="myProgress">
+          <div class="myBar"></div>
+          <div class="percent">{{ per }}%</div>
+        </div>
+        <div>
+          <button @click="analysis" class="captureButton">분석</button>
+        </div>
+      </div>
 
-    <div id="board" v-if="rank">
-      <leader-board
-        :rank="rank"
-        @getImage="(image) => openRankingImageModal(image)"
-      />
+      <div id="board" v-if="rank">
+        <leader-board
+          :rank="rank"
+          @getImage="(image) => openRankingImageModal(image)"
+        />
+      </div>
     </div>
 
     <page-nav
@@ -68,7 +99,7 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import SingleGame from "@/components/GameList/item/SingleGame.vue";
 import LeaderBoard from "@/components/GameList/item/LeaderBoard.vue";
@@ -84,12 +115,12 @@ const rank = ref();
 const isShow = ref(true);
 const captureMode = ref(false);
 const targetGameIdx = ref(0);
+const uploadImage = ref();
 const per = ref(0);
+const mode = ref("");
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
 
 let totalPages = ref();
-
-onMounted(() => {});
 
 onBeforeUnmount(() => {
   const video = document.getElementById("videoElement");
@@ -116,17 +147,7 @@ let pageConditionReq = ref({
 const ready = (value) => {
   targetGameIdx.value = value.index;
   isShow.value = false;
-  const video = document.getElementById("videoElement");
-  if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then(function (stream) {
-        video.srcObject = stream;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+
   api
     .get(`/api/ranks/${games.value[value.index].id}`)
     .then((response) => {
@@ -155,57 +176,73 @@ const callApi = () => {
     });
 };
 
-const capture = () => {
-  let me = document.getElementById("videoElement");
-  captureMode.value = true;
-  setTimeout(() => {
-    captureMode.value = false;
-  }, 500);
-  me.pause();
-  html2canvas(me)
-    .then((canvas) => {
-      let myImg = canvas.toDataURL("image/jpeg");
-      let blob = dataURItoBlob(myImg);
-      let fd = new FormData();
-      fd.append("source", new File([blob], "img.jpeg"));
-      fd.append("target", games.value[targetGameIdx.value].thumbnail);
-      api
-        .post(`/api/single-games/score`, fd, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+const analysis = async () => {
+  let fd = new FormData();
+  fd.append("target", games.value[targetGameIdx.value].thumbnail);
+  let file = await getFile(mode.value);
+
+  fd.append("source", file);
+  api
+    .post("/api/single-games/score", fd, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      per.value = res.data.toFixed(1);
+      let elem = document.querySelector(".myBar");
+      var width = 1;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (width >= per.value) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+      if (per.value > 98) {
+        alert("동일 인물입니다.");
+        return;
+      }
+      if (
+        rank.value.length < 20 ||
+        rank.value[rank.value.length - 1].score < per.value
+      ) {
+        store.dispatch("commonStore/setCurrentModalAsync", {
+          name: "rankingRegist",
+          data: {
+            gameId: games.value[targetGameIdx.value].id,
+            image: fd.get("source"),
+            score: per.value,
           },
-        })
-        .then((res) => {
-          per.value = res.data.toFixed(1);
-          let elem = document.querySelector(".myBar");
-          var width = 1;
-          var id = setInterval(frame, 10);
-          function frame() {
-            if (width >= per.value) {
-              clearInterval(id);
-            } else {
-              width++;
-              elem.style.width = width + "%";
-            }
-          }
-          if (
-            rank.value.length < 20 ||
-            rank.value[rank.value.length - 1].score < per.value
-          ) {
-            store.dispatch("commonStore/setCurrentModalAsync", {
-              name: "rankingRegist",
-              data: {
-                gameId: games.value[targetGameIdx.value].id,
-                image: blob,
-                score: per.value,
-              },
-            });
-          }
         });
+      }
     })
     .catch((err) => {
-      console.log(err);
+      if (err.response.status === 400) {
+        alert("사진에서 얼굴을 찾을 수 없습니다.");
+      }
     });
+};
+
+const getFile = async (mode) => {
+  let file;
+  if (mode == "video") {
+    let me = document.getElementById("videoElement");
+    captureMode.value = true;
+    setTimeout(() => {
+      captureMode.value = false;
+    }, 500);
+    me.pause();
+    const canvas = await html2canvas(me);
+    let myImg = canvas.toDataURL("image/jpeg");
+    let blob = dataURItoBlob(myImg);
+    file = new File([blob], "img.jpeg");
+    return file;
+  } else {
+    return uploadImage.value;
+  }
 };
 
 const dataURItoBlob = (dataURI) => {
@@ -220,6 +257,7 @@ const dataURItoBlob = (dataURI) => {
   let bb = new Blob([ab], { type: mimeString });
   return bb;
 };
+
 const openRankingImageModal = (image) => {
   store.dispatch("commonStore/setCurrentModalAsync", {
     name: "rankingImage",
@@ -227,6 +265,36 @@ const openRankingImageModal = (image) => {
   });
 };
 
+const onVideo = () => {
+  mode.value = "video";
+  uploadImage.value = null;
+  const video = document.getElementById("videoElement");
+  if (navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then(function (stream) {
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
+
+const fileUploadEvent = (e) => {
+  uploadImage.value = e.target.files[0];
+  mode.value = "image";
+};
+
+const convertFile = (file) => {
+  //파일 미리보기
+  return URL.createObjectURL(file);
+};
+
+const back = () => {
+  isShow.value = true;
+  per.value = 0;
+};
 callApi();
 </script>
 
@@ -343,6 +411,23 @@ input {
   font-family: "NanumSquareRoundB";
 }
 
+.selectButton {
+  top: 50%;
+  background-color: #ffa6a6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  line-height: 0px;
+  font-family: "NanumSquareRoundB";
+  padding: 20px;
+  margin: 1px;
+  width: 50%;
+}
+
+.selectButton:hover,
 .captureButton:hover {
   background-color: #f87c7b;
   transition: 0.7s;
@@ -396,7 +481,7 @@ input {
   transform: translate(-50%, 0);
 }
 
-#container {
+.container {
   display: flex;
   gap: 35px 0;
   grid-template-columns: repeat(3, 1fr);
@@ -404,7 +489,7 @@ input {
 }
 #board {
   display: flex;
-  margin-top: 70px;
+  margin-top: 30px;
   justify-content: center;
 }
 
@@ -412,12 +497,41 @@ input {
   width: 500px;
   height: 460px;
 }
+#buttonSection {
+  display: flex;
+  margin-top: 5px;
+  justify-content: right;
+}
+#buttonList {
+  width: 47%;
+  display: flex;
+  justify-content: space-around;
+}
 #etcSection {
   display: flex;
   margin-top: 10px;
   justify-content: right;
 }
 
+#info {
+  position: absolute;
+  font-size: 22px;
+  top: 18%;
+  left: 55%;
+}
+
+#backButton {
+  position: relative;
+  margin: 0px;
+  width: 50px;
+  top: -40px;
+  left: -40px;
+}
+
+#backButton:hover {
+  cursor: pointer;
+}
+#imgElement,
 #videoElement {
   width: 500px;
   height: 460px;

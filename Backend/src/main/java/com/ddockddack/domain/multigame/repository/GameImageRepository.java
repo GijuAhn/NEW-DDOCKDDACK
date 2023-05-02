@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface GameImageRepository extends JpaRepository<GameImage, Long> {
 
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM GameImage gi WHERE gi.multiGame.id = :id")
     void deleteByMultiGameId(Long id);
 
     @Modifying(clearAutomatically = true)

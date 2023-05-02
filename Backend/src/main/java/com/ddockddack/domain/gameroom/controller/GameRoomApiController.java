@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/game-rooms")
+@RequestMapping("/game-rooms")
 public class GameRoomApiController {
 
     private final GameRoomService gameRoomService;
@@ -87,7 +87,8 @@ public class GameRoomApiController {
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
     public ResponseEntity gameMemberRemoveInGameRoom(@PathVariable String pinNumber,
-            @PathVariable String socketId) {
+            @PathVariable String socketId)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
         gameRoomService.removeGameMember(socketId);
         return ResponseEntity.ok().build();
@@ -100,7 +101,8 @@ public class GameRoomApiController {
             @ApiResponse(responseCode = "200", description = "방 삭제 성공"),
             @ApiResponse(responseCode = "404", description = "존재 하지 않는 게임방")
     })
-    public ResponseEntity gameRoomRemove(@PathVariable String pinNumber) {
+    public ResponseEntity gameRoomRemove(@PathVariable String pinNumber)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
         gameRoomService.removeGameRoom(pinNumber);
         return ResponseEntity.ok().build();

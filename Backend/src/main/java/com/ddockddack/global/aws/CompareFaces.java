@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 public class CompareFaces {
 
     static Float THRESHOLD = 0F;
-    @Value("${cloud.aws.rekognition.access-key}")
+    @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 
-    @Value("${cloud.aws.rekognition.secret-key}")
+    @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
 
     private AmazonRekognition rekognitionClient;

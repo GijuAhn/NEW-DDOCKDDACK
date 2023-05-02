@@ -1,51 +1,39 @@
 package com.ddockddack.domain.gameroom.service;
 
-import com.ddockddack.domain.multigame.entity.MultiGame;
-import com.ddockddack.domain.multigame.entity.GameImage;
-import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.domain.gameroom.entity.GameMember;
 import com.ddockddack.domain.gameroom.entity.GameRoom;
 import com.ddockddack.domain.gameroom.repository.GameMemberRedisRepository;
 import com.ddockddack.domain.gameroom.repository.GameRoomRedisRepository;
-import com.ddockddack.domain.gameroom.repository.GameSignalReq;
 import com.ddockddack.domain.gameroom.request.ScoringReq;
 import com.ddockddack.domain.gameroom.response.GameMemberRes;
 import com.ddockddack.domain.gameroom.response.GameRoomRes;
+import com.ddockddack.domain.gameroom.util.OpenViduManager;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
-import com.ddockddack.domain.similarity.service.EnsembleModel;
+import com.ddockddack.domain.multigame.entity.GameImage;
+import com.ddockddack.domain.multigame.entity.MultiGame;
+import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
 import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.ddockddack.global.util.PinNumberGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openvidu.java.client.Connection;
-import io.openvidu.java.client.ConnectionProperties;
-import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
-import io.openvidu.java.client.SessionProperties;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.PriorityQueue;
-import java.util.Random;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -58,29 +46,13 @@ public class GameRoomService {
     private final MultiGameRepository multiGameRepository;
     private final MemberRepository memberRepository;
     private final AwsS3 awsS3;
-    private final EnsembleModel ensembleModel;
     private final GameRoomRedisRepository gameRoomRedisRepository;
     private final GameMemberRedisRepository gameMemberRedisRepository;
-    private final Integer PIN_NUMBER_BOUND = 1_000_000;
-    private final Random random = new Random();
+    private final PinNumberGenerator pinNumberGenerator;
+    private final OpenViduManager openViduManager;
     private final RestTemplate restTemplate = new RestTemplate();
-    private HttpHeaders headers = new HttpHeaders();
-    private ObjectMapper mapper = new ObjectMapper();
-    private OpenVidu openvidu;
-    @Value("${OPENVIDU_URL}")
-    private String OPENVIDU_URL;
-    @Value("${OPENVIDU_SECRET}")
-    private String OPENVIDU_SECRET;
-    private String OPENVIDU_HEADER;
-
-    @PostConstruct
-    public void init() {
-        this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
-        OPENVIDU_HEADER = "Basic " + java.util.Base64.getEncoder()
-            .encodeToString(("OPENVIDUAPP:" + OPENVIDU_SECRET).getBytes());
-        headers.set("Authorization", OPENVIDU_HEADER);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    }
+    @Value("${IMAGE_PATH}")
+    private String IMAGE_PATH;
 
     /**
      * 방 생성
@@ -94,19 +66,15 @@ public class GameRoomService {
     public String createGameRoom(Long gameId)
         throws OpenViduJavaClientException, OpenViduHttpException {
 
+        final String pinNumber = createPinNumber();
+
         final MultiGame multiGame = multiGameRepository.findById(gameId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
-
-        final String pinNumber = createPinNumber();
-        Map<String, String> sessionPropertiesInfo = new HashMap<>();
-
-        sessionPropertiesInfo.put("customSessionId", pinNumber);
 
         List<GameImage> gameImages = multiGame.getImages();
         Collections.shuffle(gameImages);
 
-        SessionProperties properties = SessionProperties.fromJson(sessionPropertiesInfo).build();
-        openvidu.createSession(properties);
+        openViduManager.createSession(pinNumber);
 
         final GameRoom gameRoom = GameRoom.builder()
             .gameId(multiGame.getId())
@@ -115,7 +83,9 @@ public class GameRoomService {
             .gameImages(gameImages)
             .pinNumber(pinNumber)
             .build();
+
         gameRoomRedisRepository.save(gameRoom);
+
         return pinNumber;
 
     }
@@ -133,6 +103,7 @@ public class GameRoomService {
     public GameRoomRes joinGameRoom(String pinNumber, Long memberId, String nickname,
         String clientIp)
         throws OpenViduJavaClientException, OpenViduHttpException {
+
         Member member = null;
         //로그인 한 유저면 memberId로 검색해서 넘겨줌
         if (memberId != null) {
@@ -154,25 +125,23 @@ public class GameRoomService {
 //            }
 //        }
 
-        //존재하는 session 인지 확인
 
-        Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
-            .orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+
+        //존재하는 session 인지 확인
+        Session session = openViduManager.findSessionByPinNumber(pinNumber);
 
         // 방 인원 제한 최대 7명
-        session.fetch();
         if (session.getConnections().size() == 7) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
         //openvidu에 connection 요청
-        ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
-        Connection connection = session.createConnection(properties);
+        log.info("connections size : {}", session.getConnections().size());
 
-        // member를 gameMember으로 변환하여 gameRoom에 저장
+        Connection connection = openViduManager.createConnection(session);
         String socketId = connection.getConnectionId();
 
+        // member를 gameMember으로 변환하여 gameRoom에 저장
         GameMember gameMember = GameMember.builder()
             .socketId(socketId)
             .pinNumber(pinNumber)
@@ -194,33 +163,29 @@ public class GameRoomService {
      *
      * @param socketId
      */
-    public void removeGameMember(String socketId) {
+    public void removeGameMember(String socketId)
+        throws OpenViduJavaClientException, OpenViduHttpException {
         gameMemberRedisRepository.deleteById(socketId);
+        openViduManager.fetch();
     }
-//
+
 
     /**
-     * 게임방 삭제
+     * 게임 방 삭제
      *
      * @param pinNumber
+     * @throws OpenViduJavaClientException
+     * @throws OpenViduHttpException
      */
-    public void removeGameRoom(String pinNumber) {
+    public void removeGameRoom(String pinNumber)
+        throws OpenViduJavaClientException, OpenViduHttpException {
 
-        Session session = Optional.ofNullable(openvidu.getActiveSession(pinNumber))
-            .orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-
-        try {
-            session.fetch();
-        } catch (OpenViduJavaClientException e) {
-            e.printStackTrace();
-        } catch (OpenViduHttpException e) {
-            e.printStackTrace();
-        }
-        session.getConnections().forEach(connection -> {
-            gameMemberRedisRepository.deleteById(connection.getConnectionId());
+        final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
+        gameMembers.forEach(gameMember -> {
+            gameMemberRedisRepository.deleteById(gameMember.getSocketId());
         });
         gameRoomRedisRepository.deleteById(pinNumber);
+        openViduManager.fetch();
     }
 
 
@@ -236,16 +201,15 @@ public class GameRoomService {
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         // 존재하는 게임인지 확인
-        MultiGame multiGame = multiGameRepository.findById(gameRoom.getGameId()).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+        final MultiGame multiGame = multiGameRepository.findById(gameRoom.getGameId())
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.GAME_NOT_FOUND));
 
         // 게임 play count +1 증가
         multiGame.increasePlayCount();
         gameRoom.start();
 
-        String signal = createSignal(pinNumber, "roundStart", String.valueOf(gameRoom.getRound()));
-        sendSignal(signal);
-
+        openViduManager.sendSignal(pinNumber, "roundStart", gameRoom.getRound());
     }
 
     /**
@@ -280,8 +244,7 @@ public class GameRoomService {
         final int round = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND)).getRound();
 
-        String signal = createSignal(pinNumber, "roundStart", String.valueOf(round));
-        sendSignal(signal);
+        openViduManager.sendSignal(pinNumber, "roundStart", round);
     }
 
     /**
@@ -292,10 +255,8 @@ public class GameRoomService {
      */
     public void getFinalResult(String pinNumber) throws JsonProcessingException {
         final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
-        String resultData = mapper.writeValueAsString(findFinalResult(gameMembers));
-
-        String signal = createSignal(pinNumber, "finalResult", resultData);
-        sendSignal(signal);
+        List<GameMemberRes> finalResult = findFinalResult(gameMembers);
+        openViduManager.sendSignal(pinNumber, "finalResult", finalResult);
     }
 
     /**
@@ -304,54 +265,11 @@ public class GameRoomService {
      * @return
      */
     private String createPinNumber() {
-        String pin = formatPin(random.nextInt(PIN_NUMBER_BOUND));
+        String pin = pinNumberGenerator.createPinNumber();
         while (gameRoomRedisRepository.existsById(pin)) {
-            pin = formatPin(random.nextInt(PIN_NUMBER_BOUND));
+            pin = pinNumberGenerator.createPinNumber();
         }
         return pin;
-    }
-
-    /**
-     * 핀 넘버 포맷팅
-     *
-     * @param num
-     * @return
-     */
-    private String formatPin(int num) {
-        return String.format("%06d", num);
-    }
-
-    /**
-     * 시그널 셍성
-     *
-     * @param pinNumber
-     * @param signalName
-     * @param data
-     * @return
-     * @throws JsonProcessingException
-     */
-    private String createSignal(String pinNumber, String signalName, String data)
-        throws JsonProcessingException {
-
-        GameSignalReq req = GameSignalReq.builder()
-            .session(pinNumber)
-            .type(signalName)
-            .data(data)
-            .build();
-
-        String stringReq = mapper.writeValueAsString(req);
-        return stringReq;
-    }
-
-    /**
-     * 시그널 보내기
-     *
-     * @param signal
-     */
-    private void sendSignal(String signal) {
-        String url = OPENVIDU_URL + "/openvidu/api/signal";
-        HttpEntity<String> httpEntity = new HttpEntity<>(signal, headers);
-        restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
     }
 
     /**
@@ -376,18 +294,12 @@ public class GameRoomService {
         gameMember.changeRoundScore(rawScore);
         gameRoom.increaseScoreCnt();
         gameMemberRedisRepository.save(gameMember);
-        try {
-            openvidu.fetch();
-        } catch (OpenViduJavaClientException e) {
-            e.printStackTrace();
-        } catch (OpenViduHttpException e) {
-            e.printStackTrace();
-        }
-        log.info("openvidu connection size : {}",openvidu.getActiveSession(pinNumber).getConnections().size());
-        if (gameRoom.getScoreCount() == openvidu.getActiveSession(pinNumber).getConnections().size()) {
+
+        log.info("openvidu connection size : {}",
+            openViduManager.getConnections(pinNumber).size());
+        if (gameRoom.getScoreCount() == openViduManager.getConnections(pinNumber).size()) {
             List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
-            gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
 
             int maxRoundScore = Collections.max(roundResultData,
@@ -404,10 +316,7 @@ public class GameRoomService {
                 gameMemberRedisRepository.save(member);
             }
 
-            String resultData = mapper.writeValueAsString(roundResultData);
-            String signal = createSignal(pinNumber, "roundResult", resultData);
-
-            sendSignal(signal);
+            openViduManager.sendSignal(pinNumber, "roundResult", roundResultData);
             gameRoom.resetScoreCnt();
             gameRoom.increaseRound();
         }
