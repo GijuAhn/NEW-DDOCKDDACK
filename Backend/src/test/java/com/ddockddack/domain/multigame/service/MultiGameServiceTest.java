@@ -247,7 +247,7 @@ class MultiGameServiceTest {
         // verify
         verify(gameImageRepository, times(1)).deleteByMultiGameId(gameOneId);
         verify(starredGameRepository, times(1)).deleteByMultiGameId(gameOneId);
-        verify(reportedGameRepository, times(1)).deleteByGameId(gameOneId);
+        verify(reportedGameRepository, times(1)).deleteByMultiGameId(gameOneId);
         verify(multiGameRepository, times(1)).deleteById(gameOneId);
     }
 
