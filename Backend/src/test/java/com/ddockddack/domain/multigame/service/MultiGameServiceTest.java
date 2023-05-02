@@ -14,9 +14,7 @@ import com.ddockddack.domain.multigame.request.GameImageParam;
 import com.ddockddack.domain.multigame.request.GameModifyReq;
 import com.ddockddack.domain.multigame.request.GameSaveReq;
 import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
-import com.ddockddack.domain.multigame.response.MultiGameRes;
-import com.ddockddack.domain.multigame.response.ReportedGameRes;
-import com.ddockddack.domain.multigame.response.StarredGameRes;
+import com.ddockddack.domain.multigame.response.*;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
@@ -113,24 +111,73 @@ class MultiGameServiceTest {
     }
 
     @Test
+    @DisplayName("모든 게임 조회")
     void findAllGames() {
+        // given
+        List<MultiGameRes> multiGameResList = new ArrayList<>();
+        MultiGameRes multiGameRes = makeMultiGameRes();
+        multiGameResList.add(multiGameRes);
+        multiGameResList.add(multiGameRes);
+        PageImpl<MultiGameRes> multiGameResPage = new PageImpl<>(multiGameResList);
+
+        PageConditionReq pageConditionReq = PageConditionReq.builder()
+            .page(1)
+            .build();
+        when(multiGameRepository.findAllBySearch(any(Long.class), any(PageConditionReq.class))).thenReturn(multiGameResPage);
+
+        // when
+        PageImpl<MultiGameRes> allGames = multiGameService.findAllGames(memberOneId, pageConditionReq);
+
+        // then
+        assertThat(allGames.getTotalPages()).isEqualTo(1);
+        assertThat(allGames.getTotalElements()).isEqualTo(2);
+
+        // verify
+
+
     }
 
     @Test
+    @DisplayName("게임 조회")
     void findGame() {
         // given
-//        MultiGameDetailRes multiGameDetailRes = makeMultiGameDetailRes();
+        MultiGameDetailRes multiGameDetailRes = makeMultiGameDetailRes();
+        List<MultiGameDetailRes> result = new ArrayList<>();
+        result.add(multiGameDetailRes);
+
+        when(multiGameRepository.findGame(anyLong())).thenReturn(result);
 
         // when
-
+        MultiGameDetailRes game = multiGameService.findGame(1L);
 
         // then
-
+        assertThat(game.getGameId()).isEqualTo(gameOneId);
 
         // verify
 
 
 
+    }
+
+    private MultiGameDetailRes makeMultiGameDetailRes() {
+        MultiGameDetailRes multiGameDetailRes = new MultiGameDetailRes();
+        multiGameDetailRes.setGameId(gameOneId);
+        multiGameDetailRes.setGameTitle(multiGameOne.getTitle());
+        multiGameDetailRes.setGameDesc(multiGameOne.getDescription());
+        GameImageRes gameImageRes = makeGameImageRes();
+        List<GameImageRes> images = new ArrayList<>();
+        images.add(gameImageRes);
+        multiGameDetailRes.setImages(images);
+
+        return multiGameDetailRes;
+    }
+
+    private GameImageRes makeGameImageRes() {
+        GameImageRes gameImageRes = new GameImageRes();
+        gameImageRes.setGameImageId(1L);
+        gameImageRes.setGameImage("game Img");
+        gameImageRes.setGameImageDesc("게임 이미지 설명");
+        return gameImageRes;
     }
 
     @Test
@@ -210,7 +257,6 @@ class MultiGameServiceTest {
     void starredGame() {
         // given
         int starredCnt = multiGameOne.getStarredCnt();
-        log.info("BEFORE starredCnt : {}", starredCnt);
 
         when(starredGameRepository.existsByMemberIdAndMultiGameId(any(Long.class), any(Long.class))).thenReturn(false);
         when(multiGameRepository.getReferenceById(any(Long.class))).thenReturn(multiGameOne);
@@ -226,7 +272,6 @@ class MultiGameServiceTest {
         multiGameService.starredGame(memberOneId, gameOneId);
 
         // then
-        log.info("AFTER starredCnt : {}, multiGameStarredCnt : {}", starredCnt + 1, multiGameOne.getStarredCnt());
         assertThat(multiGameOne.getStarredCnt()).isEqualTo(starredCnt + 1);
 
         // verify
@@ -241,7 +286,6 @@ class MultiGameServiceTest {
     void unStarredGame() {
         // given
         int starredCnt = multiGameOne.getStarredCnt();
-        log.info("BEFORE starredCnt : {}", starredCnt);
         when(multiGameRepository.findById(any(Long.class))).thenReturn(Optional.of(multiGameOne));
         when(starredGameRepository.findByMemberIdAndMultiGameId(memberOneId, gameOneId)).thenReturn(Optional.of(starredGame));
 
@@ -249,7 +293,6 @@ class MultiGameServiceTest {
         multiGameService.unStarredGame(memberOneId, gameOneId);
 
         // then
-        log.info("AFTER starredCnt : {}, multiGameStarredCnt : {}", starredCnt - 1, multiGameOne.getStarredCnt());
         assertThat(multiGameOne.getStarredCnt()).isEqualTo(starredCnt - 1);
 
         // verify
@@ -418,10 +461,8 @@ class MultiGameServiceTest {
         MultipartFile multipartFile = new MockMultipartFile("테스트 파일", "testFileImage.jpeg", "image/jpeg", new byte[] {0, 1});
         GameImageModifyReq gameImageModifyReq1 = makeGameImageModifyReq(1L, multipartFile, "테스트 이미지1 설명");
         GameImageModifyReq gameImageModifyReq2 = makeGameImageModifyReq(2L, multipartFile, "테스트 이미지2 설명");
-        log.info("gameImageModifyReq1 : {}", gameImageModifyReq1.getGameImage().isEmpty());
         images.add(gameImageModifyReq1);
         images.add(gameImageModifyReq2);
-        log.info("image 1 : {}, image 2 : {}", images.get(0).getGameImageId(), images.get(1).getGameImageId());
 
         gameModifyReq.setImages(images);
 
