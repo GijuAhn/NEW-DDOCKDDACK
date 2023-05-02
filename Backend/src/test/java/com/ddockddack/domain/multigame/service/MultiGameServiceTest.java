@@ -3,11 +3,16 @@ package com.ddockddack.domain.multigame.service;
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
+import com.ddockddack.domain.multigame.entity.GameImage;
 import com.ddockddack.domain.multigame.entity.MultiGame;
 import com.ddockddack.domain.multigame.entity.StarredGame;
 import com.ddockddack.domain.multigame.repository.GameImageRepository;
 import com.ddockddack.domain.multigame.repository.MultiGameRepository;
 import com.ddockddack.domain.multigame.repository.StarredGameRepository;
+import com.ddockddack.domain.multigame.request.GameImageModifyReq;
+import com.ddockddack.domain.multigame.request.GameImageParam;
+import com.ddockddack.domain.multigame.request.GameModifyReq;
+import com.ddockddack.domain.multigame.request.GameSaveReq;
 import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import com.ddockddack.domain.multigame.response.MultiGameRes;
 import com.ddockddack.domain.multigame.response.ReportedGameRes;
@@ -15,6 +20,7 @@ import com.ddockddack.domain.multigame.response.StarredGameRes;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedGame;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
+import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.oauth.MemberDetail;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +30,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,6 +61,8 @@ class MultiGameServiceTest {
     MultiGameRepository multiGameRepository;
     @Mock
     GameImageRepository gameImageRepository;
+    @Mock
+    AwsS3 awsS3;
 
     Logger log;
 
@@ -94,6 +104,7 @@ class MultiGameServiceTest {
             .thumbnail("멀티게임 1번 썸네일.jpeg")
             .build();
 
+
         // starredGame
         starredGame = StarredGame.builder()
             .multiGame(multiGameOne)
@@ -107,14 +118,69 @@ class MultiGameServiceTest {
 
     @Test
     void findGame() {
+        // given
+//        MultiGameDetailRes multiGameDetailRes = makeMultiGameDetailRes();
+
+        // when
+
+
+        // then
+
+
+        // verify
+
+
+
     }
 
     @Test
+    @DisplayName("게임 저장")
+    @Transactional
+    @Order(1)
     void saveGame() {
+        // given
+        GameSaveReq gameSaveReq = makeGameSaveReq();
+
+        when(memberRepository.getReferenceById(any(Long.class))).thenReturn(memberOne);
+        when(awsS3.multipartFileUpload(any(MultipartFile.class))).thenReturn("파일네임");
+        when(multiGameRepository.save(any(MultiGame.class))).thenReturn(multiGameOne);
+
+        // when
+        Long answer = multiGameService.saveGame(memberOneId, gameSaveReq);
+
+        // then
+        assertThat(answer).isEqualTo(null);
+
+        // verify
+        verify(gameImageRepository, times(1)).saveAll(any());
+        verify(multiGameRepository, times(1)).save(any());
+        verify(awsS3, times(2)).multipartFileUpload(any());
+        verify(memberRepository, times(1)).getReferenceById(anyLong());
     }
 
     @Test
+    @Transactional
+    @DisplayName("게임 수정")
+    @Order(2)
     void modifyGame() {
+        // given
+        MemberDetail memberDetail = new MemberDetail("tempToken", 2L, Role.MEMBER);
+        GameModifyReq gameModifyReq = makeGameModifyReq();
+        GameImage gameImage1 = makeGameImage(multiGameOne, "게임이미지1 설명");
+        GameImage gameImage2 = makeGameImage(multiGameOne, "게임이미지2 설명");
+
+        when(multiGameRepository.findById(any(Long.class))).thenReturn(Optional.of(multiGameOne));
+        when(gameImageRepository.findById(1L)).thenReturn(Optional.of(gameImage1));
+        when(gameImageRepository.findById(2L)).thenReturn(Optional.of(gameImage2));
+        when(awsS3.multipartFileUpload(any(MultipartFile.class))).thenReturn("이것으로 바꾸자");
+
+        // when
+        multiGameService.modifyGame(memberDetail, gameModifyReq);
+
+        // then
+        assertThat(multiGameOne.getTitle()).isEqualTo(gameModifyReq.getGameTitle());
+
+        // verify
     }
 
     @Test
@@ -340,5 +406,68 @@ class MultiGameServiceTest {
         multiGameRes.setThumbnail("테스트 썸네일.jpeg");
 
         return multiGameRes;
+    }
+
+    private GameModifyReq makeGameModifyReq() {
+        GameModifyReq gameModifyReq = new GameModifyReq();
+        gameModifyReq.setGameId(gameOneId);
+        gameModifyReq.setGameTitle("바뀐 테스트 제목");
+        gameModifyReq.setGameDesc("바뀐 테스트 설명");
+
+        List<GameImageModifyReq> images = new ArrayList<>();
+        MultipartFile multipartFile = new MockMultipartFile("테스트 파일", "testFileImage.jpeg", "image/jpeg", new byte[] {0, 1});
+        GameImageModifyReq gameImageModifyReq1 = makeGameImageModifyReq(1L, multipartFile, "테스트 이미지1 설명");
+        GameImageModifyReq gameImageModifyReq2 = makeGameImageModifyReq(2L, multipartFile, "테스트 이미지2 설명");
+        log.info("gameImageModifyReq1 : {}", gameImageModifyReq1.getGameImage().isEmpty());
+        images.add(gameImageModifyReq1);
+        images.add(gameImageModifyReq2);
+        log.info("image 1 : {}, image 2 : {}", images.get(0).getGameImageId(), images.get(1).getGameImageId());
+
+        gameModifyReq.setImages(images);
+
+        return gameModifyReq;
+    }
+
+    private GameImageModifyReq makeGameImageModifyReq(long gameImageId, MultipartFile multipartFile, String gameImageDesc) {
+        GameImageModifyReq gameImageModifyReq = new GameImageModifyReq();
+        gameImageModifyReq.setGameImageId(gameImageId);
+        gameImageModifyReq.setGameImage(multipartFile);
+        gameImageModifyReq.setGameImageDesc(gameImageDesc);
+
+        return gameImageModifyReq;
+
+    }
+
+    private GameSaveReq makeGameSaveReq() {
+        GameSaveReq gameSaveReq = new GameSaveReq();
+        gameSaveReq.setGameDesc("생성용 리퀘스트 설명");
+        gameSaveReq.setGameTitle("생성용 리퀘스트 타이틀");
+
+        List<GameImageParam> images = new ArrayList<>();
+        GameImageParam gameImageParam1 = makeGameImagePara("파람1 설명");
+        GameImageParam gameImageParam2 = makeGameImagePara("파람2 설명");
+
+        images.add(gameImageParam1);
+        images.add(gameImageParam2);
+
+        gameSaveReq.setImages(images);
+        return gameSaveReq;
+    }
+
+    private GameImageParam makeGameImagePara(String desc) {
+        GameImageParam gameImageParam = new GameImageParam();
+        gameImageParam.setGameImageDesc(desc);
+        gameImageParam.setGameImage(new MockMultipartFile("imageParam테스트 파일", "testFileImage.jpeg", "image/jpeg", new byte[] {0, 1}));
+        return gameImageParam;
+    }
+
+    private GameImage makeGameImage(MultiGame multiGame, String description) {
+        GameImage gameImage = GameImage.builder()
+            .multiGame(multiGame)
+            .imageUrl("tempUrl")
+            .description(description)
+            .build();
+
+        return gameImage;
     }
 }
