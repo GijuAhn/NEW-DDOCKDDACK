@@ -33,7 +33,7 @@ public class SingleGameApiController {
             @ApiResponse(responseCode = "200", description = "게임 목록 조회 성공")
     })
     public ResponseEntity<PageImpl<SingleGameRes>> gameList(@RequestParam String keyword,
-            @PageableDefault(size = 9, sort = "id", direction = Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 9) Pageable pageable) {
         return ResponseEntity.ok(singleGameService.getSingleGameList(keyword, pageable));
     }
 

@@ -22,6 +22,7 @@ public class SingleGameRepositoryImpl implements SingleGameRepositorySupport {
                 .where(searchCond(keyword))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(singleGame.title.asc())
                 .fetch();
 
         return new PageImpl<>(singleGames, pageable, getTotalPageCount(keyword));

@@ -1,5 +1,6 @@
 package com.ddockddack.domain.singlegame.service;
 
+import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.singlegame.repository.SingleGameRepository;
 import com.ddockddack.domain.singlegame.request.FaceSimilarityReq;
 import com.ddockddack.domain.singlegame.response.SingleGameRes;
@@ -27,12 +28,13 @@ public class SingleGameService {
      * @return
      */
     public PageImpl<SingleGameRes> getSingleGameList(String keyword, Pageable pageable){
-        List<SingleGameRes> gameList = singleGameRepository.findSingleGames(keyword, pageable)
+        PageImpl<SingleGame> singleGames = singleGameRepository.findSingleGames(keyword, pageable);
+        List<SingleGameRes> gameList = singleGames
                 .stream()
                 .map(SingleGameRes::from)
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(gameList);
+        return new PageImpl<>(gameList, singleGames.getPageable(), singleGames.getTotalElements());
     }
 
     /**

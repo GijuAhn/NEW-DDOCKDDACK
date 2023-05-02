@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SingleGameRepository extends JpaRepository<SingleGame, Long>, SingleGameRepositorySupport {
-    PageImpl<SingleGame> findByTitleContains(String title, Pageable pageable);
 }
