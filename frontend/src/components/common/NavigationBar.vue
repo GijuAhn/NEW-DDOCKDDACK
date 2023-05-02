@@ -4,15 +4,8 @@
       <router-link class="b" to="/">똑딱</router-link>
     </span>
     <span class="mid">
-      <span class="b" @click="open"> 게임 목록 </span>
-      <div id="etc" v-show="state" @click="open">
-        <router-link class="c" to="/single-games"
-          ><span>혼자 하기</span></router-link
-        >
-        <router-link class="c" to="/multi-games"
-          ><span>같이 하기</span></router-link
-        >
-      </div>
+      <router-link class="b" to="/single-games">혼자 하기</router-link>
+      <router-link class="b" to="/multi-games">같이 하기</router-link>
       <router-link v-if="accessToken" class="b" to="/gameMake"
         >게임 만들기</router-link
       >
@@ -33,7 +26,7 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -44,12 +37,6 @@ const accessToken = computed(() => store.state.memberStore.accessToken);
 const isAdmin = computed(
   () => "ADMIN" == store.state.memberStore.memberInfo.role
 );
-
-const state = ref(false);
-
-const open = () => {
-  state.value = !state.value;
-};
 
 const setCurrentModalAsync = (what) => {
   store.dispatch("commonStore/setCurrentModalAsync", {
@@ -160,43 +147,8 @@ span:hover {
   float: right;
 }
 
-.etc {
-  width: 50%;
-  height: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 /* #content:hover {
   box-shadow: 0 0 20px #8b8b8b;
   transition: 0.3s;
 } */
-#etc {
-  position: absolute;
-  top: 65px;
-  left: 20px;
-  background-color: white;
-  width: 130px;
-  box-shadow: 0 0 10px #8b8b8b;
-  border-radius: 10px;
-  padding: 10px 0;
-  display: block;
-}
-#etc :hover {
-  cursor: pointer;
-}
-#etc span {
-  font-size: 16px;
-  display: block;
-  padding: 10px;
-  /* color: black; */
-}
-span .c {
-  color: black;
-  text-decoration: none;
-}
-#etc span:hover {
-  background-color: #d9d9d9;
-}
 </style>
