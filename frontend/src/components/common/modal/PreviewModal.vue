@@ -30,7 +30,6 @@ const game = ref();
 api
   .get(`/api/multi-games/${currentModal.value.data.gameId}`)
   .then((response) => {
-    console.log(response.data);
     game.value = response.data;
   })
   .catch((error) => {

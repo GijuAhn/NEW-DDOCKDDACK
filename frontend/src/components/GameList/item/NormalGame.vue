@@ -117,7 +117,6 @@ const createSession = (gameId) => {
       }
     )
     .then((res) => {
-      console.log(res.data);
       router.replace(`/gameroom/${res.data}`);
     })
     .catch((err) => {

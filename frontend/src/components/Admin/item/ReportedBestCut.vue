@@ -59,12 +59,11 @@ const punishmentApi = () => {
       }
     )
     .then((response) => {
-      console.log(response);
+      response;
       emit("deleteBestcut", { value: props.reportedBestCut.bestcutId });
     })
     .catch((error) => {
       error;
-      console.log(error);
     });
 };
 
@@ -79,12 +78,11 @@ const reportcancelApi = () => {
       }
     )
     .then((response) => {
-      console.log(response);
+      response;
       emit("deleteReport", { value: props.reportedBestCut.reportId });
     })
     .catch((error) => {
       error;
-      console.log(error);
     });
 };
 </script>

@@ -326,10 +326,6 @@ onBeforeMount(() => {
         backgroundAudio.play();
       });
 
-      if (!accessToken.value) {
-        console.log(typeof res.data);
-      }
-
       openviduInfo.value.session
         .connect(res.data.token, {
           clientData: nickname.value,
@@ -363,13 +359,6 @@ onBeforeMount(() => {
           room.value.gameDescription = res.data.gameDescription;
           room.value.gameImages = res.data.gameImages;
           isHost.value = res.data.isHost;
-        })
-        .catch((error) => {
-          console.log(
-            "There was an error connecting to the session:",
-            error.code,
-            error.message
-          );
         });
       window.addEventListener("beforeunload", leaveSession);
     })

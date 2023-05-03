@@ -28,7 +28,6 @@ const game = ref();
 api
   .get(`/api/multi-games/${props.gameId}`)
   .then((response) => {
-    console.log(response.data);
     game.value = response.data;
   })
   .catch((error) => {

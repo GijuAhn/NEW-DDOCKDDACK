@@ -29,7 +29,6 @@ const bestcut = ref();
 api
   .get(`/api/bestcuts/${props.bestcutId}`)
   .then((response) => {
-    console.log(response.data);
     bestcut.value = response.data;
   })
   .catch((error) => {

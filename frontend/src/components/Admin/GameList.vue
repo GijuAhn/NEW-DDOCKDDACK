@@ -47,11 +47,8 @@ const callApi = () => {
     })
     .then((response) => {
       reportedGames.value = response.data;
-      console.log(reportedGames);
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch(() => {});
 };
 
 callApi();
@@ -60,7 +57,6 @@ const deleteGame = function (target) {
   reportedGames.value = reportedGames.value.filter(
     (item) => item.gameId !== target.value
   );
-  console.log(reportedGames);
 };
 
 const deleteReport = function (target) {

@@ -52,8 +52,7 @@ const logout = () => {
         "access-token": accessToken.value, // 변수로 가지고있는 AccessToken
       },
     })
-    .then((response) => {
-      console.log(response);
+    .then(() => {
       window.location.assign(`/`);
     })
     .catch((error) => {

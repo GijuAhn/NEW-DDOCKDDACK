@@ -97,8 +97,6 @@ let checkNickname = ref(false);
 
 const modifyNameInput = () => {
   //form형태로 변경
-  console.log("click ", save.value);
-  console.log("profile ", myProfile);
   save.value = !save.value;
 };
 
@@ -116,18 +114,15 @@ const modifyName = () => {
         { headers: { "access-token": accessToken.value } }
       )
       .then(() => {
-        console.log("성공");
         myProfile.value.nickname = name;
       })
       .catch((err) => {
-        console.log("err ", err);
         if (err.response.status === 401) {
           alert("로그인 후 이용해주세요.");
         }
       });
     save.value = !save.value;
   } else {
-    console.log("닉네임 규칙에 맞게");
     if (!checkNickname.value) {
       checkNickname.value = !checkNickname.value;
     }
@@ -162,7 +157,6 @@ const modifyProfileImg = (f) => {
       });
   } else {
     alert("2MB이하의 jpg, jpeg, png 이미지만 가능합니다!");
-    console.log("이미지 규칙에 맞게");
   }
 };
 

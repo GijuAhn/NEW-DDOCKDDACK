@@ -46,13 +46,10 @@ const callApi = () => {
       params: {},
     })
     .then((response) => {
-      console.log(response);
       reportedBestCuts.value = response.data;
-      console.log(reportedBestCuts);
     })
     .catch((error) => {
       error;
-      console.log(error);
     });
 };
 

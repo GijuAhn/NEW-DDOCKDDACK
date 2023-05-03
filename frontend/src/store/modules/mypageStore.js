@@ -41,13 +41,11 @@ export const mypageStore = {
   actions: {
     async getMyBestcutList({ commit, state }, { userid, pageConditionReq }) {
       let accessToken = state.accessToken;
-      console.log(userid, "  ", pageConditionReq);
       await getMyBestcut(
         userid,
         pageConditionReq,
         accessToken,
         ({ data }) => {
-          console.log(data.content, "^^");
           if (data.status === 200) {
             commit("setMyBestcutList", data);
             return data;
@@ -63,21 +61,11 @@ export const mypageStore = {
 
     async getMyGameList({ commit, state }, pageCondition) {
       let accessToken = state.accessToken;
-      await getMygame(
-        pageCondition,
-        accessToken,
-        ({ data }) => {
-          if (data.status === 200) {
-            console.log("getMemberInfo data >> ", data);
-            commit("SET_MEMBER_INFO", data.memberInfo);
-          } else {
-            console.log("유저 정보 없음!!!!");
-          }
-        },
-        async (error) => {
-          console.log(error.response.status);
+      await getMygame(pageCondition, accessToken, ({ data }) => {
+        if (data.status === 200) {
+          commit("SET_MEMBER_INFO", data.memberInfo);
         }
-      );
+      });
     },
   },
 
@@ -91,8 +79,6 @@ export const mypageStore = {
           commit("SET_IS_LOGIN", false);
           commit("SET_USER_INFO", null);
           commit("SET_IS_VALID_TOKEN", false);
-        } else {
-          console.log("유저 정보 없음!!!!");
         }
       },
       (error) => {

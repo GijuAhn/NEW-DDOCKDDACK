@@ -40,7 +40,6 @@ const callApi = async () => {
       },
     })
     .then((response) => {
-      console.log("access-star: ", response.data);
       if (response.data.length > 0) {
         starredGames.value = response.data;
       }

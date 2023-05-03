@@ -58,8 +58,7 @@ const punishmentApi = () => {
         },
       }
     )
-    .then((response) => {
-      console.log(response);
+    .then(() => {
       emit("deleteGame", { value: props.reportedGame.gameId });
     })
     .catch((error) => {
@@ -75,8 +74,7 @@ const reportcancelApi = () => {
         "access-token": accessToken.value,
       },
     })
-    .then((response) => {
-      console.log(response);
+    .then(() => {
       emit("deleteReport", { value: props.reportedGame.reportId });
     })
     .catch((error) => {

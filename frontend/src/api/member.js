@@ -7,7 +7,6 @@ const api = apiInstance();
 // }
 
 async function findByAccessToken(accessToken, success, fail) {
-  // console.log(accessToken);
   await api
     .get(`/api/members/`, {
       headers: {
