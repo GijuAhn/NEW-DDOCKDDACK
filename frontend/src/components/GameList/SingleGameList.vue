@@ -293,6 +293,7 @@ const convertFile = (file) => {
 
 const back = () => {
   isShow.value = true;
+  uploadImage.value = null;
   per.value = 0;
 };
 callApi();
