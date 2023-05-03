@@ -10,7 +10,7 @@ const app = createApp(App);
 app.use(
   VueGtag,
   {
-    property: { id: "G-ZJZ24GL16W", params: { send_page_view: false } },
+    property: { id: "G-ZJZ24GL16W" },
   },
   router
 );
