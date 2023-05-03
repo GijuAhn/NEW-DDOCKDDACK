@@ -558,4 +558,8 @@ input {
     opacity: 1;
   }
 }
+video {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+}
 </style>

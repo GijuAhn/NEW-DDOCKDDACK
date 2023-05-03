@@ -1,8 +1,10 @@
 <template>
   <div id="header" :class="view">
-    <span v-if="view === `variant1`">게임 목록</span>
-    <span v-if="view === `variant2`">게임 만들기</span>
-    <span v-if="view === `variant3`">베스트 컷</span>
+    <div id="header-name">
+      <span v-if="view === `variant1`">게임 목록</span>
+      <span v-if="view === `variant2`">게임 만들기</span>
+      <span v-if="view === `variant3`">베스트 컷</span>
+    </div>
   </div>
   <div></div>
 </template>
@@ -17,6 +19,10 @@ const view = computed(() => store.state.commonStore.view);
 </script>
 
 <style scoped>
+#header-name {
+  margin-bottom: -100px;
+}
+
 #header {
   height: 790px;
   position: relative;
