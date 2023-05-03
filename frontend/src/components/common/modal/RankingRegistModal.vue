@@ -15,7 +15,7 @@
       />
       <img class="img" :src="currentModal.data.userImage" />
     </div>
-    <div class="title" style="margin-top: 40px">
+    <div class="title" style="margin-top: 40px; font-size: 25px">
       {{ currentModal.data.gameTitle }}
     </div>
     <div style="display: flex; justify-content: center">
@@ -172,7 +172,7 @@ img {
 #joinForm {
   width: 100%;
   /* height: 300px; */
-  margin: 40px auto;
+  margin: 0px auto;
 }
 ul.join_box {
   border: 1px solid #ddd;
@@ -271,6 +271,7 @@ ul.join_box {
 .img-box {
   display: flex;
   width: 100%;
+  max-height: 300px;
   overflow: hidden;
 }
 .img {
@@ -279,7 +280,7 @@ ul.join_box {
 
 .myProgress {
   width: 80%;
-  height: 40px;
+  height: 30px;
   margin-top: 0px;
   margin-right: 5px;
   border-radius: 32px;
@@ -291,14 +292,14 @@ ul.join_box {
 
 .myBar-modal {
   width: 0%;
-  height: 40px;
+  height: 30px;
   border-radius: 32px;
   background-color: #f87c7b;
 }
 .percent {
   position: absolute;
-  font-size: 20px;
+  font-size: 15px;
   left: 50%;
-  top: 10px;
+  top: 7px;
 }
 </style>
