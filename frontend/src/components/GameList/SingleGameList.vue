@@ -61,7 +61,7 @@
           <input
             type="file"
             @change="fileUploadEvent"
-            accept=".jpg,.jpeg,.png"
+            accept=".jpg,.jpeg,.png, .jfif"
             id="fileInput"
             style="display: none"
           />
