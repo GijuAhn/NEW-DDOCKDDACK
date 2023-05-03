@@ -237,7 +237,7 @@ onBeforeMount(() => {
     })
     .then((res) => {
       openviduInfo.value.OV = new OpenVidu();
-      // openviduInfo.value.OV.enableProdMode();
+      openviduInfo.value.OV.enableProdMode();
       openviduInfo.value.session = openviduInfo.value.OV.initSession();
       // On every new Stream received...
       openviduInfo.value.session.on("streamCreated", ({ stream }) => {
