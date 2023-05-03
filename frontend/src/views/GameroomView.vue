@@ -2,7 +2,7 @@
   <div id="session">
     <div id="session-header">
       <span id="session-title">
-        {{ room.gameTitle }} [방 코드 - {{ room.pinNumber }}]
+        {{ room.gameTitle }} [{{ room.pinNumber }}]
       </span>
       <span @click="linkShare">
         <img
@@ -43,8 +43,15 @@
                   <span id="largeFont">잠시만 기다려주세요</span>
                   <br />
                   <br />
+                  <span id="smallFont" style="font-size: 23px">
+                    게임방 코드를 친구들에게 공유해주세요! <br />
+                    <small>[코드 : {{ room.pinNumber }}]</small>
+                  </span>
+                  <br />
+                  <br />
                   <span id="smallFont">
                     {{ openviduInfo.subscribers.length + 1 }}명 참가중...
+                    <small style="font-size: 16px">(최대 7명)</small>
                   </span>
                   <br />
                   <br />
