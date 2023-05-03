@@ -275,6 +275,7 @@ ul.join_box {
   overflow: hidden;
 }
 .img {
+  height: 100%;
   width: 50%;
 }
 
