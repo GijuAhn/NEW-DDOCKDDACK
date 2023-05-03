@@ -14,6 +14,7 @@
         </span>
         <span
           ><img
+            class="rankingImage"
             :src="require(`@/assets/images/camera.png`)"
             @click="getImage(r.imageUrl)"
         /></span>
@@ -118,5 +119,9 @@ const getImage = (image) => {
   background-color: white;
   border-radius: 10px;
   box-shadow: inset 0px 0px 2px white;
+}
+
+.rankingImage {
+  cursor: pointer;
 }
 </style>
