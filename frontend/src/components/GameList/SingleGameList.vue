@@ -218,6 +218,7 @@ const analysis = async () => {
               targetImage: games.value[targetGameIdx.value].thumbnail,
               image: fd.get("source"),
               userImage: reader.result,
+              gameTitle: games.value[targetGameIdx.value].title,
               score: per.value,
             },
           });

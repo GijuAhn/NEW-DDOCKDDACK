@@ -15,7 +15,9 @@
       />
       <img class="img" :src="currentModal.data.userImage" />
     </div>
-    <div class="title" style="margin-top: 40px">주우재</div>
+    <div class="title" style="margin-top: 40px">
+      {{ currentModal.data.gameTitle }}
+    </div>
     <div style="display: flex; justify-content: center">
       <div class="myProgress">
         <div class="myBar-modal"></div>
