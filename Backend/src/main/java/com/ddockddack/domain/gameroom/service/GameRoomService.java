@@ -219,23 +219,15 @@ public class GameRoomService {
     public void scoringUserImage(ScoringReq scoringReq) throws IOException {
         gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-//        Map<String, String> event = new HashMap<>();
-//        event.put("target", IMAGE_PATH+scoringReq.getGameImage());
-//        String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
-//        event.put("input", IMAGE_PATH+imageUrl);
-        Map<String, byte[]> event = new HashMap<>();
-        final byte[] gameImage = awsS3.getObject(scoringReq.getGameImage());
-        event.put("gameImage", gameImage);
-        final byte[] userImage = scoringReq.getMemberGameImage().getBytes();
-        event.put("userImage", userImage);
+        Map<String, String> event = new HashMap<>();
+        event.put("target", IMAGE_PATH+scoringReq.getGameImage());
         String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
-        final Integer rawScore = restTemplate.postForObject(
-            "https://ofrie6r411.execute-api.ap-northeast-2.amazonaws.com/scoring/score", event,
-            Integer.class);
+        event.put("input", IMAGE_PATH+imageUrl);
 
-//        final Integer rawScore = restTemplate.postForObject(
-//            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
-//            Integer.class);
+        final Integer rawScore = restTemplate.postForObject(
+            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
+            Integer.class);
+        
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
     }
 
