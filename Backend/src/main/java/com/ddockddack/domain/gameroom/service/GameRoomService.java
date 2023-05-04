@@ -125,8 +125,6 @@ public class GameRoomService {
 //            }
 //        }
 
-
-
         //존재하는 session 인지 확인
         Session session = openViduManager.findSessionByPinNumber(pinNumber);
 
@@ -221,15 +219,22 @@ public class GameRoomService {
     public void scoringUserImage(ScoringReq scoringReq) throws IOException {
         gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
             new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
-
-        Map<String, byte[]> event = new HashMap<>();
-        final byte[] gameImage = awsS3.getObject(scoringReq.getGameImage());
-        event.put("gameImage", gameImage);
-        final byte[] userImage = scoringReq.getMemberGameImage().getBytes();
-        event.put("userImage", userImage);
+        Map<String, String> event = new HashMap<>();
+        event.put("target", IMAGE_PATH+scoringReq.getGameImage());
         String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
+        event.put("input", IMAGE_PATH+imageUrl);
+//        Map<String, byte[]> event = new HashMap<>();
+//        final byte[] gameImage = awsS3.getObject(scoringReq.getGameImage());
+//        event.put("gameImage", gameImage);
+//        final byte[] userImage = scoringReq.getMemberGameImage().getBytes();
+//        event.put("userImage", userImage);
+//        String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
+//        final Integer rawScore = restTemplate.postForObject(
+//            "https://3kr9hsso2m.execute-api.ap-northeast-2.amazonaws.com/scoring/score", event,
+//            Integer.class);
+
         final Integer rawScore = restTemplate.postForObject(
-            "https://3kr9hsso2m.execute-api.ap-northeast-2.amazonaws.com/scoring/score", event,
+            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
             Integer.class);
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
     }

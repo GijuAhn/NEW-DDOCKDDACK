@@ -49,6 +49,7 @@ public class AwsS3 {
 
     public String multipartFileUpload(MultipartFile uploadFile) {
         String fileName = UUID.randomUUID().toString() + uploadFile.getOriginalFilename();
+        fileName = fileName.replaceAll(" ","");
         try (InputStream inputStream = uploadFile.getInputStream()){
             ObjectMetadata om = new ObjectMetadata();
             om.setContentType(uploadFile.getContentType());
