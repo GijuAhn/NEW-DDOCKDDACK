@@ -3,6 +3,7 @@ package com.ddockddack.domain.bestcut.repository;
 import static com.ddockddack.domain.bestcut.entity.QBestcut.bestcut;
 import static com.ddockddack.domain.bestcut.entity.QBestcutLike.bestcutLike;
 import static com.ddockddack.domain.member.entity.QMember.member;
+import static com.ddockddack.domain.multigame.entity.QMultiGame.multiGame;
 import static com.ddockddack.domain.report.entity.QReportedBestcut.reportedBestcut;
 
 import com.ddockddack.domain.bestcut.response.BestcutRes;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -46,6 +48,7 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
                         searchCond(pageCondition.getSearch(), pageCondition.getKeyword()))
                 .offset(pageCondition.getPageable().getOffset())
                 .limit(pageCondition.getPageable().getPageSize())
+                .orderBy(orderCond(pageCondition.getPageable()))
                 .fetch();
 
         if (CollectionUtils.isEmpty(ids)) {
@@ -150,8 +153,11 @@ public class BestcutRepositoryImpl implements BestcutRepositorySupport {
 
 
     private OrderSpecifier orderCond(Pageable pageable) {
-        Order order = pageable.getSort().iterator().next();
-        return Expressions.stringPath(order.getProperty()).desc();
+        Sort.Order order = pageable.getSort().iterator().next();
+        if (order.getProperty().equals("createdDate")) {
+            return bestcut.id.desc();
+        }
+        return bestcut.likeCount.desc();
     }
 
     private BooleanExpression periodCond(PeriodCondition periodCondition) {
