@@ -131,6 +131,11 @@ const routes = [
     name: "loginSuccess",
     component: () => import("@/components/common/LoginSuccess.vue"),
   },
+  {
+    path: "/mobile/single-games",
+    name: "mobileSingleGame",
+    component: () => import("@/views/MobileView.vue"),
+  },
 ];
 
 const router = createRouter({

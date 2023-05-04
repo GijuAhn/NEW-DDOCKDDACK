@@ -1,5 +1,7 @@
 <template>
-  <navigation-bar v-if="route.name !== `gameroom`" />
+  <navigation-bar
+    v-if="route.name !== `gameroom` && route.name !== 'mobileSingleGame'"
+  />
   <router-view />
   <modal-frame v-if="currentModal.length !== 0" />
 </template>
@@ -56,11 +58,6 @@ onBeforeMount(async () => {
 
 * {
   margin: 0;
-}
-
-body {
-  min-width: calc(1920px - 100px);
-  overflow-y: scroll;
 }
 
 /* nav {
