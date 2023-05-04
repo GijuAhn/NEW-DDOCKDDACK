@@ -156,7 +156,7 @@
         />
         <span v-if="!isPubVideoEnable">비디오 시작</span>
       </button>
-      <button class="btn-close" @click="leaveSession">
+      <button class="btn-close" @click="replace">
         <img
           :src="require(`@/assets/images/close.png`)"
           width="18"
@@ -169,8 +169,8 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { computed, onBeforeMount, ref } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
+import { computed, onBeforeMount, ref } from "vue";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Gameroom/item/UserVideo.vue";
 import CaptureVideo from "@/components/Gameroom/item/CaptureVideo.vue";
@@ -225,6 +225,10 @@ const isPubVideoEnable = ref(true);
 const isPubAudioEnable = ref(true);
 const captureAudio = new Audio(captureSound);
 const backgroundAudio = new Audio(backgroundSound);
+
+onBeforeRouteLeave(() => {
+  leaveSession();
+});
 
 onBeforeMount(() => {
   //access-token 없으면 닉네임 입력 받도록 수정 필요
@@ -367,7 +371,7 @@ onBeforeMount(() => {
           room.value.gameImages = res.data.gameImages;
           isHost.value = res.data.isHost;
         });
-      window.addEventListener("beforeunload", leaveSession);
+      window.addEventListener("beforeunload", replace);
     })
     .catch((err) => {
       if (err.response.status === 400) {
@@ -426,9 +430,11 @@ const leaveSession = () => {
     resultMode.value = false;
     captureMode.value = false;
   }
-
   // Remove beforeunload listener
-  window.removeEventListener("beforeunload", leaveSession);
+  window.removeEventListener("beforeunload", replace);
+};
+
+const replace = () => {
   router.replace("/");
 };
 

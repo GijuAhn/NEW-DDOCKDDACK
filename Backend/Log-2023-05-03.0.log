@@ -1,0 +1,1102 @@
+[08:30:47.650][INFO ][com.ddockddack.DdockddackApplication.logStarting:line55] - Starting DdockddackApplication using Java 11.0.17 on DESKTOP-DOGVPUB with PID 11972 (C:\ddockddack\S08P31A709\Backend\build\classes\java\main started by SSAFY in C:\ddockddack\S08P31A709\Backend)
+[08:30:47.656][INFO ][com.ddockddack.DdockddackApplication.logStartupProfileInfo:line637] - The following 2 profiles are active: "develop", "env"
+[08:30:47.727][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[08:30:47.727][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[08:30:48.819][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[08:30:48.820][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+[08:30:48.922][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 95 ms. Found 10 JPA repository interfaces.
+[08:30:48.936][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[08:30:48.936][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[08:30:48.958][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 8 ms. Found 2 Redis repository interfaces.
+[08:30:49.484][WARN ][com.amazonaws.util.EC2MetadataUtils.getItems:line414] - Unable to retrieve the requested metadata (/latest/meta-data/instance-id). EC2 Instance Metadata Service is disabled
+com.amazonaws.AmazonClientException: EC2 Instance Metadata Service is disabled
+	at com.amazonaws.internal.InstanceMetadataServiceResourceFetcher.readResource(InstanceMetadataServiceResourceFetcher.java:65)
+	at com.amazonaws.internal.EC2ResourceFetcher.readResource(EC2ResourceFetcher.java:66)
+	at com.amazonaws.util.EC2MetadataUtils.getItems(EC2MetadataUtils.java:407)
+	at com.amazonaws.util.EC2MetadataUtils.getData(EC2MetadataUtils.java:376)
+	at org.springframework.cloud.aws.context.support.env.AwsCloudEnvironmentCheckUtils.isRunningOnCloudEnvironment(AwsCloudEnvironmentCheckUtils.java:38)
+	at org.springframework.cloud.aws.context.annotation.OnAwsCloudEnvironmentCondition.matches(OnAwsCloudEnvironmentCondition.java:38)
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader$TrackedConditionEvaluator.shouldSkip(ConfigurationClassBeanDefinitionReader.java:489)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:140)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.ddockddack.DdockddackApplication.main(DdockddackApplication.java:30)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+[08:30:50.773][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize:line108] - Tomcat initialized with port(s): 9999 (http)
+[08:30:50.920][INFO ][org.apache.catalina.core.StandardService.log:line173] - Starting service [Tomcat]
+[08:30:50.920][INFO ][org.apache.catalina.core.StandardEngine.log:line173] - Starting Servlet engine: [Apache Tomcat/9.0.70]
+[08:30:51.074][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring embedded WebApplicationContext
+[08:30:51.075][INFO ][org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext:line292] - Root WebApplicationContext: initialization completed in 3346 ms
+[08:30:51.300][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line110] - HikariPool-1 - Starting...
+[08:30:51.602][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line123] - HikariPool-1 - Start completed.
+[08:30:51.612][INFO ][org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.logDataSources:line98] - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ddockddack?serverTimeZone=UTC'
+[08:30:51.859][INFO ][org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation:line31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[08:30:51.914][INFO ][org.hibernate.Version.logVersion:line44] - HHH000412: Hibernate ORM core version 5.6.14.Final
+[08:30:52.047][INFO ][org.hibernate.annotations.common.Version.<clinit>:line56] - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[08:30:52.171][INFO ][org.hibernate.dialect.Dialect.<init>:line175] - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[08:30:53.066][INFO ][org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService:line52] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[08:30:53.076][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory:line437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[08:30:53.616][INFO ][org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer:line59] - LiveReload server is running on port 35729
+[08:30:54.710][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line55] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2858fba2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@77f51eb9, org.springframework.security.web.context.SecurityContextPersistenceFilter@6d2e4a84, org.springframework.security.web.header.HeaderWriterFilter@1d8e06cd, org.springframework.security.web.authentication.logout.LogoutFilter@fdfa6d0, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@1b9f013b, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@5cc38fcb, com.ddockddack.global.filter.JwtAuthFilter@70614a53, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@60490695, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@62aa2f80, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b894617, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3859827a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@d404d9c, org.springframework.security.web.session.SessionManagementFilter@146aecc1, org.springframework.security.web.access.ExceptionTranslationFilter@3fc256a9]
+[08:30:54.714][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/static/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[08:30:54.715][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/static/**']
+[08:30:54.715][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[08:30:54.715][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/js/**']
+[08:30:54.715][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[08:30:54.715][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/webjars/**']
+[08:30:56.367][INFO ][org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init>:line58] - Exposing 15 endpoint(s) beneath base path '/actuator'
+[08:30:56.499][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start:line220] - Tomcat started on port(s): 9999 (http) with context path ''
+[08:30:56.500][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line51] - Triggering deferred initialization of Spring Data repositories…
+[08:30:57.047][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line55] - Spring Data repositories initialized
+[08:30:57.065][INFO ][com.ddockddack.DdockddackApplication.logStarted:line61] - Started DdockddackApplication in 9.969 seconds (JVM running for 11.479)
+[08:30:57.414][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[08:30:57.415][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line525] - Initializing Servlet 'dispatcherServlet'
+[08:30:57.417][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line547] - Completed initialization in 2 ms
+[08:30:58.994][WARN ][org.springframework.boot.actuate.redis.RedisReactiveHealthIndicator.handleFailure:line89] - Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1689)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1597)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1383)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1366)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedReactiveConnection(LettuceConnectionFactory.java:1117)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:509)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:103)
+	at reactor.core.publisher.MonoSupplier.call(MonoSupplier.java:86)
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:227)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:216)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1595)
+	... 14 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:777)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[08:32:56.405][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:32:56.535][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:32:56 KST 2023, request_uri=/token/refresh}
+[08:32:56.539][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 7ms
+[08:32:56.564][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:32:56.588][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:32:56 KST 2023, request_uri=/members/}
+[08:32:56.588][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 10ms
+[08:34:27.447][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:27.457][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:34:27 KST 2023, request_uri=/token/refresh}
+[08:34:27.458][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:34:27.471][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:27.489][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:34:27 KST 2023, request_uri=/members/}
+[08:34:27.489][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 3ms
+[08:34:38.970][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:38.978][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:34:38 KST 2023, request_uri=/token/refresh}
+[08:34:38.978][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:34:39.185][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:39.201][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:34:39 KST 2023, request_uri=/members/}
+[08:34:39.201][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 4ms
+[08:34:39.708][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:39.721][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:34:39 KST 2023, request_uri=/token/refresh}
+[08:34:39.722][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:34:39.733][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:34:39.752][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:34:39 KST 2023, request_uri=/members/}
+[08:34:39.752][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 3ms
+[08:35:05.503][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:05.511][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:35:05 KST 2023, request_uri=/token/refresh}
+[08:35:05.511][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:35:05.730][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:05.746][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:35:05 KST 2023, request_uri=/members/}
+[08:35:05.746][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 4ms
+[08:35:27.544][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:27.552][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:35:27 KST 2023, request_uri=/token/refresh}
+[08:35:27.553][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:35:27.565][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:27.579][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:35:27 KST 2023, request_uri=/members/}
+[08:35:27.579][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 3ms
+[08:35:28.454][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:28.586][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:35:28 KST 2023, request_uri=/single-games}
+[08:35:28.588][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 107ms
+[08:35:28.863][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:28.946][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:35:28 KST 2023, request_uri=/multi-games}
+[08:35:28.946][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 59ms
+[08:35:29.436][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:35:29.454][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:35:29 KST 2023, request_uri=/single-games}
+[08:35:29.455][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 7ms
+[08:36:27.877][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:27.886][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:36:27 KST 2023, request_uri=/token/refresh}
+[08:36:27.886][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:36:28.104][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:28.119][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:36:28 KST 2023, request_uri=/members/}
+[08:36:28.119][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 2ms
+[08:36:28.225][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:28.239][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:36:28 KST 2023, request_uri=/single-games}
+[08:36:28.239][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:36:28.613][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:28.621][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 08:36:28 KST 2023, request_uri=/token/refresh}
+[08:36:28.622][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[08:36:28.635][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:28.650][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:36:28 KST 2023, request_uri=/members/}
+[08:36:28.650][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 4ms
+[08:36:28.692][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:28.707][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:36:28 KST 2023, request_uri=/single-games}
+[08:36:28.708][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:36:30.545][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:30.564][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:30 KST 2023, request_uri=/multi-games}
+[08:36:30.564][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 6ms
+[08:36:31.969][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:31.987][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:31 KST 2023, request_uri=/multi-games}
+[08:36:31.987][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 5ms
+[08:36:32.324][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:32.340][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:36:32 KST 2023, request_uri=/single-games}
+[08:36:32.340][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:36:33.103][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:33.117][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:33 KST 2023, request_uri=/multi-games}
+[08:36:33.118][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 5ms
+[08:36:34.215][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:34.263][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=BestcutApiController, http_method=GET, method=bestcutList, params={"period":"MONTH","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:34 KST 2023, request_uri=/bestcuts}
+[08:36:34.263][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] bestcutList --> 35ms
+[08:36:36.433][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:36.447][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:36 KST 2023, request_uri=/multi-games}
+[08:36:36.447][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:36:36.725][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:36.738][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:36:36 KST 2023, request_uri=/single-games}
+[08:36:36.739][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:36:37.536][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:37.551][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:37 KST 2023, request_uri=/multi-games}
+[08:36:37.552][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 5ms
+[08:36:38.545][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:38.561][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=BestcutApiController, http_method=GET, method=bestcutList, params={"period":"MONTH","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:36:38 KST 2023, request_uri=/bestcuts}
+[08:36:38.561][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] bestcutList --> 4ms
+[08:36:39.718][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5MjcwODMsImV4cCI6MTY4NDEzNjY4M30.uKeumLLkZkZ5Lrd7QlcsI5L1vZmaUKyIVcb230cAr4M
+[08:36:39.766][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=logout, params={}, log_time=Wed May 03 08:36:39 KST 2023, request_uri=/members/logout}
+[08:36:39.767][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] logout --> 11ms
+[08:36:40.062][ERROR][com.ddockddack.global.error.GlobalExceptionHandler.handleAccessDeniedException:line28] - handleAccessDeniedException
+com.ddockddack.global.error.exception.AccessDeniedException: not authorized
+	at com.ddockddack.domain.member.controller.TokenController.refreshAuth(TokenController.java:50)
+	at com.ddockddack.domain.member.controller.TokenController$$FastClassBySpringCGLIB$$31306ddc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.LoggingAspect.methodLogger(LoggingAspect.java:31)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.ExecutionTimeAspect.executionTime(ExecutionTimeAspect.java:26)
+	at jdk.internal.reflect.GeneratedMethodAccessor114.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.ddockddack.domain.member.controller.TokenController$$EnhancerBySpringCGLIB$$ef362528.refreshAuth(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter.doFilterInternal(DefaultLogoutPageGeneratingFilter.java:58)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:237)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:223)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:119)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:223)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:217)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:178)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:687)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[08:36:40.072][WARN ][org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.logException:line208] - Resolved [com.ddockddack.global.error.exception.AccessDeniedException: not authorized]
+[08:36:42.471][WARN ][org.apache.catalina.util.SessionIdGeneratorBase.log:line173] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [298] milliseconds.
+[08:36:53.372][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:36:53.384][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:36:53 KST 2023, request_uri=/members/}
+[08:36:53.385][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 2ms
+[08:36:53.390][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:36:53.407][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:36:53 KST 2023, request_uri=/members/}
+[08:36:53.407][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 2ms
+[08:36:53.413][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:36:53.425][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 08:36:53 KST 2023, request_uri=/members/}
+[08:36:53.426][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 2ms
+[08:36:57.953][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:36:57.969][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:36:57 KST 2023, request_uri=/single-games}
+[08:36:57.970][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 3ms
+[08:37:03.353][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:37:03.370][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:37:03 KST 2023, request_uri=/multi-games}
+[08:37:03.370][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:37:03.794][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:37:03.810][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:37:03 KST 2023, request_uri=/single-games}
+[08:37:03.811][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[08:37:04.702][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:37:04.745][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=RankingApiController, http_method=GET, method=rankingList, params={}, log_time=Wed May 03 08:37:04 KST 2023, request_uri=/ranks/1}
+[08:37:04.745][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] rankingList --> 34ms
+[08:59:49.767][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:59:49.781][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 08:59:49 KST 2023, request_uri=/multi-games}
+[08:59:49.782][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 5ms
+[08:59:50.060][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[08:59:50.073][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 08:59:50 KST 2023, request_uri=/single-games}
+[08:59:50.073][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 4ms
+[09:04:56.344][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:04:56.353][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 09:04:56 KST 2023, request_uri=/token/refresh}
+[09:04:56.354][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[09:04:56.366][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:04:56.377][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 09:04:56 KST 2023, request_uri=/members/}
+[09:04:56.377][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 1ms
+[09:04:56.520][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:04:56.532][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 09:04:56 KST 2023, request_uri=/single-games}
+[09:04:56.533][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 3ms
+[09:14:56.177][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:14:56.186][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 09:14:56 KST 2023, request_uri=/token/refresh}
+[09:14:56.186][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[09:14:56.197][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:14:56.206][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 09:14:56 KST 2023, request_uri=/members/}
+[09:14:56.207][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 1ms
+[09:14:56.390][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:14:56.401][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 09:14:56 KST 2023, request_uri=/single-games}
+[09:14:56.402][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 3ms
+[09:20:10.371][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:20:10.380][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 09:20:10 KST 2023, request_uri=/token/refresh}
+[09:20:10.380][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 0ms
+[09:20:10.392][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:20:10.402][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 09:20:10 KST 2023, request_uri=/members/}
+[09:20:10.402][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 1ms
+[09:20:10.593][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwNzA2MTMsImV4cCI6MTY4NDI4MDIxM30.FWmGKQ2qkWKLCOkin_FvVO8pxL3LXAneW4bwuL04Kvs
+[09:20:10.608][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 09:20:10 KST 2023, request_uri=/single-games}
+[09:20:10.609][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 3ms
+[10:34:54.480][ERROR][com.ddockddack.global.error.GlobalExceptionHandler.handleAccessDeniedException:line28] - handleAccessDeniedException
+com.ddockddack.global.error.exception.AccessDeniedException: not authorized
+	at com.ddockddack.domain.member.controller.TokenController.refreshAuth(TokenController.java:50)
+	at com.ddockddack.domain.member.controller.TokenController$$FastClassBySpringCGLIB$$31306ddc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.LoggingAspect.methodLogger(LoggingAspect.java:31)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.ExecutionTimeAspect.executionTime(ExecutionTimeAspect.java:26)
+	at jdk.internal.reflect.GeneratedMethodAccessor114.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.ddockddack.domain.member.controller.TokenController$$EnhancerBySpringCGLIB$$ef362528.refreshAuth(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter.doFilterInternal(DefaultLogoutPageGeneratingFilter.java:58)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:237)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:223)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:119)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:223)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:217)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:178)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:687)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[10:34:54.483][WARN ][org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.logException:line208] - Resolved [com.ddockddack.global.error.exception.AccessDeniedException: not authorized]
+[10:34:54.619][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 10:34:54 KST 2023, request_uri=/single-games}
+[10:34:54.620][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 11ms
+[11:03:15.191][ERROR][com.ddockddack.global.error.GlobalExceptionHandler.handleAccessDeniedException:line28] - handleAccessDeniedException
+com.ddockddack.global.error.exception.AccessDeniedException: not authorized
+	at com.ddockddack.domain.member.controller.TokenController.refreshAuth(TokenController.java:50)
+	at com.ddockddack.domain.member.controller.TokenController$$FastClassBySpringCGLIB$$31306ddc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.LoggingAspect.methodLogger(LoggingAspect.java:31)
+	at jdk.internal.reflect.GeneratedMethodAccessor115.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:89)
+	at com.ddockddack.global.aop.ExecutionTimeAspect.executionTime(ExecutionTimeAspect.java:26)
+	at jdk.internal.reflect.GeneratedMethodAccessor114.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.ddockddack.domain.member.controller.TokenController$$EnhancerBySpringCGLIB$$ef362528.refreshAuth(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter.doFilterInternal(DefaultLogoutPageGeneratingFilter.java:58)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:237)
+	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:223)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:119)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:223)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:217)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:178)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:687)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[11:03:15.193][WARN ][org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.logException:line208] - Resolved [com.ddockddack.global.error.exception.AccessDeniedException: not authorized]
+[11:03:15.258][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 11:03:15 KST 2023, request_uri=/single-games}
+[11:03:15.258][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 6ms
+[13:11:07.051][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy:line651] - Closing JPA EntityManagerFactory for persistence unit 'default'
+[13:11:07.085][INFO ][com.zaxxer.hikari.HikariDataSource.close:line350] - HikariPool-1 - Shutdown initiated...
+[13:11:07.095][INFO ][com.zaxxer.hikari.HikariDataSource.close:line352] - HikariPool-1 - Shutdown completed.
+[13:47:13.000][INFO ][com.ddockddack.DdockddackApplication.logStarting:line55] - Starting DdockddackApplication using Java 11.0.17 on DESKTOP-DOGVPUB with PID 17604 (C:\ddockddack\S08P31A709\Backend\build\classes\java\main started by SSAFY in C:\ddockddack\S08P31A709\Backend)
+[13:47:13.002][INFO ][com.ddockddack.DdockddackApplication.logStartupProfileInfo:line637] - The following 2 profiles are active: "develop", "env"
+[13:47:13.060][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[13:47:13.060][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[13:47:14.017][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[13:47:14.018][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+[13:47:14.113][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 89 ms. Found 10 JPA repository interfaces.
+[13:47:14.126][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[13:47:14.126][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[13:47:14.147][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 7 ms. Found 2 Redis repository interfaces.
+[13:47:14.617][WARN ][com.amazonaws.util.EC2MetadataUtils.getItems:line414] - Unable to retrieve the requested metadata (/latest/meta-data/instance-id). EC2 Instance Metadata Service is disabled
+com.amazonaws.AmazonClientException: EC2 Instance Metadata Service is disabled
+	at com.amazonaws.internal.InstanceMetadataServiceResourceFetcher.readResource(InstanceMetadataServiceResourceFetcher.java:65)
+	at com.amazonaws.internal.EC2ResourceFetcher.readResource(EC2ResourceFetcher.java:66)
+	at com.amazonaws.util.EC2MetadataUtils.getItems(EC2MetadataUtils.java:407)
+	at com.amazonaws.util.EC2MetadataUtils.getData(EC2MetadataUtils.java:376)
+	at org.springframework.cloud.aws.context.support.env.AwsCloudEnvironmentCheckUtils.isRunningOnCloudEnvironment(AwsCloudEnvironmentCheckUtils.java:38)
+	at org.springframework.cloud.aws.context.annotation.OnAwsCloudEnvironmentCondition.matches(OnAwsCloudEnvironmentCondition.java:38)
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader$TrackedConditionEvaluator.shouldSkip(ConfigurationClassBeanDefinitionReader.java:489)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:140)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.ddockddack.DdockddackApplication.main(DdockddackApplication.java:30)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+[13:47:15.761][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize:line108] - Tomcat initialized with port(s): 9999 (http)
+[13:47:15.900][INFO ][org.apache.catalina.core.StandardService.log:line173] - Starting service [Tomcat]
+[13:47:15.900][INFO ][org.apache.catalina.core.StandardEngine.log:line173] - Starting Servlet engine: [Apache Tomcat/9.0.70]
+[13:47:16.024][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring embedded WebApplicationContext
+[13:47:16.024][INFO ][org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext:line292] - Root WebApplicationContext: initialization completed in 2962 ms
+[13:47:16.175][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line110] - HikariPool-1 - Starting...
+[13:47:16.389][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line123] - HikariPool-1 - Start completed.
+[13:47:16.398][INFO ][org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.logDataSources:line98] - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ddockddack?serverTimeZone=UTC'
+[13:47:16.625][INFO ][org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation:line31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[13:47:16.683][INFO ][org.hibernate.Version.logVersion:line44] - HHH000412: Hibernate ORM core version 5.6.14.Final
+[13:47:16.829][INFO ][org.hibernate.annotations.common.Version.<clinit>:line56] - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[13:47:16.943][INFO ][org.hibernate.dialect.Dialect.<init>:line175] - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[13:47:17.710][INFO ][org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService:line52] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[13:47:17.718][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory:line437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[13:47:18.166][INFO ][org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer:line59] - LiveReload server is running on port 35729
+[13:47:19.096][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line55] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@594ea2d3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@68a4bb9e, org.springframework.security.web.context.SecurityContextPersistenceFilter@45fa5e28, org.springframework.security.web.header.HeaderWriterFilter@67c541d2, org.springframework.security.web.authentication.logout.LogoutFilter@29d99620, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2677f5bb, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@74aadb13, com.ddockddack.global.filter.JwtAuthFilter@20f7ad20, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5fc08c08, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@38aec05f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6989cfc5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@698524a1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@145ab5a3, org.springframework.security.web.session.SessionManagementFilter@5feb57e7, org.springframework.security.web.access.ExceptionTranslationFilter@1b2560a7]
+[13:47:19.100][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/static/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[13:47:19.100][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/static/**']
+[13:47:19.100][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[13:47:19.100][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/js/**']
+[13:47:19.100][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[13:47:19.101][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/webjars/**']
+[13:47:20.534][INFO ][org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init>:line58] - Exposing 15 endpoint(s) beneath base path '/actuator'
+[13:47:20.636][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start:line220] - Tomcat started on port(s): 9999 (http) with context path ''
+[13:47:20.638][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line51] - Triggering deferred initialization of Spring Data repositories…
+[13:47:21.135][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line55] - Spring Data repositories initialized
+[13:47:21.154][INFO ][com.ddockddack.DdockddackApplication.logStarted:line61] - Started DdockddackApplication in 8.591 seconds (JVM running for 10.711)
+[13:47:22.082][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[13:47:22.083][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line525] - Initializing Servlet 'dispatcherServlet'
+[13:47:22.085][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line547] - Completed initialization in 2 ms
+[13:47:23.052][WARN ][org.springframework.boot.actuate.redis.RedisReactiveHealthIndicator.handleFailure:line89] - Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1689)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1597)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1383)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1366)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedReactiveConnection(LettuceConnectionFactory.java:1117)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:509)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:103)
+	at reactor.core.publisher.MonoSupplier.call(MonoSupplier.java:86)
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:227)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:216)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1595)
+	... 14 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:777)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[13:47:25.739][WARN ][org.apache.catalina.util.SessionIdGeneratorBase.log:line173] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [304] milliseconds.
+[13:47:35.068][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:35.169][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 13:47:35 KST 2023, request_uri=/members/}
+[13:47:35.174][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 14ms
+[13:47:35.193][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:35.207][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 13:47:35 KST 2023, request_uri=/members/}
+[13:47:35.207][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 2ms
+[13:47:35.360][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:35.374][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 13:47:35 KST 2023, request_uri=/members/}
+[13:47:35.374][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 3ms
+[13:47:38.000][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:38.134][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 13:47:38 KST 2023, request_uri=/multi-games}
+[13:47:38.136][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 99ms
+[13:47:40.021][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:40.052][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 13:47:40 KST 2023, request_uri=/single-games}
+[13:47:40.052][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 13ms
+[13:47:41.082][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:47:41.121][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=RankingApiController, http_method=GET, method=rankingList, params={}, log_time=Wed May 03 13:47:41 KST 2023, request_uri=/ranks/1}
+[13:47:41.121][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] rankingList --> 27ms
+[13:57:35.627][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:35.649][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 13:57:35 KST 2023, request_uri=/token/refresh}
+[13:57:35.650][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 5ms
+[13:57:35.706][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:35.728][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 13:57:35 KST 2023, request_uri=/members/}
+[13:57:35.729][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 5ms
+[13:57:48.567][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:48.592][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 13:57:48 KST 2023, request_uri=/single-games}
+[13:57:48.592][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 8ms
+[13:57:51.167][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:51.189][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MultiGameApiController, http_method=GET, method=gameList, params={"period":"ALL","search":"GAME","page":"1","keyword":"","order":"POPULARITY"}, log_time=Wed May 03 13:57:51 KST 2023, request_uri=/multi-games}
+[13:57:51.189][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 7ms
+[13:57:51.566][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:51.587][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 13:57:51 KST 2023, request_uri=/single-games}
+[13:57:51.587][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 5ms
+[13:57:52.928][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[13:57:52.940][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=RankingApiController, http_method=GET, method=rankingList, params={}, log_time=Wed May 03 13:57:52 KST 2023, request_uri=/ranks/1}
+[13:57:52.941][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] rankingList --> 7ms
+[14:00:20.915][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy:line651] - Closing JPA EntityManagerFactory for persistence unit 'default'
+[14:00:20.919][INFO ][com.zaxxer.hikari.HikariDataSource.close:line350] - HikariPool-1 - Shutdown initiated...
+[14:00:20.927][INFO ][com.zaxxer.hikari.HikariDataSource.close:line352] - HikariPool-1 - Shutdown completed.
+[17:29:30.016][INFO ][com.ddockddack.DdockddackApplication.logStarting:line55] - Starting DdockddackApplication using Java 11.0.17 on DESKTOP-DOGVPUB with PID 10096 (C:\ddockddack\S08P31A709\Backend\build\classes\java\main started by SSAFY in C:\ddockddack\S08P31A709\Backend)
+[17:29:30.019][INFO ][com.ddockddack.DdockddackApplication.logStartupProfileInfo:line637] - The following 2 profiles are active: "develop", "env"
+[17:29:30.083][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[17:29:30.083][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[17:29:31.124][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[17:29:31.125][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+[17:29:31.229][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 98 ms. Found 10 JPA repository interfaces.
+[17:29:31.241][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[17:29:31.241][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[17:29:31.264][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 9 ms. Found 2 Redis repository interfaces.
+[17:29:31.857][WARN ][com.amazonaws.util.EC2MetadataUtils.getItems:line414] - Unable to retrieve the requested metadata (/latest/meta-data/instance-id). EC2 Instance Metadata Service is disabled
+com.amazonaws.AmazonClientException: EC2 Instance Metadata Service is disabled
+	at com.amazonaws.internal.InstanceMetadataServiceResourceFetcher.readResource(InstanceMetadataServiceResourceFetcher.java:65)
+	at com.amazonaws.internal.EC2ResourceFetcher.readResource(EC2ResourceFetcher.java:66)
+	at com.amazonaws.util.EC2MetadataUtils.getItems(EC2MetadataUtils.java:407)
+	at com.amazonaws.util.EC2MetadataUtils.getData(EC2MetadataUtils.java:376)
+	at org.springframework.cloud.aws.context.support.env.AwsCloudEnvironmentCheckUtils.isRunningOnCloudEnvironment(AwsCloudEnvironmentCheckUtils.java:38)
+	at org.springframework.cloud.aws.context.annotation.OnAwsCloudEnvironmentCondition.matches(OnAwsCloudEnvironmentCondition.java:38)
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader$TrackedConditionEvaluator.shouldSkip(ConfigurationClassBeanDefinitionReader.java:489)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:140)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.ddockddack.DdockddackApplication.main(DdockddackApplication.java:30)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+[17:29:33.186][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize:line108] - Tomcat initialized with port(s): 9999 (http)
+[17:29:33.324][INFO ][org.apache.catalina.core.StandardService.log:line173] - Starting service [Tomcat]
+[17:29:33.324][INFO ][org.apache.catalina.core.StandardEngine.log:line173] - Starting Servlet engine: [Apache Tomcat/9.0.70]
+[17:29:33.474][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring embedded WebApplicationContext
+[17:29:33.474][INFO ][org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext:line292] - Root WebApplicationContext: initialization completed in 3390 ms
+[17:29:33.661][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line110] - HikariPool-1 - Starting...
+[17:29:33.906][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line123] - HikariPool-1 - Start completed.
+[17:29:33.915][INFO ][org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.logDataSources:line98] - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ddockddack?serverTimeZone=UTC'
+[17:29:34.179][INFO ][org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation:line31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[17:29:34.230][INFO ][org.hibernate.Version.logVersion:line44] - HHH000412: Hibernate ORM core version 5.6.14.Final
+[17:29:34.376][INFO ][org.hibernate.annotations.common.Version.<clinit>:line56] - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[17:29:34.505][INFO ][org.hibernate.dialect.Dialect.<init>:line175] - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[17:29:35.305][INFO ][org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService:line52] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[17:29:35.313][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory:line437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[17:29:35.839][INFO ][org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer:line59] - LiveReload server is running on port 35729
+[17:29:36.858][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line55] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3b4906d0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3afed0b5, org.springframework.security.web.context.SecurityContextPersistenceFilter@2599db28, org.springframework.security.web.header.HeaderWriterFilter@7210779e, org.springframework.security.web.authentication.logout.LogoutFilter@7a60b557, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@cd8e75a, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@860ea08, com.ddockddack.global.filter.JwtAuthFilter@55f34747, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@2227ab6a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@76857854, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3d833a1e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@38b4efc9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5899fd2, org.springframework.security.web.session.SessionManagementFilter@66ee6e5f, org.springframework.security.web.access.ExceptionTranslationFilter@740c045d]
+[17:29:36.862][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/static/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:29:36.863][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/static/**']
+[17:29:36.863][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:29:36.864][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/js/**']
+[17:29:36.864][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:29:36.864][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/webjars/**']
+[17:29:38.616][INFO ][org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init>:line58] - Exposing 15 endpoint(s) beneath base path '/actuator'
+[17:29:38.727][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start:line220] - Tomcat started on port(s): 9999 (http) with context path ''
+[17:29:38.728][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line51] - Triggering deferred initialization of Spring Data repositories…
+[17:29:39.369][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line55] - Spring Data repositories initialized
+[17:29:39.388][INFO ][com.ddockddack.DdockddackApplication.logStarted:line61] - Started DdockddackApplication in 9.857 seconds (JVM running for 12.068)
+[17:29:40.218][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[17:29:40.219][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line525] - Initializing Servlet 'dispatcherServlet'
+[17:29:40.221][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line547] - Completed initialization in 1 ms
+[17:29:41.767][WARN ][org.springframework.boot.actuate.redis.RedisReactiveHealthIndicator.handleFailure:line89] - Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1689)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1597)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1383)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1366)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedReactiveConnection(LettuceConnectionFactory.java:1117)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:509)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:103)
+	at reactor.core.publisher.MonoSupplier.call(MonoSupplier.java:86)
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:227)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:216)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1595)
+	... 14 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:777)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[17:29:46.785][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:29:46.901][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 17:29:46 KST 2023, request_uri=/token/refresh}
+[17:29:46.906][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 8ms
+[17:29:46.930][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:29:46.960][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 17:29:46 KST 2023, request_uri=/members/}
+[17:29:46.960][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 12ms
+[17:29:48.798][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:29:48.922][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 17:29:48 KST 2023, request_uri=/single-games}
+[17:29:48.924][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 98ms
+[17:29:49.877][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:29:49.926][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=RankingApiController, http_method=GET, method=rankingList, params={}, log_time=Wed May 03 17:29:49 KST 2023, request_uri=/ranks/1}
+[17:29:49.927][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] rankingList --> 38ms
+[17:31:14.011][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:31:14.034][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 17:31:14 KST 2023, request_uri=/single-games}
+[17:31:14.034][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 8ms
+[17:40:45.798][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy:line651] - Closing JPA EntityManagerFactory for persistence unit 'default'
+[17:40:45.802][INFO ][com.zaxxer.hikari.HikariDataSource.close:line350] - HikariPool-1 - Shutdown initiated...
+[17:40:45.812][INFO ][com.zaxxer.hikari.HikariDataSource.close:line352] - HikariPool-1 - Shutdown completed.
+[17:40:50.291][INFO ][com.ddockddack.DdockddackApplication.logStarting:line55] - Starting DdockddackApplication using Java 11.0.17 on DESKTOP-DOGVPUB with PID 5248 (C:\ddockddack\S08P31A709\Backend\build\classes\java\main started by SSAFY in C:\ddockddack\S08P31A709\Backend)
+[17:40:50.293][INFO ][com.ddockddack.DdockddackApplication.logStartupProfileInfo:line637] - The following 2 profiles are active: "develop", "env"
+[17:40:50.355][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[17:40:50.355][INFO ][org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor.logTo:line255] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[17:40:51.279][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[17:40:51.280][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+[17:40:51.396][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 108 ms. Found 10 JPA repository interfaces.
+[17:40:51.397][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.multipleStoresDetected:line262] - Multiple Spring Data modules found, entering strict repository configuration mode
+[17:40:51.398][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line132] - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[17:40:51.416][INFO ][org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn:line201] - Finished Spring Data repository scanning in 8 ms. Found 2 Redis repository interfaces.
+[17:40:52.058][WARN ][com.amazonaws.util.EC2MetadataUtils.getItems:line414] - Unable to retrieve the requested metadata (/latest/meta-data/instance-id). EC2 Instance Metadata Service is disabled
+com.amazonaws.AmazonClientException: EC2 Instance Metadata Service is disabled
+	at com.amazonaws.internal.InstanceMetadataServiceResourceFetcher.readResource(InstanceMetadataServiceResourceFetcher.java:65)
+	at com.amazonaws.internal.EC2ResourceFetcher.readResource(EC2ResourceFetcher.java:66)
+	at com.amazonaws.util.EC2MetadataUtils.getItems(EC2MetadataUtils.java:407)
+	at com.amazonaws.util.EC2MetadataUtils.getData(EC2MetadataUtils.java:376)
+	at org.springframework.cloud.aws.context.support.env.AwsCloudEnvironmentCheckUtils.isRunningOnCloudEnvironment(AwsCloudEnvironmentCheckUtils.java:38)
+	at org.springframework.cloud.aws.context.annotation.OnAwsCloudEnvironmentCondition.matches(OnAwsCloudEnvironmentCondition.java:38)
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader$TrackedConditionEvaluator.shouldSkip(ConfigurationClassBeanDefinitionReader.java:489)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:140)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292)
+	at com.ddockddack.DdockddackApplication.main(DdockddackApplication.java:30)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+[17:40:53.386][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize:line108] - Tomcat initialized with port(s): 9999 (http)
+[17:40:53.516][INFO ][org.apache.catalina.core.StandardService.log:line173] - Starting service [Tomcat]
+[17:40:53.517][INFO ][org.apache.catalina.core.StandardEngine.log:line173] - Starting Servlet engine: [Apache Tomcat/9.0.70]
+[17:40:53.649][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring embedded WebApplicationContext
+[17:40:53.649][INFO ][org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext:line292] - Root WebApplicationContext: initialization completed in 3293 ms
+[17:40:53.821][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line110] - HikariPool-1 - Starting...
+[17:40:54.061][INFO ][com.zaxxer.hikari.HikariDataSource.getConnection:line123] - HikariPool-1 - Start completed.
+[17:40:54.071][INFO ][org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.logDataSources:line98] - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/ddockddack?serverTimeZone=UTC'
+[17:40:54.303][INFO ][org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation:line31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[17:40:54.357][INFO ][org.hibernate.Version.logVersion:line44] - HHH000412: Hibernate ORM core version 5.6.14.Final
+[17:40:54.500][INFO ][org.hibernate.annotations.common.Version.<clinit>:line56] - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[17:40:54.634][INFO ][org.hibernate.dialect.Dialect.<init>:line175] - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+[17:40:55.486][INFO ][org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService:line52] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[17:40:55.496][INFO ][org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory:line437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[17:40:56.049][INFO ][org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer:line59] - LiveReload server is running on port 35729
+[17:40:57.079][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line55] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6cc8c0be, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@16c18b1d, org.springframework.security.web.context.SecurityContextPersistenceFilter@1e3620c8, org.springframework.security.web.header.HeaderWriterFilter@24bd044f, org.springframework.security.web.authentication.logout.LogoutFilter@4d8c8e52, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@11fe4466, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@619b115b, com.ddockddack.global.filter.JwtAuthFilter@46e5badf, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@f9077b5, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@699f203f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4420f67f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@44148177, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4378c082, org.springframework.security.web.session.SessionManagementFilter@5b00611e, org.springframework.security.web.access.ExceptionTranslationFilter@46be7398]
+[17:40:57.082][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/static/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:40:57.082][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/static/**']
+[17:40:57.083][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:40:57.083][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/js/**']
+[17:40:57.083][WARN ][org.springframework.security.config.annotation.web.builders.WebSecurity.performBuild:line305] - You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[17:40:57.083][INFO ][org.springframework.security.web.DefaultSecurityFilterChain.<init>:line52] - Will not secure Ant [pattern='/webjars/**']
+[17:40:58.739][INFO ][org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init>:line58] - Exposing 15 endpoint(s) beneath base path '/actuator'
+[17:40:58.844][INFO ][org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start:line220] - Tomcat started on port(s): 9999 (http) with context path ''
+[17:40:58.845][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line51] - Triggering deferred initialization of Spring Data repositories…
+[17:40:59.463][INFO ][org.springframework.data.repository.config.DeferredRepositoryInitializationListener.onApplicationEvent:line55] - Spring Data repositories initialized
+[17:40:59.485][INFO ][com.ddockddack.DdockddackApplication.logStarted:line61] - Started DdockddackApplication in 9.703 seconds (JVM running for 10.867)
+[17:40:59.621][INFO ][org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:line173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[17:40:59.621][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line525] - Initializing Servlet 'dispatcherServlet'
+[17:40:59.623][INFO ][org.springframework.web.servlet.DispatcherServlet.initServletBean:line547] - Completed initialization in 1 ms
+[17:41:00.664][WARN ][org.springframework.boot.actuate.redis.RedisReactiveHealthIndicator.handleFailure:line89] - Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1689)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1597)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1383)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1366)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedReactiveConnection(LettuceConnectionFactory.java:1117)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:509)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:103)
+	at reactor.core.publisher.MonoSupplier.call(MonoSupplier.java:86)
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:227)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68)
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:330)
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:216)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1595)
+	... 14 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:777)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+[17:41:10.529][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:10.645][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=TokenController, http_method=GET, method=refreshAuth, params={}, log_time=Wed May 03 17:41:10 KST 2023, request_uri=/token/refresh}
+[17:41:10.648][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] refreshAuth --> 5ms
+[17:41:10.670][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:10.700][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=MemberApiController, http_method=GET, method=memberDetails, params={}, log_time=Wed May 03 17:41:10 KST 2023, request_uri=/members/}
+[17:41:10.700][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] memberDetails --> 15ms
+[17:41:11.828][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:11.934][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=GET, method=gameList, params={"page":"0","keyword":""}, log_time=Wed May 03 17:41:11 KST 2023, request_uri=/single-games}
+[17:41:11.936][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] gameList --> 82ms
+[17:41:12.875][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:12.924][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=RankingApiController, http_method=GET, method=rankingList, params={}, log_time=Wed May 03 17:41:12 KST 2023, request_uri=/ranks/1}
+[17:41:12.924][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] rankingList --> 36ms
+[17:41:16.169][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:16.840][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=POST, method=faceSimilarity, params={"target":"4ca9b60a-0b45-4d4e-9d2d-71b27c1d3122img.jpeg"}, log_time=Wed May 03 17:41:16 KST 2023, request_uri=/single-games/score}
+[17:41:16.841][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] faceSimilarity --> 630ms
+[17:41:24.980][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:25.466][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=POST, method=faceSimilarity, params={"target":"4ca9b60a-0b45-4d4e-9d2d-71b27c1d3122img.jpeg"}, log_time=Wed May 03 17:41:25 KST 2023, request_uri=/single-games/score}
+[17:41:25.467][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] faceSimilarity --> 474ms
+[17:41:32.570][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:32.928][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=POST, method=faceSimilarity, params={"target":"4ca9b60a-0b45-4d4e-9d2d-71b27c1d3122img.jpeg"}, log_time=Wed May 03 17:41:32 KST 2023, request_uri=/single-games/score}
+[17:41:32.929][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] faceSimilarity --> 346ms
+[17:41:38.168][INFO ][com.ddockddack.global.filter.JwtAuthFilter.doFilterInternal:line47] - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODMwODkyNTQsImV4cCI6MTY4NDI5ODg1NH0._-C1lz1wWQGk3AmIg-dxYohoi3mMr0QPVULReSCsTrc
+[17:41:38.429][INFO ][com.ddockddack.global.aop.LoggingAspect.methodLogger:line49] - params : {controller=SingleGameApiController, http_method=POST, method=faceSimilarity, params={"target":"4ca9b60a-0b45-4d4e-9d2d-71b27c1d3122img.jpeg"}, log_time=Wed May 03 17:41:38 KST 2023, request_uri=/single-games/score}
+[17:41:38.430][INFO ][com.ddockddack.global.aop.ExecutionTimeAspect.executionTime:line32] - [ExecutionTime] faceSimilarity --> 249ms
