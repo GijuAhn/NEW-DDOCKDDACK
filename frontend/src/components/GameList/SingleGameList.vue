@@ -310,7 +310,7 @@ callApi();
 <style scoped>
 #view {
   border: 2px solid black;
-  width: 1060px;
+  width: 100%;
   position: relative;
   top: -320px;
   left: 50%;
