@@ -344,7 +344,6 @@ input {
   height: 48px;
   background-color: #f08383;
   color: white;
-  width: calc(100%-100px);
 }
 #btn-s:hover {
   cursor: pointer;
