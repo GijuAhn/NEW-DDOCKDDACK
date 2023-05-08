@@ -2,6 +2,7 @@ package com.ddockddack.domain.report.service;
 
 import com.ddockddack.domain.report.repository.ReportedBestcutRepository;
 import com.ddockddack.domain.report.repository.ReportedGameRepository;
+import com.ddockddack.domain.report.repository.ReportedRankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ public class ReportService {
 
     private final ReportedGameRepository reportedGameRepository;
     private final ReportedBestcutRepository reportedBestcutRepository;
+    private final ReportedRankingRepository reportedRankingRepository;
 
 
     /**
@@ -32,4 +34,6 @@ public class ReportService {
     public void removeReportedBestcut(Long reportId) {
         reportedBestcutRepository.deleteById(reportId);
     }
+
+
 }

@@ -2,13 +2,19 @@ package com.ddockddack.domain.ranking.service;
 
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
+import com.ddockddack.domain.multigame.entity.MultiGame;
 import com.ddockddack.domain.ranking.entity.Ranking;
 import com.ddockddack.domain.ranking.repository.RankingRepository;
 import com.ddockddack.domain.ranking.request.RankingSaveReq;
 import com.ddockddack.domain.ranking.response.RankingRes;
+import com.ddockddack.domain.report.entity.ReportType;
+import com.ddockddack.domain.report.entity.ReportedGame;
+import com.ddockddack.domain.report.repository.ReportedRankingRepository;
 import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.singlegame.repository.SingleGameRepository;
 import com.ddockddack.global.aws.AwsS3;
+import com.ddockddack.global.error.ErrorCode;
+import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RankingService {
 
+    private final ReportedRankingRepository reportedRankingRepository;
     private final RankingRepository rankingRepository;
     private final SingleGameRepository singleGameRepository;
     private final MemberRepository memberRepository;
