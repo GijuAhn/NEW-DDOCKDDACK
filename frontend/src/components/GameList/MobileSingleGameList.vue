@@ -408,8 +408,8 @@ input {
   background-color: #f87c7b;
 }
 .percent {
-  position: relative;
-  margin: auto;
+  position: absolute;
+  left: 45%;
 }
 
 #list {
