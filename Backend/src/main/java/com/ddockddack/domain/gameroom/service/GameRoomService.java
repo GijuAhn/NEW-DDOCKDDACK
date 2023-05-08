@@ -225,7 +225,8 @@ public class GameRoomService {
         event.put("input", IMAGE_PATH+imageUrl);
 
         final Integer rawScore = restTemplate.postForObject(
-            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
+//            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
+            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod2/simil", event,
             Integer.class);
         
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
@@ -302,10 +303,13 @@ public class GameRoomService {
             int maxRoundScore = Collections.max(roundResultData,
                 Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
 
+            // prevent getting negative score, add 1 to absolute min score
+            int minRoundScore = Math.abs(Collections.min(roundResultData,
+                Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore()) + 1;
+
             for (GameMember member : gameMembers) {
 
-                int scaledRoundScore = (int) (((double) member.getRoundScore() / maxRoundScore)
-                    * 100); //max score per round is +100 point
+                int scaledRoundScore = (int) (((double) (member.getRoundScore() + minRoundScore) / (maxRoundScore + minRoundScore)) * 100); //max score per round is +100 point
 
                 member.changeScaledRoundScore(scaledRoundScore);
                 member.changeTotalScore(member.getTotalScore() + scaledRoundScore);
