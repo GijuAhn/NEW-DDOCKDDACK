@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { useStore } from "vuex";
 import router from "@/router/index.js";
 
@@ -32,6 +33,12 @@ const join = (pinNumber) => {
   router.replace(`/gameroom/${pinNumber}`);
 };
 store.dispatch("commonStore/setColorAsync", "default");
+
+onMounted(() => {
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    router.replace("/mobile/single-games");
+  }
+});
 </script>
 
 <style scoped>
