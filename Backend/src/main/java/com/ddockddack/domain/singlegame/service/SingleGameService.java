@@ -1,5 +1,6 @@
 package com.ddockddack.domain.singlegame.service;
 
+import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.singlegame.repository.SingleGameRepository;
 import com.ddockddack.domain.singlegame.request.FaceSimilarityReq;
@@ -27,8 +28,8 @@ public class SingleGameService {
      * 싱글 게임 목록 조회
      * @return
      */
-    public PageImpl<SingleGameRes> getSingleGameList(String keyword, Pageable pageable){
-        PageImpl<SingleGame> singleGames = singleGameRepository.findSingleGames(keyword, pageable);
+    public PageImpl<SingleGameRes> getSingleGameList(PageConditionReq pageConditionReq){
+        PageImpl<SingleGame> singleGames = singleGameRepository.findSingleGames(pageConditionReq);
         List<SingleGameRes> gameList = singleGames
                 .stream()
                 .map(SingleGameRes::from)

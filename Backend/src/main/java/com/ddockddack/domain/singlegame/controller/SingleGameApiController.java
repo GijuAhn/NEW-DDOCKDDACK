@@ -1,5 +1,6 @@
 package com.ddockddack.domain.singlegame.controller;
 
+import com.ddockddack.domain.multigame.request.paging.PageConditionReq;
 import com.ddockddack.domain.singlegame.request.FaceSimilarityReq;
 import com.ddockddack.domain.singlegame.response.SingleGameRes;
 import com.ddockddack.domain.singlegame.service.SingleGameService;
@@ -32,9 +33,8 @@ public class SingleGameApiController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "게임 목록 조회 성공")
     })
-    public ResponseEntity<PageImpl<SingleGameRes>> gameList(@RequestParam String keyword,
-            @PageableDefault(size = 9) Pageable pageable) {
-        return ResponseEntity.ok(singleGameService.getSingleGameList(keyword, pageable));
+    public ResponseEntity<PageImpl<SingleGameRes>> gameList(@ModelAttribute PageConditionReq pageConditionReq) {
+        return ResponseEntity.ok(singleGameService.getSingleGameList(pageConditionReq));
     }
 
     @PostMapping("/score")
