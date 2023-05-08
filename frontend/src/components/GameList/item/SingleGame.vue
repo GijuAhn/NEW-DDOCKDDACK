@@ -15,7 +15,7 @@
       <div id="createRoomButton">
         <button @click="ready()">
           <span class="play-btn"></span>
-          &nbsp;랭킹 도전
+          &nbsp;비교하기
         </button>
       </div>
     </div>
