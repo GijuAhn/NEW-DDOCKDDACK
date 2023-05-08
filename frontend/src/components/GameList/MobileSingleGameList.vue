@@ -80,6 +80,7 @@ import { useStore } from "vuex";
 import SingleGame from "@/components/GameList/item/SingleGame.vue";
 import LeaderBoard from "@/components/GameList/item/LeaderBoard.vue";
 import html2canvas from "html2canvas";
+import heic2any from "heic2any";
 
 const api = apiInstance();
 const store = useStore();
@@ -233,6 +234,18 @@ const openRankingImageModal = (image) => {
 
 const fileUploadEvent = (e) => {
   uploadImage.value = e.target.files[0];
+  console.log(uploadImage.value.name);
+  if (uploadImage.value.name.split(".")[1] === "HEIF") {
+    let blob = e.target.files[0];
+    heic2any({ blob: blob, toType: "image/jpeg" }).then(function (resultBlob) {
+      uploadImage.value = new File(
+        [resultBlob],
+        uploadImage.value.name.split(".")[0] + ".jpg",
+        { type: "image/jpeg" }
+      );
+      console.log(uploadImage.value);
+    });
+  }
   mode.value = "image";
 };
 

@@ -74,7 +74,6 @@ const setCurrentModalAsync = () => {
 <style scoped>
 #modal {
   position: fixed;
-  min-width: calc(1920px - 100px);
   width: 100%;
   top: 0;
   left: 0;
