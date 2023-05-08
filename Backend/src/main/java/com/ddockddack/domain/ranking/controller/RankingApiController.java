@@ -4,6 +4,7 @@ import com.ddockddack.domain.ranking.request.RankingSaveReq;
 import com.ddockddack.domain.ranking.response.RankingRes;
 import com.ddockddack.domain.ranking.service.RankingService;
 import com.ddockddack.domain.report.entity.ReportType;
+import com.ddockddack.domain.report.entity.ReportedRanking;
 import com.ddockddack.global.oauth.MemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -59,8 +60,8 @@ public class RankingApiController {
     public ResponseEntity rankingReport(@PathVariable Long rankingId,
         @RequestBody Map<String, String> body,
         @AuthenticationPrincipal MemberDetail memberDetail) {
-//        multiGameService.reportRanking(memberDetail.getId(), gameId,
-//            ReportType.valueOf(body.get("reportType")));
+        rankingService.reportRanking(memberDetail.getId(), rankingId,
+            ReportType.valueOf(body.get("reportType")));
         return ResponseEntity.ok().build();
 
     }

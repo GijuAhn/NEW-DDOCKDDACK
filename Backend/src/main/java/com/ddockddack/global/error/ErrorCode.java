@@ -21,6 +21,7 @@ public enum ErrorCode {
     STARREDGAME_NOT_FOUND(404, "starredGame not found"),
     BESTCUT_NOT_FOUND(404, "bestcut not found"),
     BESTCUT_LIKE_NOT_FOUND(404, "bestcut_like not found"),
+    RANKING_NOT_FOUND(404, "ranking not found"),
     EXCEED_FILE_SIZE(413, "file size can't exceed 2MB"),
     EXTENSION_NOT_ALLOWED(415, "extension not allowed."),
     OPENVIDU_SERVER_ERROR(500, "openvidu server error");
