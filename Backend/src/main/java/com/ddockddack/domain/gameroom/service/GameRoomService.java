@@ -23,6 +23,7 @@ import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,12 +66,12 @@ public class GameRoomService {
      */
     @Transactional
     public String createGameRoom(Long gameId)
-        throws OpenViduJavaClientException, OpenViduHttpException {
+            throws OpenViduJavaClientException, OpenViduHttpException {
 
         final String pinNumber = createPinNumber();
 
         final MultiGame multiGame = multiGameRepository.findById(gameId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.GAME_NOT_FOUND));
 
         List<GameImage> gameImages = multiGame.getImages();
         Collections.shuffle(gameImages);
@@ -77,12 +79,12 @@ public class GameRoomService {
         openViduManager.createSession(pinNumber);
 
         final GameRoom gameRoom = GameRoom.builder()
-            .gameId(multiGame.getId())
-            .gameTitle(multiGame.getTitle())
-            .gameDescription(multiGame.getDescription())
-            .gameImages(gameImages)
-            .pinNumber(pinNumber)
-            .build();
+                .gameId(multiGame.getId())
+                .gameTitle(multiGame.getTitle())
+                .gameDescription(multiGame.getDescription())
+                .gameImages(gameImages)
+                .pinNumber(pinNumber)
+                .build();
 
         gameRoomRedisRepository.save(gameRoom);
 
@@ -101,18 +103,18 @@ public class GameRoomService {
      * @throws OpenViduHttpException
      */
     public GameRoomRes joinGameRoom(String pinNumber, Long memberId, String nickname,
-        String clientIp)
-        throws OpenViduJavaClientException, OpenViduHttpException {
+                                    String clientIp)
+            throws OpenViduJavaClientException, OpenViduHttpException {
 
         Member member = null;
         //로그인 한 유저면 memberId로 검색해서 넘겨줌
         if (memberId != null) {
             member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         }
 
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         if (gameRoom.isStarted()) {
             throw new AccessDeniedException(ErrorCode.ALREADY_STARTED_GAME);
@@ -141,17 +143,17 @@ public class GameRoomService {
 
         // member를 gameMember으로 변환하여 gameRoom에 저장
         GameMember gameMember = GameMember.builder()
-            .socketId(socketId)
-            .pinNumber(pinNumber)
-            .member(member)
-            .nickname(nickname)
-            .clientIp(clientIp)
-            .build();
+                .socketId(socketId)
+                .pinNumber(pinNumber)
+                .member(member)
+                .nickname(nickname)
+                .clientIp(clientIp)
+                .build();
 
         gameMemberRedisRepository.save(gameMember);
 
         GameRoomRes gameRoomRes = GameRoomRes.of(gameRoom,
-            session.getConnections().size() == 1 ? true : false);
+                session.getConnections().size() == 1 ? true : false);
         gameRoomRes.setToken(connection.getToken());
         return gameRoomRes;
     }
@@ -162,7 +164,7 @@ public class GameRoomService {
      * @param socketId
      */
     public void removeGameMember(String socketId)
-        throws OpenViduJavaClientException, OpenViduHttpException {
+            throws OpenViduJavaClientException, OpenViduHttpException {
         gameMemberRedisRepository.deleteById(socketId);
         openViduManager.fetch();
     }
@@ -176,7 +178,7 @@ public class GameRoomService {
      * @throws OpenViduHttpException
      */
     public void removeGameRoom(String pinNumber)
-        throws OpenViduJavaClientException, OpenViduHttpException {
+            throws OpenViduJavaClientException, OpenViduHttpException {
 
         final List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
         gameMembers.forEach(gameMember -> {
@@ -196,12 +198,12 @@ public class GameRoomService {
     public void startGame(String pinNumber) throws JsonProcessingException {
         // 현재 존재하는 게임 방인지 확인
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         // 존재하는 게임인지 확인
         final MultiGame multiGame = multiGameRepository.findById(gameRoom.getGameId())
-            .orElseThrow(() ->
-                new NotFoundException(ErrorCode.GAME_NOT_FOUND));
+                .orElseThrow(() ->
+                        new NotFoundException(ErrorCode.GAME_NOT_FOUND));
 
         // 게임 play count +1 증가
         multiGame.increasePlayCount();
@@ -218,11 +220,11 @@ public class GameRoomService {
      */
     public void scoringUserImage(ScoringReq scoringReq) throws IOException {
         gameRoomRedisRepository.findById(scoringReq.getPinNumber()).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
         Map<String, String> event = new HashMap<>();
-        event.put("target", IMAGE_PATH+scoringReq.getGameImage());
+        event.put("target", IMAGE_PATH + scoringReq.getGameImage());
         String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
-        event.put("input", IMAGE_PATH+imageUrl);
+        event.put("input", IMAGE_PATH + imageUrl);
 
         Integer rawScore = 0;
         try {
@@ -230,9 +232,9 @@ public class GameRoomService {
 //                "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
                     "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod2/simil", event,
 
-                Integer.class);
+                    Integer.class);
         } catch (Exception e) {
-            log.error("restTemplate. post ForObject Error : {}",e.getMessage());
+            log.error("restTemplate. post ForObject Error : {}", e.getMessage());
         }
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
 
@@ -246,7 +248,7 @@ public class GameRoomService {
      */
     public void nextRound(String pinNumber) throws JsonProcessingException {
         final int round = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND)).getRound();
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND)).getRound();
 
         openViduManager.sendSignal(pinNumber, "roundStart", round);
     }
@@ -286,11 +288,11 @@ public class GameRoomService {
      * @throws JsonProcessingException
      */
     private synchronized void saveScore(String pinNumber, String socketId, String imageUrl,
-        int rawScore)
-        throws JsonProcessingException {
+                                        int rawScore)
+            throws JsonProcessingException {
 
         final GameRoom gameRoom = gameRoomRedisRepository.findById(pinNumber).orElseThrow(() ->
-            new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
+                new NotFoundException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         final GameMember gameMember = gameMemberRedisRepository.findById(socketId).get();
 
@@ -300,18 +302,18 @@ public class GameRoomService {
         gameMemberRedisRepository.save(gameMember);
 
         log.info("openvidu connection size : {}",
-            openViduManager.getConnections(pinNumber).size());
+                openViduManager.getConnections(pinNumber).size());
         if (gameRoom.getScoreCount() == openViduManager.getConnections(pinNumber).size()) {
             List<GameMember> gameMembers = gameMemberRedisRepository.findByPinNumber(pinNumber);
 
             List<GameMemberRes> roundResultData = findRoundResult(gameMembers, gameRoom.getRound());
 
             int maxRoundScore = Collections.max(roundResultData,
-                Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
+                    Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore();
 
             // prevent getting negative score, add 1 to absolute min score
             int minRoundScore = Math.abs(Collections.min(roundResultData,
-                Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore()) + 1;
+                    Comparator.comparing(GameMemberRes::getRoundScore)).getRoundScore()) + 1;
 
             for (GameMember member : gameMembers) {
 
@@ -341,7 +343,7 @@ public class GameRoomService {
     private List<GameMemberRes> findRoundResult(List gameMembers, int round) {
 
         PriorityQueue<GameMember> pq = new PriorityQueue<>(
-            (a, b) -> b.getRoundScore() - a.getRoundScore());
+                (a, b) -> b.getRoundScore() - a.getRoundScore());
 
         pq.addAll(gameMembers);
         List<GameMemberRes> result = new ArrayList<>();
@@ -363,7 +365,7 @@ public class GameRoomService {
      */
     private List<GameMemberRes> findFinalResult(List gameMembers) {
         PriorityQueue<GameMember> pq = new PriorityQueue<>(
-            (a, b) -> b.getTotalScore() - a.getTotalScore());
+                (a, b) -> b.getTotalScore() - a.getTotalScore());
         pq.addAll(gameMembers);
         List<GameMemberRes> finalResult = new ArrayList<>();
         while (!pq.isEmpty()) {
