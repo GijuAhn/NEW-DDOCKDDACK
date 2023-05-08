@@ -37,7 +37,7 @@ public class OpenViduManager {
     @Value("${OPENVIDU_HEADER}")
     private String OPENVIDU_HEADER;
     private final HttpHeaders headers = new HttpHeaders();
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @PostConstruct
     public void init() {

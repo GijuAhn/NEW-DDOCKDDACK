@@ -50,7 +50,7 @@ public class GameRoomService {
     private final GameMemberRedisRepository gameMemberRedisRepository;
     private final PinNumberGenerator pinNumberGenerator;
     private final OpenViduManager openViduManager;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     @Value("${IMAGE_PATH}")
     private String IMAGE_PATH;
 
@@ -129,7 +129,7 @@ public class GameRoomService {
         Session session = openViduManager.findSessionByPinNumber(pinNumber);
 
         // 방 인원 제한 최대 7명
-        if (session.getConnections().size() == 7) {
+        if (session.getConnections().size() == 5) {
             throw new AccessDeniedException(ErrorCode.MAXIMUM_MEMBER);
         }
 
@@ -224,11 +224,16 @@ public class GameRoomService {
         String imageUrl = awsS3.multipartFileUpload(scoringReq.getMemberGameImage());
         event.put("input", IMAGE_PATH+imageUrl);
 
-        final Integer rawScore = restTemplate.postForObject(
-            "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
-            Integer.class);
-        
+        Integer rawScore = 0;
+        try {
+            rawScore = restTemplate.postForObject(
+                "https://s1faxc16gj.execute-api.ap-northeast-2.amazonaws.com/prod1/simil", event,
+                Integer.class);
+        } catch (Exception e) {
+            log.error("restTemplate. post ForObject Error : {}",e.getMessage());
+        }
         saveScore(scoringReq.getPinNumber(), scoringReq.getSocketId(), imageUrl, rawScore);
+
     }
 
     /**
