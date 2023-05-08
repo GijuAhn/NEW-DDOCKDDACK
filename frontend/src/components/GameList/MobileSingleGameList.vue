@@ -63,12 +63,12 @@
         </div>
       </div>
 
-      <div id="board" v-if="rank">
+      <!-- <div id="board" v-if="rank">
         <leader-board
           :rank="rank"
           @getImage="(image) => openRankingImageModal(image)"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@ import { apiInstance } from "@/api/index";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import SingleGame from "@/components/GameList/item/SingleGame.vue";
-import LeaderBoard from "@/components/GameList/item/LeaderBoard.vue";
+// import LeaderBoard from "@/components/GameList/item/LeaderBoard.vue";
 import html2canvas from "html2canvas";
 import heic2any from "heic2any";
 
@@ -165,26 +165,26 @@ const analysis = async () => {
         alert("동일 인물입니다.");
         return;
       }
-      if (
-        rank.value.length < 20 ||
-        rank.value[rank.value.length - 1].score < per.value
-      ) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          store.dispatch("commonStore/setCurrentModalAsync", {
-            name: "rankingRegist",
-            data: {
-              gameId: games.value[targetGameIdx.value].id,
-              targetImage: games.value[targetGameIdx.value].thumbnail,
-              image: fd.get("source"),
-              userImage: reader.result,
-              gameTitle: games.value[targetGameIdx.value].title,
-              score: per.value,
-            },
-          });
-        };
-        reader.readAsDataURL(file);
-      }
+      // if (
+      //   rank.value.length < 20 ||
+      //   rank.value[rank.value.length - 1].score < per.value
+      // ) {
+      //   const reader = new FileReader();
+      //   reader.onload = () => {
+      //     store.dispatch("commonStore/setCurrentModalAsync", {
+      //       name: "rankingRegist",
+      //       data: {
+      //         gameId: games.value[targetGameIdx.value].id,
+      //         targetImage: games.value[targetGameIdx.value].thumbnail,
+      //         image: fd.get("source"),
+      //         userImage: reader.result,
+      //         gameTitle: games.value[targetGameIdx.value].title,
+      //         score: per.value,
+      //       },
+      //     });
+      //   };
+      //   reader.readAsDataURL(file);
+      // }
     })
     .catch((err) => {
       if (err.response.status === 400) {
@@ -225,16 +225,15 @@ const dataURItoBlob = (dataURI) => {
   return bb;
 };
 
-const openRankingImageModal = (image) => {
-  store.dispatch("commonStore/setCurrentModalAsync", {
-    name: "rankingImage",
-    data: image,
-  });
-};
+// const openRankingImageModal = (image) => {
+//   store.dispatch("commonStore/setCurrentModalAsync", {
+//     name: "rankingImage",
+//     data: image,
+//   });
+// };
 
 const fileUploadEvent = (e) => {
   uploadImage.value = e.target.files[0];
-  console.log(uploadImage.value.name);
   if (uploadImage.value.name.split(".")[1] === "HEIF") {
     let blob = e.target.files[0];
     heic2any({ blob: blob, toType: "image/jpeg" }).then(function (resultBlob) {
