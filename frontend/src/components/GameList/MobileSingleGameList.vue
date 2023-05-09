@@ -130,6 +130,7 @@ const callApi = () => {
     .then((response) => {
       games.value = response.data.content;
       totalPages = response.data.totalPages;
+      pageConditionReq.value.page++;
     })
     .catch((error) => {
       console.log(error);
