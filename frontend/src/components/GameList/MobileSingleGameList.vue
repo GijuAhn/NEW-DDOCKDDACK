@@ -243,7 +243,6 @@ const fileUploadEvent = (e) => {
         uploadImage.value.name.split(".")[0] + ".jpg",
         { type: "image/jpeg" }
       );
-      console.log(uploadImage.value);
     });
   }
   mode.value = "image";
