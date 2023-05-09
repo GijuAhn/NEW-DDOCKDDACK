@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,21 @@ public class RankingApiController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{rankingId}")
+    @Operation(summary = "랭킹 삭제")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "랭킹 삭제 성공"),
+        @ApiResponse(responseCode = "401", description = "권한 없음"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 랭킹"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
+    })
+    public ResponseEntity rankingRemove(@PathVariable Long rankingId,
+        @AuthenticationPrincipal MemberDetail memberDetail) {
+        rankingService.removeRanking(memberDetail, rankingId);
+        return ResponseEntity.ok().build();
+
+    }
+
     @PostMapping("/report/{rankingId}")
     @Operation(summary = "랭킹 신고")
     @ApiResponses({
@@ -63,6 +79,5 @@ public class RankingApiController {
         rankingService.reportRanking(memberDetail.getId(), rankingId,
             ReportType.valueOf(body.get("reportType")));
         return ResponseEntity.ok().build();
-
     }
 }

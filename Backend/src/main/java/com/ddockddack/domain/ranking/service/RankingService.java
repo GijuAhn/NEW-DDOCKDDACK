@@ -1,6 +1,7 @@
 package com.ddockddack.domain.ranking.service;
 
 import com.ddockddack.domain.member.entity.Member;
+import com.ddockddack.domain.member.entity.Role;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.ranking.entity.Ranking;
 import com.ddockddack.domain.ranking.repository.RankingRepository;
@@ -13,8 +14,10 @@ import com.ddockddack.domain.singlegame.entity.SingleGame;
 import com.ddockddack.domain.singlegame.repository.SingleGameRepository;
 import com.ddockddack.global.aws.AwsS3;
 import com.ddockddack.global.error.ErrorCode;
+import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.AlreadyExistResourceException;
 import com.ddockddack.global.error.exception.NotFoundException;
+import com.ddockddack.global.oauth.MemberDetail;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,9 +75,18 @@ public class RankingService {
         rankingRepository.save(ranking);
     }
 
+    @Transactional
+    public void removeRanking(MemberDetail memberDetail, Long rankingId) {
+
+        checkAccessValidation(memberDetail, rankingId);
+        reportedRankingRepository.deleteById(rankingId);
+
+    }
+
 
     /**
      * 랭킹 신고
+     *
      * @param memberId
      * @param rankingId
      * @param reportType
@@ -99,6 +111,28 @@ public class RankingService {
             .build();
 
         reportedRankingRepository.save(reportedRanking);
+    }
+
+    /**
+     * 랭킹 삭제 시 체크
+     *
+     * @param memberDetail
+     * @param rankingId
+     * @return
+     */
+    private Ranking checkAccessValidation(MemberDetail memberDetail, Long rankingId) {
+
+        Ranking ranking = checkRankingValidation(rankingId);
+
+        // 관리자면 바로 리턴
+        if (memberDetail.getRole().equals(Role.ADMIN)) {
+            return ranking;
+        }
+
+        if ((memberDetail.getId() != ranking.getMember().getId())) {
+            throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
+        }
+        return ranking;
     }
 
 
