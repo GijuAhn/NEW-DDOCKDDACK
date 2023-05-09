@@ -58,6 +58,7 @@ export const memberStore = {
 
     async getMemberInfo({ commit, state, dispatch }) {
       let accessToken = state.accessToken;
+      console.log(accessToken);
       await findByAccessToken(
         accessToken,
         ({ data }) => {

@@ -1,6 +1,9 @@
 package com.ddockddack.domain.report.repository;
 
+import static com.ddockddack.domain.member.entity.QMember.member;
+import static com.ddockddack.domain.ranking.entity.QRanking.ranking;
 import static com.ddockddack.domain.report.entity.QReportedRanking.reportedRanking;
+import static com.ddockddack.domain.singlegame.entity.QSingleGame.singleGame;
 
 import com.ddockddack.domain.report.entity.ReportedRanking;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -27,10 +30,9 @@ public class ReportedRankingRepositoryImpl implements ReportedRankingRepositoryS
     public List<ReportedRanking> findAllReportedRankings() {
         final List<ReportedRanking> fetch = jpaQueryFactory
             .selectFrom(reportedRanking)
-            .innerJoin(reportedRanking.ranking).fetchJoin()
-            .innerJoin(reportedRanking.ranking.member).fetchJoin()
-            .innerJoin(reportedRanking.reportMember).fetchJoin()
-            .innerJoin(reportedRanking.ranking.singleGame).fetchJoin()
+            .innerJoin(reportedRanking.ranking, ranking).fetchJoin()
+            .innerJoin(ranking.member, member).fetchJoin()
+            .innerJoin(ranking.singleGame, singleGame).fetchJoin()
             .fetch();
         return fetch;
     }
