@@ -10,6 +10,10 @@
     <div id="bottomSection">
       <div id="gameTitle">
         <span>{{ props.game.title }}</span>
+
+        <div class="playCount">
+          <span>{{ props.game.playCount }}</span>
+        </div>
       </div>
 
       <div id="createRoomButton">
@@ -45,7 +49,7 @@ const ready = () => {
   margin-top: 10px;
 }
 #gameTitle {
-  width: 95%;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -108,5 +112,21 @@ const ready = () => {
   background-color: #d9d9d9;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.playCount {
+  position: relative;
+  float: right;
+  background-color: #d9d9d9;
+  border-radius: 30px;
+  width: 15%;
+  height: 30px;
+  overflow: hidden;
+  text-align: center;
+}
+#gameTitle .playCount span {
+  position: relative;
+  top: 20%;
+  font-size: 15px;
 }
 </style>

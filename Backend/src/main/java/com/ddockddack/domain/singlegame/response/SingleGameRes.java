@@ -17,11 +17,14 @@ public class SingleGameRes {
 
     private String thumbnail;
 
+    private long playCount;
+
     public static SingleGameRes from(SingleGame singleGame) {
         SingleGameRes res = new SingleGameRes();
         res.setId(singleGame.getId());
         res.setTitle(singleGame.getTitle());
         res.setThumbnail(singleGame.getThumbnail());
+        res.setPlayCount(singleGame.getPlayCount());
         return res;
     }
 }
