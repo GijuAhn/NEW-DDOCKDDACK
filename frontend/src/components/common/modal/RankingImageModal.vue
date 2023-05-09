@@ -24,5 +24,6 @@ const currentModal = computed(() => store.state.commonStore.currentModal);
 img {
   margin: 2px;
   object-fit: cover;
+  transform: scaleX(-1);
 }
 </style>
