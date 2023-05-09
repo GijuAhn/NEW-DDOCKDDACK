@@ -2,7 +2,6 @@ package com.ddockddack.domain.bestcut.entity;
 
 import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.global.util.BaseEntity;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,15 +52,16 @@ public class Bestcut extends BaseEntity {
 
     @Builder
     public Bestcut(Member member, String gameImageUrl, String gameTitle, String gameImgDesc,
-        String title, String imageUrl, int likeCount) {
+        String title, String imageUrl) {
         this.member = member;
         this.gameTitle = gameTitle;
         this.gameImageUrl = gameImageUrl;
         this.gameImgDesc = gameImgDesc;
         this.imageUrl = imageUrl;
         this.title = title;
-        this.likeCount = likeCount;
     }
 
-    public void increaseLikeCnt() {this.likeCount++;}
+    public void increaseLikeCnt() {
+        this.likeCount++;
+    }
 }
