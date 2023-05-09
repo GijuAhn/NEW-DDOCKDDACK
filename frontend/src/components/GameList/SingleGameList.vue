@@ -163,7 +163,7 @@ const callApi = () => {
     .get(`/api/single-games`, {
       params: {
         keyword: pageConditionReq.value.keyword,
-        page: pageConditionReq.value.page - 1,
+        page: pageConditionReq.value.page,
       },
       headers: { "access-token": accessToken },
     })
