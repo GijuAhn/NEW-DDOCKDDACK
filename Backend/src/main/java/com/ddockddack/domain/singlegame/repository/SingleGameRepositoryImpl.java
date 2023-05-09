@@ -25,7 +25,7 @@ public class SingleGameRepositoryImpl implements SingleGameRepositorySupport {
             .where(searchCond(pageConditionReq.getKeyword()))
             .offset(pageConditionReq.getPageable().getOffset())
             .limit(pageConditionReq.getPageable().getPageSize())
-            .orderBy(orderCond(pageConditionReq.getPageable()))
+            .orderBy(singleGame.playCount.desc())
             .fetch();
 
         return new PageImpl<>(singleGames, pageConditionReq.getPageable(),
@@ -43,14 +43,5 @@ public class SingleGameRepositoryImpl implements SingleGameRepositorySupport {
             return null;
         }
         return singleGame.title.contains(keyword);
-    }
-
-    private OrderSpecifier orderCond(Pageable pageable) {
-        Sort.Order order = pageable.getSort().iterator().next();
-        if (order.getProperty().equals("createdDate")) {
-            return singleGame.id.desc();
-        } else {
-            return singleGame.playCount.desc();
-        }
     }
 }
