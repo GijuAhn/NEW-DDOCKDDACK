@@ -1,6 +1,7 @@
 package com.ddockddack.domain.report.repository;
 
 import static com.ddockddack.domain.member.entity.QMember.member;
+import static com.ddockddack.domain.multigame.entity.QMultiGame.multiGame;
 import static com.ddockddack.domain.ranking.entity.QRanking.ranking;
 import static com.ddockddack.domain.report.entity.QReportedRanking.reportedRanking;
 import static com.ddockddack.domain.singlegame.entity.QSingleGame.singleGame;
@@ -36,4 +37,16 @@ public class ReportedRankingRepositoryImpl implements ReportedRankingRepositoryS
             .fetch();
         return fetch;
     }
+
+    @Override
+    public List<Long> findRankingIdsByRankingId(Long rankingId) {
+        return jpaQueryFactory
+            .select(reportedRanking.id
+            )
+            .from(reportedRanking)
+            .innerJoin(reportedRanking.ranking, ranking)
+            .where(reportedRanking.ranking.id.eq(rankingId))
+            .fetch();
+    }
+
 }

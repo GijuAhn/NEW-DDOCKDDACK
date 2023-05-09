@@ -8,4 +8,7 @@ public interface ReportedRankingRepositorySupport {
     boolean exist(Long memberId, Long rankingId);
 
     List<ReportedRanking> findAllReportedRankings();
+
+    List<Long> findRankingIdsByRankingId(Long rankingId);
+
 }

@@ -86,7 +86,10 @@ public class RankingService {
     public void removeRanking(MemberDetail memberDetail, Long rankingId) {
 
         checkAccessValidation(memberDetail, rankingId);
-        reportedRankingRepository.deleteById(rankingId);
+        final List<Long> ids = reportedRankingRepository.findRankingIdsByRankingId(
+            rankingId);
+        reportedRankingRepository.deleteAllByRankingId(ids);
+        rankingRepository.deleteById(rankingId);
 
     }
 
