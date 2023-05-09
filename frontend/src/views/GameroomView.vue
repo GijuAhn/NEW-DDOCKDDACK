@@ -51,7 +51,7 @@
                   <br />
                   <span id="smallFont">
                     {{ openviduInfo.subscribers.length + 1 }}명 참가중...
-                    <small style="font-size: 16px">(최대 7명)</small>
+                    <small style="font-size: 16px">(최대 5명)</small>
                   </span>
                   <br />
                   <br />
