@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SingleGameService {
+
     private final SingleGameRepository singleGameRepository;
     private final AwsS3 awsS3;
     private final CompareFaces compareFaces;
 
     /**
      * 싱글 게임 목록 조회
+     *
      * @return
      */
-    public PageImpl<SingleGameRes> getSingleGameList(PageConditionReq pageConditionReq){
+    public PageImpl<SingleGameRes> getSingleGameList(PageConditionReq pageConditionReq) {
         PageImpl<SingleGame> singleGames = singleGameRepository.findSingleGames(pageConditionReq);
         List<SingleGameRes> gameList = singleGames
-                .stream()
-                .map(SingleGameRes::from)
-                .collect(Collectors.toList());
+            .stream()
+            .map(SingleGameRes::from)
+            .collect(Collectors.toList());
 
         return new PageImpl<>(gameList, singleGames.getPageable(), singleGames.getTotalElements());
     }
@@ -44,10 +45,17 @@ public class SingleGameService {
      * @param faceSimilarityReq
      * @return
      */
+    @Transactional
     public Float getScore(FaceSimilarityReq faceSimilarityReq) throws IOException {
         byte[] target = awsS3.getObject(faceSimilarityReq.getTarget());
         byte[] source = faceSimilarityReq.getSource().getBytes();
-
+        increasePlayCount(faceSimilarityReq.getSingleGameId());
         return compareFaces.compare(target, source);
+    }
+
+    private void increasePlayCount(Long singleGameId) {
+        final SingleGame singleGame = singleGameRepository.findById(
+            singleGameId).get();
+        singleGame.increasePlayCount();
     }
 }

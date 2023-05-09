@@ -16,4 +16,7 @@ public class FaceSimilarityReq {
     private MultipartFile source;
     @NotNull(message = "target image can't be null.")
     private String target;
+    @NotNull(message = "singleGameId can't be null.")
+    private Long singleGameId;
+
 }
