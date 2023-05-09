@@ -80,4 +80,6 @@ public class RankingApiController {
             ReportType.valueOf(body.get("reportType")));
         return ResponseEntity.ok().build();
     }
+
+
 }

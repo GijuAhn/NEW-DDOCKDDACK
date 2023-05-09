@@ -6,6 +6,8 @@ import com.ddockddack.domain.multigame.response.ReportedGameRes;
 import com.ddockddack.domain.multigame.service.MultiGameService;
 import com.ddockddack.domain.member.service.BanLevel;
 import com.ddockddack.domain.member.service.MemberService;
+import com.ddockddack.domain.ranking.response.ReportedRankingRes;
+import com.ddockddack.domain.ranking.service.RankingService;
 import com.ddockddack.domain.report.service.ReportService;
 import com.ddockddack.global.oauth.MemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +39,7 @@ public class AdminApiController {
     private final MultiGameService multiGameService;
     private final MemberService memberService;
     private final ReportService reportService;
+    private final RankingService rankingService;
 
     public static BanLevel stringToEnum(String input) {
         return BanLevel.valueOf(input);
@@ -65,6 +68,18 @@ public class AdminApiController {
 
         return ResponseEntity.ok(bestcutService.findAllReportedBestCuts());
 
+    }
+
+    @GetMapping("/reported/ranks")
+    @Operation(summary = "신고된 랭킹 목록 조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "신고된 랭킹 목록 조회 성공"),
+        @ApiResponse(responseCode = "403", description = "허가되지 않은 사용자"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<List<ReportedRankingRes>> reportedRankingList() {
+
+        return ResponseEntity.ok(rankingService.findAllReportedRankings());
     }
 
     @DeleteMapping("/remove/game/{reportId}/{gameId}")

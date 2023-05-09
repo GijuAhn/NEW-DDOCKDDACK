@@ -7,6 +7,7 @@ import com.ddockddack.domain.ranking.entity.Ranking;
 import com.ddockddack.domain.ranking.repository.RankingRepository;
 import com.ddockddack.domain.ranking.request.RankingSaveReq;
 import com.ddockddack.domain.ranking.response.RankingRes;
+import com.ddockddack.domain.ranking.response.ReportedRankingRes;
 import com.ddockddack.domain.report.entity.ReportType;
 import com.ddockddack.domain.report.entity.ReportedRanking;
 import com.ddockddack.domain.report.repository.ReportedRankingRepository;
@@ -75,6 +76,12 @@ public class RankingService {
         rankingRepository.save(ranking);
     }
 
+    /**
+     * 랭킹 삭제
+     *
+     * @param memberDetail
+     * @param rankingId
+     */
     @Transactional
     public void removeRanking(MemberDetail memberDetail, Long rankingId) {
 
@@ -82,7 +89,6 @@ public class RankingService {
         reportedRankingRepository.deleteById(rankingId);
 
     }
-
 
     /**
      * 랭킹 신고
@@ -112,6 +118,14 @@ public class RankingService {
 
         reportedRankingRepository.save(reportedRanking);
     }
+
+    public List<ReportedRankingRes> findAllReportedRankings() {
+        return reportedRankingRepository.findAllReportedRankings().stream()
+            .map(ReportedRankingRes::from)
+            .collect(Collectors.toList());
+
+    }
+
 
     /**
      * 랭킹 삭제 시 체크
