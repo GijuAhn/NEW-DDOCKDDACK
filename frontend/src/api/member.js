@@ -22,7 +22,7 @@ async function accesstokenRegeneration(success, fail) {
 }
 
 async function logout(success, fail) {
-  await api.get(`/api/token/logout`).then(success).catch(fail);
+  await api.get(`/api/members/logout`).then(success).catch(fail);
 }
 
 export { findByAccessToken, accesstokenRegeneration, logout };

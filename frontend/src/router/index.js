@@ -38,18 +38,17 @@ const routes = [
     path: "/",
     name: "main",
     component: MainView,
-    beforeEnter: isLogin,
   },
   {
     path: "/single-games",
     name: "singleGames",
-    beforeEnter: isLogin,
+    // beforeEnter: isLogin,
     component: () => import("@/views/SingleGameListView.vue"),
   },
   {
     path: "/multi-games",
     name: "multiGames",
-    beforeEnter: isLogin,
+    // beforeEnter: isLogin,
     component: () => import("@/views/MultiGameListView.vue"),
   },
   {

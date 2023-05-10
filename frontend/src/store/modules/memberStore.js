@@ -102,21 +102,22 @@ export const memberStore = {
         }
       );
     },
-  },
-
-  async memberLogout({ commit }, accessToken) {
-    await logout(
-      accessToken,
-      ({ data }) => {
-        if (data.status === 200) {
-          commit("setMemberInfo", null);
+    async memberLogout({ commit }, accessToken) {
+      await logout(
+        accessToken,
+        ({ data }) => {
+          data;
+          // if (data.status === 200) {
+          //   console.log("200확인");
+          // }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        commit("setToken", "");
-        console.log(error);
-      }
-    );
+      );
+      commit("setMemberInfo", "");
+      commit("setToken", "");
+    },
   },
 
   // withdrawal = () => {

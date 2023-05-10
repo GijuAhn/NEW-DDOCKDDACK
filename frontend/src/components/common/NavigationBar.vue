@@ -25,12 +25,12 @@
 </template>
 
 <script setup>
-import { apiInstance } from "@/api/index";
+// import { apiInstance } from "@/api/index";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
-const api = apiInstance();
+// const api = apiInstance();
 
 const view = computed(() => store.state.commonStore.view);
 const accessToken = computed(() => store.state.memberStore.accessToken);
@@ -46,11 +46,9 @@ const setCurrentModalAsync = (what) => {
 };
 
 const logout = () => {
-  api
-    .get(`/api/members/logout`, {
-      headers: {
-        "access-token": accessToken.value, // 변수로 가지고있는 AccessToken
-      },
+  store
+    .dispatch("memberStore/memberLogout", {
+      accessToken: accessToken.value,
     })
     .then(() => {
       window.location.assign(`/`);
@@ -58,10 +56,26 @@ const logout = () => {
     .catch((error) => {
       console.log(error);
     })
-    .finally(() => {
-      store.state.memberStore.$reset;
-      // store.state.memberStore.memberInfo = {};
-    });
+    .finally(() => {});
+  // api
+  //   .get(`/api/members/logout`, {
+  //     headers: {
+  //       "access-token": accessToken.value, // 변수로 가지고있는 AccessToken
+  //     },
+  //   })
+  //   .then(() => {
+  //     window.location.assign(`/`);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   })
+  //   .finally(() => {
+  //     console.log("여옴?");
+  //     store.state.memberStore = {};
+  //     console.log(store.state.memberStore);
+
+  //     // store.state.memberStore.memberInfo = {};
+  //   });
 };
 </script>
 

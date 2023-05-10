@@ -179,8 +179,7 @@ public class MemberApiController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/logout")
-    public ResponseEntity
-    logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = removeCookie(request.getCookies(), response);
         memberService.logout(refreshToken);
         return ResponseEntity.ok().build();
