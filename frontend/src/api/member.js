@@ -17,8 +17,15 @@ async function findByAccessToken(accessToken, success, fail) {
     .catch(fail);
 }
 
-async function accesstokenRegeneration(success, fail) {
-  await api.get(`/api/token/refresh`).then(success).catch(fail);
+async function accesstokenRegeneration(accessToken, success, fail) {
+  await api
+    .get(`/api/token/refresh`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
 }
 
 async function logout(success, fail) {

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONUtil;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -134,6 +135,7 @@ public class MemberApiController {
     public ResponseEntity myBestcutList(
         @ModelAttribute PageConditionReq pageCondition,
         @AuthenticationPrincipal MemberDetail memberDetail) {
+        System.out.println(memberDetail.getId());
         PageImpl<BestcutRes> bestcutRes = bestcutService.findAllBestcuts(true, memberDetail.getId(),
             pageCondition);
         return ResponseEntity.ok(bestcutRes);

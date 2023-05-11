@@ -19,6 +19,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -39,10 +40,7 @@ public class MemberService {
     private final StarredGameRepository starredGameRepository;
     private final MultiGameRepository multiGameRepository;
     private final AwsS3 awsS3;
-
-
-    //    private final RedisTemplate redisTemplate;
-    private RestTemplate rt;
+    private final RedisTemplate redisTemplate;
 
     @Transactional
     public void modifyMemberNickname(Long memberId, MemberModifyNameReq modifyMemberNickname) {
@@ -125,21 +123,7 @@ public class MemberService {
 
     @Transactional
     public void logout(String refreshToken) {
-//        Long findUserId = tokenService.getUid(refreshToken);
-
-        //Redis Cache에 저장
-//        Long accessTokenTime = tokenService.getExpiration(accessToken);
-        Long refreshTokenTime = tokenService.getExpiration(refreshToken);
-//        if (accessTokenTime > 0) {
-//            redisTemplate.opsForValue()
-//                .set(accessToken, "logout", accessTokenTime,
-//                    TimeUnit.MILLISECONDS);
-//        }
-//        if(refreshTokenTime > 0) {
-//            redisTemplate.opsForValue()
-//                .set(refreshToken, "logout", refreshTokenTime,
-//                    TimeUnit.MILLISECONDS);
-//        }
+        redisTemplate.delete(refreshToken);
     }
 
     @Transactional

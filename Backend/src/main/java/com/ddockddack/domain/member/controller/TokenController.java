@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,12 +41,12 @@ public class TokenController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/refresh")
-    public String refreshAuth(HttpServletResponse response) {
+    public ResponseEntity refreshAuth(HttpServletResponse response) {
         try {
             MemberDetail memberDetail = (MemberDetail) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
             response.addHeader("access-token", memberDetail.getAccessToken());
-            return memberDetail.getAccessToken();
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZED);
         }

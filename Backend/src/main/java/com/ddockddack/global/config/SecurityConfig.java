@@ -1,10 +1,12 @@
 package com.ddockddack.global.config;
 
-import com.ddockddack.global.filter.JwtAuthFilter;
-import com.ddockddack.global.oauth.OAuth2SuccessHandler;
 import com.ddockddack.domain.member.repository.MemberRepository;
-import com.ddockddack.global.oauth.CustomOAuth2UserService;
 import com.ddockddack.domain.member.service.TokenService;
+import com.ddockddack.global.filter.CustomAuthenticationEntryPoint;
+import com.ddockddack.global.filter.JwtAuthFilter;
+import com.ddockddack.global.filter.JwtExceptionFilter;
+import com.ddockddack.global.oauth.CustomOAuth2UserService;
+import com.ddockddack.global.oauth.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,7 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler successHandler;
     private final TokenService tokenService;
     private final MemberRepository memberRepository;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,13 +35,16 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS)// jwt token으로 인증하므로 stateless 하도록 처리.
             .and()// 인증권한이 필요한 페이지.// 나머지 모든 요청 허용  ( 생략 가능 )
-                .oauth2Login()
-                .successHandler(successHandler)
-                .userInfoEndpoint().userService(customOAuth2UserService);
+            .oauth2Login()
+            .successHandler(successHandler)
+            .userInfoEndpoint().userService(customOAuth2UserService);
 //            .failureHandler(oAuth2AuthenticationFailureHandler);
-
-        http.addFilterAfter(new JwtAuthFilter(tokenService, memberRepository),
-            UsernamePasswordAuthenticationFilter.class);
+        http
+            .exceptionHandling()
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
+            .and().addFilterBefore(new JwtAuthFilter(tokenService, memberRepository),
+                UsernamePasswordAuthenticationFilter.class);
+//            .addFilterBefore(new JwtExceptionFilter(), JwtAuthFilter.class);
         return http.build();
     }
 
