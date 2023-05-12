@@ -99,7 +99,8 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { ref, computed, onBeforeUnmount } from "vue";
+// computed,
+import { ref, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import SingleGame from "@/components/GameList/item/SingleGame.vue";
 import LeaderBoard from "@/components/GameList/item/LeaderBoard.vue";
@@ -109,7 +110,7 @@ import PageNav from "@/components/common/PageNav.vue";
 
 const api = apiInstance();
 const store = useStore();
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
+// const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const games = ref();
 const rank = ref();
 const isShow = ref(true);
@@ -165,14 +166,15 @@ const callApi = () => {
         keyword: pageConditionReq.value.keyword,
         page: pageConditionReq.value.page,
       },
-      headers: { "access-token": accessToken },
+      // headers: { "access-token": accessToken },
     })
     .then((response) => {
       games.value = response.data.content;
       totalPages = response.data.totalPages;
     })
     .catch((error) => {
-      console.log(error.response.status);
+      error;
+      // console.log(error.response.status);
     });
 };
 

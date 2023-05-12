@@ -28,21 +28,19 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { apiInstance } from "@/api/index";
 import ReportedBestCut from "@/components/Admin/item/ReportedBestCut";
 
 const api = apiInstance();
 const store = useStore();
 const admin_api_url = `/api/admin`;
-const accessToken = computed(() => store.state.memberStore.accessToken);
 
 let reportedBestCuts = ref();
 
 const callApi = () => {
   api
     .get(admin_api_url + `/reported/bestcuts`, {
-      headers: { "access-token": accessToken.value },
       params: {},
     })
     .then((response) => {

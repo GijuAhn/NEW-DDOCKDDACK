@@ -1,5 +1,7 @@
 package com.ddockddack.domain.member.service;
 
+import com.ddockddack.global.error.ErrorCode;
+import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.oauth.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -75,16 +77,22 @@ public class TokenService {
 
     }
 
-    public boolean isRefreshTokenValidate(String refreshToken) {
+    public void refreshTokenValidate(String refreshToken) {
         if (refreshToken == null) {
-            return false;
+            throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
         }
-        return Optional.ofNullable(
-            redisTemplate.opsForValue().get(refreshToken)).isPresent();
+
+        if (Optional.ofNullable(
+            redisTemplate.opsForValue().get(refreshToken)).isEmpty()) {
+            throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
+        }
+
     }
 
     public boolean verifyToken(String token) {
-
+        if (token == null) {
+            throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
+        }
         Jws<Claims> claims = Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token);
@@ -110,6 +118,9 @@ public class TokenService {
     }
 
     public Long getUid(String token) {
+        if (token == null) {
+            throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
+        }
         return Long.valueOf(
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
     }

@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import { useStore } from "vuex";
 import { apiInstance } from "@/api/index";
 import router from "@/router/index.js";
@@ -82,7 +82,6 @@ const emit = defineEmits(["updateProps"]);
 const props = defineProps(["game", "index"]);
 const api = apiInstance();
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 
 const onClickOutside = () => {
   state.value = false;
@@ -108,9 +107,6 @@ const createSession = (gameId) => {
       "/api/game-rooms",
       {},
       {
-        headers: {
-          "access-token": accessToken,
-        },
         params: {
           gameId,
         },
@@ -129,11 +125,7 @@ const createSession = (gameId) => {
 const starredGame = () => {
   open();
   api
-    .post(
-      `/api/multi-games/starred/${props.game.gameId}`,
-      {},
-      { headers: { "access-token": accessToken } }
-    )
+    .post(`/api/multi-games/starred/${props.game.gameId}`, {})
     .then(() => {
       emit("updateProps", { status: "starred", index: props.index });
     })
@@ -145,9 +137,7 @@ const starredGame = () => {
 const unstarredGame = () => {
   open();
   api
-    .delete(`/api/multi-games/unstarred/${props.game.gameId}`, {
-      headers: { "access-token": accessToken },
-    })
+    .delete(`/api/multi-games/unstarred/${props.game.gameId}`, {})
     .then(() => {
       emit("updateProps", { status: "unstarred", index: props.index });
       emit("updateMyGames", { index: props.index });

@@ -12,7 +12,7 @@ public enum ErrorCode {
     INVALID_TOKEN(400, "invalid token"),
     LOGIN_REQUIRED(401, "login required"),
     NOT_AUTHORIZED(401, "not authorized"),
-    MAXIMUM_MEMBER(401, "The maximum length is 13"),
+    MAXIMUM_MEMBER(401, "The maximum length is 5"),
     EXPIRED_ACCESSTOKEN(401, "expired access-token"),
     BANED_USER(403, "baned user."),
     NOT_ADMIN(403, "not admin."),
@@ -25,8 +25,8 @@ public enum ErrorCode {
     RANKING_NOT_FOUND(404, "ranking not found"),
     EXCEED_FILE_SIZE(413, "file size can't exceed 2MB"),
     EXTENSION_NOT_ALLOWED(415, "extension not allowed."),
-    OPENVIDU_SERVER_ERROR(500, "openvidu server error");
-    ;
+    OPENVIDU_SERVER_ERROR(500, "openvidu server error"),
+    INTERNAL_SERVER_ERROR(500, "internal server error.");
 
     private int code;
     private String message;

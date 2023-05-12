@@ -4,6 +4,7 @@ import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.service.TokenService;
 import com.ddockddack.global.error.ErrorCode;
+import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -37,16 +38,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String accessToken = (request).getHeader("access-token");
         String refreshToken = getRefreshToken(request.getCookies());
+        // refresh 요청
 
         // 액세스 토큰이 존재 하는 경우
         if (accessToken != null && !accessToken.isBlank()) {
             try {
-                // 토큰이 검증
-                if (!tokenService.verifyToken(accessToken)) {
+                // 토큰 검증
+                if (request.getRequestURI()
+                    .contains("refresh") || !tokenService.verifyToken(accessToken)) {
                     // 리프레시 토큰 검증
                     tokenService.verifyToken(refreshToken);
                     // 리프레시 토큰이 존재하지 않거나 변조된 경우
-                    tokenService.isRefreshTokenValidate(refreshToken);
+                    tokenService.refreshTokenValidate(refreshToken);
 
                     // 리프레시 토큰이 유효한 경우 액세스 토큰 재발급
                     accessToken = tokenService.generateToken(
@@ -67,7 +70,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 tokenService.verifyToken(refreshToken);
 
                 // 리프레시 토큰이 위조되었거나 , 없는 경우
-                tokenService.isRefreshTokenValidate(refreshToken);
+                tokenService.refreshTokenValidate(refreshToken);
 
                 // 리프레시 토큰이 존재하고, 검증을 통과한 경우에는 정상진행
                 if (refreshToken != null) {
@@ -79,9 +82,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 request.setAttribute("exception", ErrorCode.EXPIRED_ACCESSTOKEN.getCode());
             } catch (SignatureException e) {
                 request.setAttribute("exception", ErrorCode.INVALID_TOKEN.getCode());
+            } catch (AccessDeniedException e) {
+                request.setAttribute("exception", ErrorCode.LOGIN_REQUIRED);
             }
-
         }
+
         filterChain.doFilter(request, response);
 
     }

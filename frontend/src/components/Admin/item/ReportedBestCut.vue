@@ -29,16 +29,13 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { useStore } from "vuex";
 import { defineProps, ref, computed, defineEmits } from "vue";
 import ReportedBestCutPreview from "@/components/Admin/item/ReportedBestCutPreview";
 
 const api = apiInstance();
 const props = defineProps({ reportedBestCut: Object });
 const visible = ref();
-const store = useStore();
 const admin_api_url = `/api/admin`;
-const accessToken = computed(() => store.state.memberStore.accessToken);
 const banLevel = ref("NO_PENALTY").value;
 const emit = defineEmits(["deleteBestcut", "deleteReport"]);
 const bestcutId = computed(() => {
@@ -52,7 +49,6 @@ const punishmentApi = () => {
         `/remove/bestcut/${props.reportedBestCut.reportId}/${props.reportedBestCut.bestcutId}`,
       {
         headers: {
-          "access-token": accessToken.value,
           banMemberId: props.reportedBestCut.reportedMemberId,
           banLevel: banLevel,
         },
@@ -69,14 +65,7 @@ const punishmentApi = () => {
 
 const reportcancelApi = () => {
   api
-    .delete(
-      admin_api_url + `/remove/bestcut/${props.reportedBestCut.reportId}`,
-      {
-        headers: {
-          "access-token": accessToken.value,
-        },
-      }
-    )
+    .delete(admin_api_url + `/remove/bestcut/${props.reportedBestCut.reportId}`)
     .then((response) => {
       response;
       emit("deleteReport", { value: props.reportedBestCut.reportId });

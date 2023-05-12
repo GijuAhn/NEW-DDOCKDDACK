@@ -135,7 +135,6 @@ public class MemberApiController {
     public ResponseEntity myBestcutList(
         @ModelAttribute PageConditionReq pageCondition,
         @AuthenticationPrincipal MemberDetail memberDetail) {
-        System.out.println(memberDetail.getId());
         PageImpl<BestcutRes> bestcutRes = bestcutService.findAllBestcuts(true, memberDetail.getId(),
             pageCondition);
         return ResponseEntity.ok(bestcutRes);

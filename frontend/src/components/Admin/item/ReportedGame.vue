@@ -29,16 +29,13 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { useStore } from "vuex";
 import { defineProps, ref, computed, defineEmits } from "vue";
 import ReportedGamePreview from "@/components/Admin/item/ReportedGamePreview";
 
 const api = apiInstance();
 const props = defineProps({ reportedGame: Object });
 const visible = ref();
-const store = useStore();
 const admin_api_url = `/api/admin`;
-const accessToken = computed(() => store.state.memberStore.accessToken);
 const banLevel = ref("NO_PENALTY").value;
 const emit = defineEmits(["deleteGame", "deleteReport"]);
 const gameId = computed(() => {
@@ -52,7 +49,6 @@ const punishmentApi = () => {
         `/remove/game/${props.reportedGame.reportId}/${props.reportedGame.gameId}`,
       {
         headers: {
-          "access-token": accessToken.value,
           banMemberId: props.reportedGame.reportedMemberId,
           banLevel: banLevel,
         },
@@ -69,11 +65,7 @@ const punishmentApi = () => {
 
 const reportcancelApi = () => {
   api
-    .delete(admin_api_url + `/remove/game/${props.reportedGame.reportId}`, {
-      headers: {
-        "access-token": accessToken.value,
-      },
-    })
+    .delete(admin_api_url + `/remove/game/${props.reportedGame.reportId}`, {})
     .then(() => {
       emit("deleteReport", { value: props.reportedGame.reportId });
     })
