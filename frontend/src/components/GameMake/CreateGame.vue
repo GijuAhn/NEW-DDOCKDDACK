@@ -111,13 +111,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { apiInstance } from "@/api/index";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 
-const store = useStore();
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const router = useRouter();
 const api = apiInstance();
 
@@ -247,9 +244,7 @@ const createGame = () => {
   }
 
   api
-    .post(`/api/multi-games`, formData, {
-      headers: { "access-token": accessToken },
-    })
+    .post(`/api/multi-games`, formData, {})
     .then(() => {
       router.push({ path: "/member/myGame" });
     })

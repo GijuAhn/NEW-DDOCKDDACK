@@ -84,7 +84,6 @@ const store = useStore();
 const api = apiInstance();
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
 
-const accessToken = computed(() => store.state.memberStore.accessToken);
 const myProfile = computed(() => store.state.memberStore.memberInfo).value;
 
 const maxSize = 2 * 1024 * 1024;
@@ -101,25 +100,21 @@ const modifyNameInput = () => {
 };
 
 // let memberReq = ref();
-
 let reg_nickname = /^[A-z가-힣0-9_-]{2,15}$/;
 const modifyName = () => {
   if (reg_nickname.test(name)) {
     api
-      .put(
-        `/api/members/nickname`,
-        {
-          nickname: name,
-        },
-        { headers: { "access-token": accessToken.value } }
-      )
+      .put(`/api/members/nickname`, {
+        nickname: name,
+      })
       .then(() => {
-        myProfile.value.nickname = name;
+        store.dispatch("memberStore/nicknameModify", name);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          alert("로그인 후 이용해주세요.");
-        }
+        console.log(err);
+        // if (err.response.status === 401) {
+        // alert("로그인 후 이용해주세요.");
+        // }
       });
     save.value = !save.value;
   } else {
@@ -143,9 +138,7 @@ const modifyProfileImg = (f) => {
   const ext = modifyImgName.split(".").pop().toLowerCase();
   if (reg_img.includes(ext) && f[0].size < maxSize) {
     api
-      .put(`/api/members/profile`, formData, {
-        headers: { "access-token": accessToken.value },
-      })
+      .put(`/api/members/profile`, formData, {})
       .then((response) => {
         myProfile.profile = response.data;
       })
@@ -163,9 +156,7 @@ const modifyProfileImg = (f) => {
 const withdrawal = () => {
   if (confirm("정말 탈퇴 하시겠습니까??") == true) {
     api
-      .delete(`/api/members`, {
-        headers: { "access-token": accessToken.value },
-      })
+      .delete(`/api/members`, {})
       .then(() => {
         window.location.assign(`/`);
       })

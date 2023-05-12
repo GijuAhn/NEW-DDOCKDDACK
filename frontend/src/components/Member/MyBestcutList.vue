@@ -51,9 +51,6 @@ const callApi = async () => {
         keyword: pageConditionReq.value.keyword,
         page: pageConditionReq.value.page,
       },
-      headers: {
-        "access-token": accessToken, // 변수로 가지고있는 AccessToken
-      },
     })
     .then((response) => {
       // console.log("access-bestcuts: ", response.data.content); //bestcut은 pageimpl이기때문에 content까지 붙여줌
@@ -81,11 +78,7 @@ const bestcutLike = (bestcutId) => {
     return;
   }
   api
-    .post(
-      `/api/bestcuts/like/${bestcutId}`,
-      {},
-      { headers: { "access-token": accessToken } }
-    )
+    .post(`/api/bestcuts/like/${bestcutId}`, {})
     .then(() => {
       let bestcut = myBestcuts.value.find((e) => e.bestcutId === bestcutId);
       bestcut.isLiked = true;
@@ -101,9 +94,7 @@ const bestcutLike = (bestcutId) => {
 //베스트컷 좋아요 취소
 const bestcutDislike = (bestcutId) => {
   api
-    .delete(`/api/bestcuts/dislike/${bestcutId}`, {
-      headers: { "access-token": accessToken },
-    })
+    .delete(`/api/bestcuts/dislike/${bestcutId}`, {})
     .then(() => {
       let bestcut = myBestcuts.value.find((e) => e.bestcutId === bestcutId);
       bestcut.isLiked = false;
@@ -119,15 +110,11 @@ const bestcutDislike = (bestcutId) => {
 //베스트컷 삭제
 const deleteBestcut = (bestcutId) => {
   if (window.confirm("정말 삭제하시겠습니까?")) {
-    api
-      .delete(`/api/bestcuts/${bestcutId}`, {
-        headers: { "access-token": accessToken },
-      })
-      .then(() => {
-        myBestcuts.value = myBestcuts.value.filter(
-          (e) => e.bestcutId != bestcutId
-        );
-      });
+    api.delete(`/api/bestcuts/${bestcutId}`, {}).then(() => {
+      myBestcuts.value = myBestcuts.value.filter(
+        (e) => e.bestcutId != bestcutId
+      );
+    });
   }
 };
 </script>

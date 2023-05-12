@@ -87,11 +87,7 @@ const bestcutLike = () => {
     return;
   }
   api
-    .post(
-      `/api/bestcuts/like/${currentModal.value.data.bestcutId}`,
-      {},
-      { headers: { "access-token": accessToken.value } }
-    )
+    .post(`/api/bestcuts/like/${currentModal.value.data.bestcutId}`, {})
     .then(() => {
       currentModal.value.data.isLiked = true;
       currentModal.value.data.popularity++;
@@ -105,9 +101,7 @@ const bestcutDislike = () => {
     return;
   }
   api
-    .delete(`/api/bestcuts/dislike/${currentModal.value.data.bestcutId}`, {
-      headers: { "access-token": accessToken.value },
-    })
+    .delete(`/api/bestcuts/dislike/${currentModal.value.data.bestcutId}`, {})
     .then(() => {
       currentModal.value.data.isLiked = false;
       currentModal.value.data.popularity--;

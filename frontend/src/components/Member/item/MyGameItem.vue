@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import { useStore } from "vuex";
 import { apiInstance } from "@/api/index";
 import router from "@/router/index.js";
@@ -75,7 +75,6 @@ const emit = defineEmits(["updateProps"]);
 const props = defineProps(["game", "index"]);
 const api = apiInstance();
 const IMAGE_PATH = process.env.VUE_APP_IMAGE_PATH;
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const onClickOutside = () => {
   state.value = false;
 };
@@ -100,9 +99,6 @@ const createSession = (gameId) => {
       "/api/game-rooms",
       {},
       {
-        headers: {
-          "access-token": accessToken,
-        },
         params: {
           gameId,
         },
@@ -121,9 +117,7 @@ const deleteGame = () => {
   const result = confirm("삭제 하시겠습니까?");
   if (result) {
     api
-      .delete(`/api/multi-games/${props.game.gameId}`, {
-        headers: { "access-token": accessToken },
-      })
+      .delete(`/api/multi-games/${props.game.gameId}`, {})
       .then(() => {
         alert("삭제 되었습니다.");
         emit("updateProps", { index: props.index });

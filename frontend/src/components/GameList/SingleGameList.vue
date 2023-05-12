@@ -110,7 +110,6 @@ import PageNav from "@/components/common/PageNav.vue";
 
 const api = apiInstance();
 const store = useStore();
-// const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const games = ref();
 const rank = ref();
 const isShow = ref(true);

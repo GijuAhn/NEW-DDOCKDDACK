@@ -22,23 +22,18 @@
 import NormalGame from "@/components/GameList/item/NormalGame";
 import { apiInstance } from "@/api/index";
 import { useStore } from "vuex";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import LoadingSpinner from "./item/LoadingSpinner.vue";
 
 const store = useStore();
 
 const api = apiInstance();
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const isLoading = ref(true);
 
 const starredGames = ref();
 const callApi = async () => {
   await api
-    .get(`/api/members/starred`, {
-      headers: {
-        "access-token": accessToken, // 변수로 가지고있는 AccessToken
-      },
-    })
+    .get(`/api/members/starred`, {})
     .then((response) => {
       if (response.data.length > 0) {
         starredGames.value = response.data;

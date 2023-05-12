@@ -31,6 +31,9 @@ export const memberStore = {
     setMemberInfo(state, memberInfo) {
       state.memberInfo = memberInfo;
     },
+    setMemberNickname(state, name) {
+      state.memberInfo.nickname = name;
+    },
   },
   actions: {
     setTokensAsync({ commit }, accessToken) {
@@ -55,7 +58,6 @@ export const memberStore = {
         }
       );
     },
-
     async getMemberInfo({ commit, state, dispatch }) {
       let accessToken = state.accessToken;
       await findByAccessToken(
@@ -119,6 +121,9 @@ export const memberStore = {
       );
       commit("setMemberInfo", "");
       commit("setToken", "");
+    },
+    async nicknameModify({ commit }, name) {
+      commit("setMemberNickname", name);
     },
   },
 

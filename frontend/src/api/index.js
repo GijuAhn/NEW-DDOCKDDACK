@@ -7,7 +7,6 @@ function apiInstance() {
   const instance = axios.create({});
   instance.interceptors.request.use(
     function (config) {
-      console.log();
       config.headers["access-token"] = store.state.memberStore.accessToken;
       return config;
     },

@@ -79,7 +79,6 @@ import { apiInstance } from "@/api/index";
 const store = useStore();
 const api = apiInstance();
 const currentModal = computed(() => store.state.commonStore.currentModal);
-const accessToken = computed(() => store.state.memberStore.accessToken);
 
 const agreement = ref(false);
 const per = ref(0);
@@ -119,7 +118,6 @@ const regist = () => {
     .post(`/api/ranks`, fd, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "access-token": accessToken.value,
       },
     })
     .then(() => {

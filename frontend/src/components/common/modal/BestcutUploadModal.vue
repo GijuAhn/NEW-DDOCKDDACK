@@ -60,7 +60,6 @@ const resultImages = ref(currentModal.value.data[0]);
 const streamManager = ref(currentModal.value.data[1]);
 const room = ref(currentModal.value.data[2]);
 const api = apiInstance();
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const bestcutSaveReq = ref({
   pinNumber: undefined,
   socketId: undefined,
@@ -124,11 +123,7 @@ const upload = () => {
     }
   });
   api
-    .post(`/api/bestcuts`, bestcutSaveReq.value, {
-      headers: {
-        "access-token": accessToken,
-      },
-    })
+    .post(`/api/bestcuts`, bestcutSaveReq.value, {})
     .then(() => {
       bestcutSaveReq.value.images = [];
       isChecked.value = [

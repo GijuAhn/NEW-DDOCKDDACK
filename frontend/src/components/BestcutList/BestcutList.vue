@@ -185,7 +185,6 @@ const callApi = () => {
         keyword: pageConditionReq.value.keyword,
         page: pageConditionReq.value.page,
       },
-      headers: { "access-token": accessToken },
     })
     .then((response) => {
       bestcuts.value = response.data.content;
@@ -226,11 +225,7 @@ const bestcutLike = (bestcutId) => {
     return;
   }
   api
-    .post(
-      `/api/bestcuts/like/${bestcutId}`,
-      {},
-      { headers: { "access-token": accessToken } }
-    )
+    .post(`/api/bestcuts/like/${bestcutId}`, {})
     .then(() => {
       let bestcut = bestcuts.value.find((e) => e.bestcutId === bestcutId);
       bestcut.isLiked = true;
@@ -246,9 +241,7 @@ const bestcutLike = (bestcutId) => {
 //베스트컷 좋아요 취소
 const bestcutDislike = (bestcutId) => {
   api
-    .delete(`/api/bestcuts/dislike/${bestcutId}`, {
-      headers: { "access-token": accessToken },
-    })
+    .delete(`/api/bestcuts/dislike/${bestcutId}`, {})
     .then(() => {
       let bestcut = bestcuts.value.find((e) => e.bestcutId === bestcutId);
       bestcut.isLiked = false;

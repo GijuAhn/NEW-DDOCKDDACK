@@ -8,7 +8,7 @@ export default createStore({
   modules: { commonStore, mypageStore, memberStore },
   plugins: [
     createPersistedState({
-      paths: ["memberStore"],
+      paths: ["memberStore.accessToken", "memberStore.memberInfo"],
       key: "vuexStore",
       storage: window.sessionStorage,
     }),

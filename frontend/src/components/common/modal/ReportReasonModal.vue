@@ -30,13 +30,9 @@ const reportGame = (reportType) => {
     return;
   }
   api
-    .post(
-      `/api/multi-games/report/${currentModal.value.data.gameId}`,
-      {
-        reportType: reportType,
-      },
-      { headers: { "access-token": accessToken } }
-    )
+    .post(`/api/multi-games/report/${currentModal.value.data.gameId}`, {
+      reportType: reportType,
+    })
     .then(() => {
       setCurrentModalAsync("then");
     })

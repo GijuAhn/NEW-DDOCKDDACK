@@ -29,13 +29,12 @@
 import MyGameItem from "@/components/Member/item/MyGameItem.vue";
 import { apiInstance } from "@/api/index";
 import { useStore } from "vuex";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import LoadingSpinner from "./item/LoadingSpinner.vue";
 import PageNav from "@/components/common/PageNav.vue";
 
 const store = useStore();
 const api = apiInstance();
-const accessToken = computed(() => store.state.memberStore.accessToken).value;
 const isLoading = ref(true);
 const myGames = ref();
 let totalPages = ref();
@@ -61,9 +60,6 @@ const callApi = () => {
         search: pageConditionReq.value.search,
         keyword: pageConditionReq.value.keyword,
         page: pageConditionReq.value.page,
-      },
-      headers: {
-        "access-token": accessToken, // 변수로 가지고있는 AccessToken
       },
     })
     .then((response) => {

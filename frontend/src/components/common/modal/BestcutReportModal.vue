@@ -30,13 +30,9 @@ const reportBestcut = (reportType) => {
     setCurrentModalAsync("catch");
   }
   api
-    .post(
-      `/api/bestcuts/report/${currentModal.value.data.bestcutId}`,
-      {
-        reportType: reportType,
-      },
-      { headers: { "access-token": accessToken } }
-    )
+    .post(`/api/bestcuts/report/${currentModal.value.data.bestcutId}`, {
+      reportType: reportType,
+    })
     .then(() => {
       setCurrentModalAsync("then");
     })
