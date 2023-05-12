@@ -57,6 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             } catch (ExpiredJwtException e) {
                 request.setAttribute("exception", ErrorCode.EXPIRED_ACCESSTOKEN);
+                System.out.println("예외발생");
             } catch (SignatureException e) {
                 request.setAttribute("exception", ErrorCode.INVALID_TOKEN);
             }
@@ -86,7 +87,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 request.setAttribute("exception", ErrorCode.LOGIN_REQUIRED);
             }
         }
-
         filterChain.doFilter(request, response);
 
     }
@@ -111,6 +111,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private String getRefreshToken(Cookie[] cookies) {
+        if(cookies == null) return null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("refresh-token")) {
                 return cookie.getValue();

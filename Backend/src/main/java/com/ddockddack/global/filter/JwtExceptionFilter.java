@@ -15,7 +15,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
         response.setCharacterEncoding("utf-8");
-
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
