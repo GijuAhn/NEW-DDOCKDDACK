@@ -172,7 +172,7 @@ const callApi = () => {
       totalPages = response.data.totalPages;
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.response.status);
     });
 };
 

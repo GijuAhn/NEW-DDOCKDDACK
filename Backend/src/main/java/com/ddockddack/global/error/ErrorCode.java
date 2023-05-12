@@ -9,6 +9,7 @@ public enum ErrorCode {
     ALREADY_EXIST_STTAREDGAME(400, "already starred game"),
     INVALID_INPUT_VALUE(400, "valid check."),
     ALREADY_STARTED_GAME(400, "already started game."),
+    INVALID_TOKEN(400, "invalid token"),
     LOGIN_REQUIRED(401, "login required"),
     NOT_AUTHORIZED(401, "not authorized"),
     MAXIMUM_MEMBER(401, "The maximum length is 13"),

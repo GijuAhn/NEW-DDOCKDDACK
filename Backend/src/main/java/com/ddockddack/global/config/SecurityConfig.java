@@ -2,7 +2,6 @@ package com.ddockddack.global.config;
 
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.service.TokenService;
-import com.ddockddack.global.filter.CustomAuthenticationEntryPoint;
 import com.ddockddack.global.filter.JwtAuthFilter;
 import com.ddockddack.global.filter.JwtExceptionFilter;
 import com.ddockddack.global.oauth.CustomOAuth2UserService;
@@ -26,7 +25,6 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler successHandler;
     private final TokenService tokenService;
     private final MemberRepository memberRepository;
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,10 +39,9 @@ public class SecurityConfig {
 //            .failureHandler(oAuth2AuthenticationFailureHandler);
         http
             .exceptionHandling()
-            .authenticationEntryPoint(customAuthenticationEntryPoint)
             .and().addFilterBefore(new JwtAuthFilter(tokenService, memberRepository),
-                UsernamePasswordAuthenticationFilter.class);
-//            .addFilterBefore(new JwtExceptionFilter(), JwtAuthFilter.class);
+                UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtExceptionFilter(), JwtAuthFilter.class);
         return http.build();
     }
 
