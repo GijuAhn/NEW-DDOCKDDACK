@@ -49,12 +49,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (accessToken != null && !accessToken.isBlank()) {
-            if (isLoginRequest(request)) {
-                tokenService.verifyToken(accessToken);
-                setAuthentication(accessToken);
-            }
+            tokenService.verifyToken(accessToken);
+            setAuthentication(accessToken);
         }
-
         filterChain.doFilter(request, response);
 
     }

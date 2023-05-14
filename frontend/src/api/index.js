@@ -19,6 +19,7 @@ function apiInstance() {
       return response;
     },
     async function (error) {
+      console.log(error);
       const errorApi = error.config;
       if (error.response.status === 401 && errorApi.retry === undefined) {
         if (error.response.data.message === "login required") {

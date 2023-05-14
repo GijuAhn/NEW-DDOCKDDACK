@@ -58,19 +58,12 @@ export const memberStore = {
         }
       );
     },
-    async getMemberInfo({ commit, state, dispatch }) {
-      let accessToken = state.accessToken;
-      await findByAccessToken(
-        accessToken,
-        ({ data }) => {
-          if (data.email !== "") {
-            commit("setMemberInfo", data);
-          }
-        },
-        async () => {
-          dispatch("accesstokenReissue", "true");
+    async getMemberInfo({ commit }) {
+      await findByAccessToken(({ data }) => {
+        if (data.email !== "") {
+          commit("setMemberInfo", data);
         }
-      );
+      });
     },
 
     async accesstokenReissue({ commit, state, store }, accessToken) {
