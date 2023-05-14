@@ -42,8 +42,6 @@ public class SecurityConfig {
             .and().addFilterBefore(new JwtAuthFilter(tokenService, memberRepository),
                 UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JwtExceptionFilter(), JwtAuthFilter.class);
-        http.authorizeHttpRequests()
-            .antMatchers("/actuator/**").permitAll();
         return http.build();
     }
 

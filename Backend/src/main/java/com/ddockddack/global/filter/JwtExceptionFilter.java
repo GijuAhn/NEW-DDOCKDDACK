@@ -1,6 +1,9 @@
 package com.ddockddack.global.filter;
 
 import com.ddockddack.global.error.ErrorCode;
+import com.ddockddack.global.error.exception.AccessDeniedException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,9 +20,15 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setCharacterEncoding("utf-8");
         try {
             filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {
+            setResponse(response, ErrorCode.EXPIRED_ACCESSTOKEN);
+        } catch (SignatureException e) {
+            setResponse(response, ErrorCode.INVALID_TOKEN);
+        } catch (AccessDeniedException e) {
+            setResponse(response, ErrorCode.INVALID_TOKEN);
         } catch (Exception e) {
-            ErrorCode error = (ErrorCode)request.getAttribute("exception");
-            setResponse(response, error);
+            e.printStackTrace();
+            setResponse(response, ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -28,10 +37,10 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setContentType("application/json;charset=UTF-8");
         // 아래 분기를 통과하지 않는 예외는 모두 서버에러로 처리한다.
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        if(errorCode.getCode() == 401) {
+        if (errorCode.getCode() == 401) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        if(errorCode.getCode() == 400) {
+        if (errorCode.getCode() == 400) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         JSONObject responseJson = new JSONObject();

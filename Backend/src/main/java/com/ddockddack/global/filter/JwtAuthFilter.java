@@ -4,11 +4,8 @@ import com.ddockddack.domain.member.entity.Member;
 import com.ddockddack.domain.member.repository.MemberRepository;
 import com.ddockddack.domain.member.service.TokenService;
 import com.ddockddack.global.error.ErrorCode;
-import com.ddockddack.global.error.exception.AccessDeniedException;
 import com.ddockddack.global.error.exception.NotFoundException;
 import com.ddockddack.global.oauth.MemberDetail;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.FilterChain;
@@ -38,55 +35,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String accessToken = (request).getHeader("access-token");
         String refreshToken = getRefreshToken(request.getCookies());
-        // refresh 요청
+        // 리프레시 토큰 재발급 요청
+        if (request.getRequestURI().contains("refresh")) {
+            // 리프레시 토큰 검증
+            tokenService.verifyToken(refreshToken);
+            // 리프레시 토큰이 존재하지 않거나 변조된 경우
+            tokenService.refreshTokenValidate(refreshToken);
 
-        // 액세스 토큰이 존재 하는 경우
-        if (accessToken != null && !accessToken.isBlank()) {
-            try {
-                // 토큰 검증
-                if (request.getRequestURI()
-                    .contains("refresh") || !tokenService.verifyToken(accessToken)) {
-                    // 리프레시 토큰 검증
-                    tokenService.verifyToken(refreshToken);
-                    // 리프레시 토큰이 존재하지 않거나 변조된 경우
-                    tokenService.refreshTokenValidate(refreshToken);
-
-                    // 리프레시 토큰이 유효한 경우 액세스 토큰 재발급
-                    accessToken = tokenService.generateToken(
-                        tokenService.getUid(refreshToken), "USER");
-                }
-            } catch (ExpiredJwtException e) {
-                request.setAttribute("exception", ErrorCode.EXPIRED_ACCESSTOKEN);
-                System.out.println("예외발생");
-            } catch (SignatureException e) {
-                request.setAttribute("exception", ErrorCode.INVALID_TOKEN);
-            }
-            // 유효한 토큰의 경우 정상 진행
+            // 리프레시 토큰이 유효한 경우 액세스 토큰 재발급
+            accessToken = tokenService.generateToken(
+                tokenService.getUid(refreshToken), "USER");
             setAuthentication(accessToken);
         }
-        //  로그인이 필요한 요청의 경우
-        if (isLoginRequest(request)) {
-            try {
-                // 액세스 토큰 없고, 리프레시 토큰이 만료 된 경우
-                tokenService.verifyToken(refreshToken);
 
-                // 리프레시 토큰이 위조되었거나 , 없는 경우
-                tokenService.refreshTokenValidate(refreshToken);
-
-                // 리프레시 토큰이 존재하고, 검증을 통과한 경우에는 정상진행
-                if (refreshToken != null) {
-                    accessToken = tokenService.generateToken(
-                        tokenService.getUid(refreshToken), "USER");
-                    setAuthentication(accessToken);
-                }
-            } catch (ExpiredJwtException e) {
-                request.setAttribute("exception", ErrorCode.EXPIRED_ACCESSTOKEN.getCode());
-            } catch (SignatureException e) {
-                request.setAttribute("exception", ErrorCode.INVALID_TOKEN.getCode());
-            } catch (AccessDeniedException e) {
-                request.setAttribute("exception", ErrorCode.LOGIN_REQUIRED);
+        if (accessToken != null && !accessToken.isBlank()) {
+            if (isLoginRequest(request)) {
+                tokenService.verifyToken(accessToken);
+                setAuthentication(accessToken);
             }
         }
+
         filterChain.doFilter(request, response);
 
     }
@@ -111,7 +79,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private String getRefreshToken(Cookie[] cookies) {
-        if(cookies == null) return null;
+        if (cookies == null) {
+            return null;
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("refresh-token")) {
                 return cookie.getValue();

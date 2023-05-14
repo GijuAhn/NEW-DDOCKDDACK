@@ -78,9 +78,6 @@ public class TokenService {
     }
 
     public void refreshTokenValidate(String refreshToken) {
-        if (refreshToken == null) {
-            throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
-        }
 
         if (Optional.ofNullable(
             redisTemplate.opsForValue().get(refreshToken)).isEmpty()) {
@@ -90,12 +87,13 @@ public class TokenService {
     }
 
     public boolean verifyToken(String token) {
-        if (token == null) {
+        if (token == null || token.isBlank()) {
             throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
         }
         Jws<Claims> claims = Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token);
+
         return claims.getBody()
             .getExpiration()
             .after(new Date());
@@ -118,7 +116,7 @@ public class TokenService {
     }
 
     public Long getUid(String token) {
-        if (token == null) {
+        if (token == null || token.isBlank()) {
             throw new AccessDeniedException(ErrorCode.LOGIN_REQUIRED);
         }
         return Long.valueOf(

@@ -42,6 +42,8 @@ public class TokenController {
     public ResponseEntity refreshAuth(HttpServletResponse response) {
         MemberDetail memberDetail = (MemberDetail) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
+        System.out.println("여기 몇번떳냐");
+        System.out.println(memberDetail.getAccessToken());
         response.addHeader("access-token", memberDetail.getAccessToken());
         return ResponseEntity.ok().build();
     }
