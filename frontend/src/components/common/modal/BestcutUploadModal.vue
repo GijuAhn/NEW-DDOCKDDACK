@@ -168,10 +168,14 @@ const upload = () => {
   align-content: space-between;
 }
 #myImageSection > div {
+  width: 500px;
+  position: relative;
+}
+/* #myImageSection > div {
   width: 120px;
   height: 120px;
   position: relative;
-}
+} */
 #myImageSection img {
   width: 100%;
   height: 100%;
