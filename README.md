@@ -181,7 +181,7 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 - [Perceptual Hashing](./exec/outside-service/[Image]PerceptualHashing.md)
   - 4를 factor 로 하여 타겟 이미지를 32×32 이미지로 scale down 합니다. 타겟 이미지에 이산 코사인 변환(Discrete cosine transform)을 행별로 수행 후, 열별로 수행합니다.
   - 높은 빈도로 등장하는 픽셀(high-frequencies pixels)은 좌측 상단 모서리에 위치하게 됩니다. 다음으로, 전체 이미지의 회색 중앙값(grayscaled median)을 계산합니다. 중앙값을 기준으로 바이너리 해싱을 수행해 결과를 반환합니다.
-- [GrabCut](./exec/outside-service/[Image]histogram.md)
+- [GrabCut](./exec/outside-service/[Image]grabcut.md)
   - 그래프 알고리즘에서 사용되는 미니멀 컷 알고리즘을 이용해서 영역을 분할합니다.
   - 영상의 픽셀을 그래프 정점으로 간주하고, 픽셀들을 두 개의 그룹(객체 그룹, 배경 그룹)으로 분할하는 최적의 컷(Max Flow Minimum Cut)을 찾는 방식입니다.
 
