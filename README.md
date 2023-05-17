@@ -18,11 +18,10 @@
 5. [협업툴](#협업툴)
 6. [기능 명세서](#기능-명세서)
 7. [API 명세서](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#api-%EB%AA%85%EC%84%B8%EC%84%9C)
-8. [화면 설계서](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EC%84%9C)
-9. [ER Diagram](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#er-diagram)
-10. [컨벤션 전략](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%A0%84%EB%9E%B5)
-11. [EC2 포트 정리](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#ec2-%ED%8F%AC%ED%8A%B8-%EC%A0%95%EB%A6%AC)
-12. [팀 역할](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409#%ED%8C%80%EC%9B%90-%EC%97%AD%ED%95%A0)
+8. [ER Diagram](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#er-diagram)
+9. [컨벤션 전략](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%A0%84%EB%9E%B5)
+10. [EC2 포트 정리](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#ec2-%ED%8F%AC%ED%8A%B8-%EC%A0%95%EB%A6%AC)
+11. [팀 역할](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409#%ED%8C%80%EC%9B%90-%EC%97%AD%ED%95%A0)
 
 ## 주요 기능
 
@@ -46,23 +45,23 @@
 
 ![Main_1](/ReadMe_contents/Main_3.gif)<br/><br/><br/><br/>
 
-- #### 게임 목록 - 정렬 및 검색
+- #### 같이 하기 - 정렬 및 검색
 
 ![GameList_1](/ReadMe_contents/GameList_1.gif)<br/><br/><br/><br/>
 
-- #### 게임 목록 - 방 생성
+- #### 같이 하기 - 방 생성
 
 ![GameList_2](/ReadMe_contents/GameList_2.gif)<br/><br/><br/><br/>
 
-- #### 게임 목록 - 즐겨찾기
+- #### 같이 하기 - 즐겨찾기
 
 ![GameList_4](/ReadMe_contents/GameList_4.gif)<br/><br/><br/><br/>
 
-- #### 게임 목록 - 문제 미리보기
+- #### 같이 하기 - 문제 미리보기
 
 ![GameList_5](/ReadMe_contents/GameList_5.gif)<br/><br/><br/><br/>
 
-- #### 게임 목록 - 신고하기
+- #### 같이 하기 - 신고하기
 
 ![GameList_6](/ReadMe_contents/GameList_6.gif)<br/><br/><br/><br/>
 
@@ -86,7 +85,7 @@
 
 ![MyPage_1](/ReadMe_contents/MyPage_1.gif)<br/><br/><br/><br/>
 
-- #### 관리자페이지 - 신고된 게임, 베스트 컷 목록 조회 및 처리 
+- #### 관리자페이지 - 신고된 게임, 베스트 컷 목록 조회 및 처리
 
 ![AdminPage_1](/ReadMe_contents/AdminPage_1.gif)<br/><br/><br/><br/>
 
@@ -105,6 +104,21 @@
 - #### 게임방 - 최종 결과
 
 ![GameRoom_5](/ReadMe_contents/GameRoom_5.gif)<br/><br/><br/><br/>
+
+- #### 혼자 하기 - 탐색
+
+  ![SingleGame_1](/ReadMe_contents/SingleGame_1.gif)<br/><br/><br/><br/>
+
+- #### 혼자 하기 - 게임 입장
+
+  ![SingleGame_2](/ReadMe_contents/SingleGame_2.gif)<br/><br/><br/><br/>
+
+- #### 혼자 하기 - 게임 진행 및 결과 등록
+
+  ![SingleGame_3](/ReadMe_contents/SingleGame_3.gif)<br/><br/><br/><br/>
+
+- #### 혼자 하기 - 랭킹 및 사진 확인
+  ![SingleGame_4](/ReadMe_contents/SingleGame_4.gif)<br/><br/><br/><br/>
 
 ## 개발 환경
 
@@ -138,7 +152,7 @@
 
 ## 서비스 아키텍쳐
 
-![서비스 아키텍처](./ReadMe_contents/Architecture.jpg)
+![서비스 아키텍처](./ReadMe_contents/Architecture.png)
 
 ## Jenkins를 이용한 CD 구축
 
@@ -184,21 +198,6 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 ![API 명세서_3](./ReadMe_contents/API%20Specification_3.png)
 ![API 명세서_4](./ReadMe_contents/API%20Specification_4.png)
 ![API 명세서_5](./ReadMe_contents/API%20Specification_5.png)
-
-## 화면 설계서
-
-### 전체
-
-![전체 목업](./ReadMe_contents/mockup_whole.png)
-
-### 목록 목업
-
-![목록 목업](./ReadMe_contents/mockup_list.png)
-
-### 요소 목업
-
-![요소 목업_1](./ReadMe_contents/mockup_common_component_1.png)
-![요소 목업_2](./ReadMe_contents/mockup_common_component_2.png)
 
 ## ER Diagram
 
@@ -270,4 +269,3 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 |     30022     |                  vue, NginX Docker ssh port                  |
 | 40000 - 57000 | used by Kurento Media Server to establish media connections. |
 | 57001 - 65535 | used by TURN server to establish relayed media connections.  |
-
