@@ -123,7 +123,7 @@
 ## 개발 환경
 
 | Category        | Tech stack         | Version                    | Docker                |
-| --------------- | ------------------ | -------------------------- | --------------------- |
+|-----------------|--------------------| -------------------------- | --------------------- |
 | Version Control | GitLab             |                            |                       |
 |                 | Jira               |                            |                       |
 | Documentation   | notion             |                            |                       |
@@ -139,14 +139,21 @@
 |                 | SpringBoot         | 2.7.7                      |                       |
 |                 | Intellij           | 2022.3                     |                       |
 | DB              | MySQL              | 8.0.31                     | official docker image |
+|                 | Redis              | 6.2.5                      | official docker image |
 | Server          | AWS EC2            |                            |                       |
 |                 | AWS S3             |                            |                       |
+|                 | AWS Lambda         |                            |                       |
+|                 | AWS API Gateway    |                            |                       |
+|                 | AWS CloudFront     |                            |                       |
+|                 | Amazon Rekognition |                            |                       |
 |                 | Nginx              |                            | official docker image |
 |                 | Ubuntu             | 22.04.1 LTS                | official docker image |
 |                 | Openvidu           | 2.25.0                     | official docker image |
 | CI/CD           | Docker             |                            |                       |
 |                 | Jenkins            |                            |                       |
 |                 | Ansible            |                            |                       |
+| Monitoring      | Grafana            |                            |                       |
+|                 | Prometheus         |                            |                       |
 
 ---
 
