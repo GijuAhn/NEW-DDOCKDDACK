@@ -128,10 +128,10 @@ server {
 
 ## google, kakao, S3 설정
 
-- [kakao share](./outside-service/kakaoShare.md)
-- [kakao login](./outside-service/kakaoLogin.md)
-- [google login](./outside-service/GoogleLogin.md)
-- [aws s3](./outside-service/awsS3.md)
+- [kakao share](./outside-service/[OAuth]kakaoShare.md)
+- [kakao login](./outside-service/[OAuth]kakaoLogin.md)
+- [google login](./outside-service/[OAuth]GoogleLogin.md)
+- [aws s3](./outside-service/[AWS]awsS3.md)
 
 ## 버전
 
