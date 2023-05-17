@@ -84,7 +84,7 @@
 
 ![MyPage_1](/ReadMe_contents/MyPage_1.gif)<br/><br/><br/><br/>
 
-- #### 관리자페이지 - 신고된 게임, 베스트 컷 목록 조회 및 처리 
+- #### 관리자페이지 - 신고된 게임, 베스트 컷 목록 조회 및 처리
 
 ![AdminPage_1](/ReadMe_contents/AdminPage_1.gif)<br/><br/><br/><br/>
 
@@ -105,16 +105,19 @@
 ![GameRoom_5](/ReadMe_contents/GameRoom_5.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 탐색
-![SingleGame_1](/ReadMe_contents/SingleGame_1.gif)<br/><br/><br/><br/>
+
+  ![SingleGame_1](/ReadMe_contents/SingleGame_1.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 게임 입장
-![SingleGame_2](/ReadMe_contents/SingleGame_2.gif)<br/><br/><br/><br/>
+
+  ![SingleGame_2](/ReadMe_contents/SingleGame_2.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 게임 진행 및 결과 등록
-![SingleGame_3](/ReadMe_contents/SingleGame_3.gif)<br/><br/><br/><br/>
+
+  ![SingleGame_3](/ReadMe_contents/SingleGame_3.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 랭킹 및 사진 확인
-![SingleGame_4](/ReadMe_contents/SingleGame_4.gif)<br/><br/><br/><br/>
+  ![SingleGame_4](/ReadMe_contents/SingleGame_4.gif)<br/><br/><br/><br/>
 
 ## 개발 환경
 
@@ -148,7 +151,7 @@
 
 ## 서비스 아키텍쳐
 
-![서비스 아키텍처](./ReadMe_contents/Architecture.jpg)
+![서비스 아키텍처](./ReadMe_contents/Architecture.png)
 
 ## Jenkins를 이용한 CD 구축
 
@@ -265,4 +268,3 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 |     30022     |                  vue, NginX Docker ssh port                  |
 | 40000 - 57000 | used by Kurento Media Server to establish media connections. |
 | 57001 - 65535 | used by TURN server to establish relayed media connections.  |
-
