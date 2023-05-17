@@ -106,16 +106,16 @@
 ![GameRoom_5](/ReadMe_contents/GameRoom_5.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 탐색
-![SingleGame_1](/ReadMe_contents/SingGame_1.gif)<br/><br/><br/><br/>
+![SingleGame_1](/ReadMe_contents/SingleGame_1.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 게임 입장
-![SingleGame_2](/ReadMe_contents/SingGame_2.gif)<br/><br/><br/><br/>
+![SingleGame_2](/ReadMe_contents/SingleGame_2.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 게임 진행 및 결과 등록
-![SingleGame_3](/ReadMe_contents/SingGame_3.gif)<br/><br/><br/><br/>
+![SingleGame_3](/ReadMe_contents/SingleGame_3.gif)<br/><br/><br/><br/>
 
 - #### 혼자 하기 - 랭킹 및 사진 확인
-![SingleGame_4](/ReadMe_contents/SingGame_4.gif)<br/><br/><br/><br/>
+![SingleGame_4](/ReadMe_contents/SingleGame_4.gif)<br/><br/><br/><br/>
 
 ## 개발 환경
 
