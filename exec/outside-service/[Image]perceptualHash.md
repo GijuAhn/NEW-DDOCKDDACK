@@ -2,8 +2,11 @@
 ## Visual Explanation
 
 ![hashing-1](../exec_contents/hashing-1.png)
+
 ![hashing-2](../exec_contents/hashing-2.png)
+
 ![hashing-3](../exec_contents/hashing-3.png)
+
 ![hashing-4](../exec_contents/hashing-4.png)
 
 ## Explanation

@@ -1,5 +1,7 @@
+## Visualize SSIM
 
 ![ssim-1](../exec_contents/ssim-1.png)
+
 ![ssim-2](../exec_contents/ssim-2.png)
 
 ## Explanation
@@ -11,7 +13,9 @@ SSIM 은 휘도(Luminance), 대비(Contrast), 구조(Structure) 를 종합적으
 0~1 사이의 실수값을 가지며, 1에 가까울수록 유사도가 높다는 의미입니다.
 
 ![ssim-3](../exec_contents/ssim-3.png)
+
 ![ssim-4](../exec_contents/ssim-4.png)
+
 ---
 
 완전히 동일한 사진의 경우 SSIM = 1.0 입니다.
@@ -21,6 +25,7 @@ SSIM 은 휘도(Luminance), 대비(Contrast), 구조(Structure) 를 종합적으
 ---
 
 ![ssim-5](../exec_contents/ssim-5.png)
+
 ![ssim-6](../exec_contents/ssim-6.png)
 
 ---
@@ -60,4 +65,5 @@ SSIM 은 휘도(Luminance), 대비(Contrast), 구조(Structure) 를 종합적으
 - SSIM
 
 ![ssim-math-7](../exec_contents/ssim-math-7.png)
+
 ![ssim-math-8](../exec_contents/ssim-math-8.png)

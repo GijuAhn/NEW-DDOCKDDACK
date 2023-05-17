@@ -24,6 +24,7 @@ KAZE 의 Descriptor 는 방향 성분으로 부분 영상의 특징을 실수 �
 부분영상을 추출하여 Gradient 방향 성분에 대한 히스토그램을 추출, 각각의 작은 구역에서 방향 히스토그램을 계산합니다.
 
 ![kaze-3](../exec_contents/kaze-3.webp)
+
 ![kaze-4](../exec_contents/kaze-4.png)
 
 두 이미지가 동일한 KAZE Interest Point 를 많이 가지고 있을수록 높은 유사도를 갖는다고 판단, 높은 점수를 부여합니다.

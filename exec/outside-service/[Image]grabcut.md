@@ -5,6 +5,7 @@ https://cvg.ethz.ch/teaching/cvl/2012/grabcut-siggraph04.pdf
 ## Visual Explanation
 
 ◀ Original Image / ▶ Grabcut Result
+
 ![grabcut-1](../exec_contents/grabcut-1.webp)
 
 * Mask 
@@ -16,6 +17,7 @@ https://cvg.ethz.ch/teaching/cvl/2012/grabcut-siggraph04.pdf
   ![grabcut-2](../exec_contents/grabcut-2.webp)
 
 ◀ Original Image / ▼ Grabcut Result  / ▶ Mask initialization
+
 ![grabcut-3](../exec_contents/grabcut-3.webp)
 
 

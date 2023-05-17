@@ -1,7 +1,9 @@
 ## Visual Explanation
 
 ![histo-1](../exec_contents/histo-1.png)
+
 ![histo-2](../exec_contents/histo-2.png)
+
 ![histo-3](../exec_contents/histo-3.png)
 
 ## Explanation
