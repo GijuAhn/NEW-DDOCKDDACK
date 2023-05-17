@@ -1,4 +1,4 @@
-# aws s3 설정
+# AWS S3 설정
 
 ![AWS S3 1](../exec_contents/aws-s3-1.png)
 
