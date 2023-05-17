@@ -176,9 +176,9 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
   - 방향 성분으로 부분 영상의 특징을 실수 정보로 저장합니다.부분영상을 추출하여 Gradient 방향 성분에 대한 히스토그램을 추출, 각각의 작은 구역에서 방향 히스토그램을 계산합니다. 두 이미지가 동일한 KAZE Interest Point 를 많이 가지고 있을수록 높은 유사도를 갖는다고 판단, 높은 점수를 부여합니다.
 - [Structural Similarity Index Measure](./exec/outside-service/[Image]SSIM.md)
   - 휘도(Luminance), 대비(Contrast), 구조(Structure) 를 종합적으로 평가합니다. 단순 픽셀간 비교가 아니라, 영상을 구성하는 주요 요소(휘도, 대비, 구조)를 비교합니다.
-- [Image Histogram Analysis](./exec/outside-service/[Image]Histogram.md)
+- [Image Histogram Analysis](./exec/outside-service/[Image][Image]histogram.md)
   - 이미지 히스토그램 분석은 이미지를 3개의 채널(Red,Green,Blue)로 분할하여 각 성분의 세기(Intensity)의 빈도(frequency)와 분포(distribution)를 측정합니다.
-- [Perceptual Hashing](./exec/outside-service/[Image]PerceptualHashing.md)
+- [Perceptual Hashing](./exec/outside-service/[Image][Image]perceptualHash.md)
   - 4를 factor 로 하여 타겟 이미지를 32×32 이미지로 scale down 합니다. 타겟 이미지에 이산 코사인 변환(Discrete cosine transform)을 행별로 수행 후, 열별로 수행합니다.
   - 높은 빈도로 등장하는 픽셀(high-frequencies pixels)은 좌측 상단 모서리에 위치하게 됩니다. 다음으로, 전체 이미지의 회색 중앙값(grayscaled median)을 계산합니다. 중앙값을 기준으로 바이너리 해싱을 수행해 결과를 반환합니다.
 - [GrabCut](./exec/outside-service/[Image]grabcut.md)
