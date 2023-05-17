@@ -165,7 +165,7 @@ letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는
 
 ## 이미지 분석 알고리즘
 
-- [KAZE feature detection and description](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/wikis/%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9C%A0%EC%82%AC%EB%8F%84-/-KAZE-feature-detection-and-description)
+- [KAZE feature detection and description](./exec/outside-service/[Image]histogram.md)
   - 방향 성분으로 부분 영상의 특징을 실수 정보로 저장합니다.부분영상을 추출하여 Gradient 방향 성분에 대한 히스토그램을 추출, 각각의 작은 구역에서 방향 히스토그램을 계산합니다. 두 이미지가 동일한 KAZE Interest Point 를 많이 가지고 있을수록 높은 유사도를 갖는다고 판단, 높은 점수를 부여합니다.
 - [Structural Similarity Index Measure](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/wikis/%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9C%A0%EC%82%AC%EB%8F%84-/-Structural-Similarity-Index-Measure)
   - 휘도(Luminance), 대비(Contrast), 구조(Structure) 를 종합적으로 평가합니다. 단순 픽셀간 비교가 아니라, 영상을 구성하는 주요 요소(휘도, 대비, 구조)를 비교합니다.
