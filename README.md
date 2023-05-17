@@ -81,13 +81,9 @@
 
 ![BestcutList_3](/ReadMe_contents/BestcutList_3.gif)<br/><br/><br/><br/>
 
-- #### 마이페이지 - 프로필 사진 및 닉네임 수정
+- #### 마이페이지 - 프로필 사진 및 닉네임 수정, 나의 베스트 컷, 게임 즐겨찾기, 내가 만든 게임
 
 ![MyPage_1](/ReadMe_contents/MyPage_1.gif)<br/><br/><br/><br/>
-
-- #### 마이페이지 - 나의 베스트 컷, 게임 즐겨찾기, 내가 만든 게임, 최근 플레이 확인
-
-![MyPage_2](/ReadMe_contents/MyPage_2.gif)<br/><br/><br/><br/>
 
 - #### 관리자페이지 - 신고된 게임, 베스트 컷 목록 조회 및 처리 
 
