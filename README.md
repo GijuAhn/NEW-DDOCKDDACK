@@ -89,10 +89,6 @@
 
 ![AdminPage_1](/ReadMe_contents/AdminPage_1.gif)<br/><br/><br/><br/>
 
-- #### 게임방 - 카카오톡 공유하기
-
-![GameRoom_1](/ReadMe_contents/GameRoom_1.gif)<br/><br/><br/><br/>
-
 - #### 게임방 - 게임 진행 화면
 
 ![GameRoom_2](/ReadMe_contents/GameRoom_2.gif)<br/><br/><br/><br/>
