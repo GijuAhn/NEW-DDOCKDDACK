@@ -12,9 +12,7 @@
 
 람다 함수 생성 확인 후,
 
-/ImageSimilarity/multiplay/lambda_function.py
-
-↑ 위 파일을 생성한 람다 함수에 추가
+프로젝트 경로 /ImageSimilarity/multiplay/lambda_function.py 파일 업로드
 
 ## **Import Libraries**
 
@@ -76,7 +74,7 @@ Lambda 추가 리소스 - 계층(Layer) 메뉴 - 계층(Layer) 생성
 
 lambda 함수의 import 부분
 
-```
+```python
 import cv2
 import numpy as np
 ```
@@ -93,10 +91,38 @@ import numpy as np
 
 API 유형 선택에서 REST API 선택
 
-프로토콜: REST
-새 API 생성: 새 API
-API 이름: simil
+![AWS Lambda 11](../exec_contents/aws-lambda-11.png)
 
-### **메서드 생성 및 연결하기**
+* 프로토콜: REST
+* 새 API 생성: 새 API
+* API 이름: simil
+
+### **메서드 생성**
 
 ![AWS Lambda 11.5](../exec_contents/aws-lambda-11.5.png) 
+
+'메서드 생성' - POST 선택
+
+![AWS Lambda 12](../exec_contents/aws-lambda-12.png)
+
+### **메서드 연결**
+
+생성된 POST 메서드에서 '통합 요청' - 'Lambda 함수 연결' 선택
+
+![AWS Lambda 14](../exec_contents/aws-lambda-14.png)
+
+* 통합 유형: Lambda 함수
+* Lambda 리전: 아시아 태평양 (서울)
+* Lambda 함수: ImageSimilarity
+
+**※모든 설정을 완료한 후 반드시 '배포'해야 적용됩니다.**
+
+![AWS Lambda 15](../exec_contents/aws-lambda-15.png)
+
+해당 메서드에서 'API 배포' 선택
+
+스테이지 생성 후 배포
+
+![AWS Lambda 3](../exec_contents/aws-lambda-3.png)
+
+Lambda 함수의 트리거 메뉴에서 'API Gateway' 연동 확인
