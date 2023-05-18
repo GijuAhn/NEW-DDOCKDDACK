@@ -40,6 +40,7 @@ public class BestcutSaveReq {
             .gameImgDesc(images.get(imageIndex).getGameImgDesc())
             .imageUrl(fileName)
             .title(images.get(imageIndex).getBestcutImgTitle())
+            .likeCount(0)
             .build();
     }
 }

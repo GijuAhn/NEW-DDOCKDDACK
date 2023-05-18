@@ -52,13 +52,14 @@ public class Bestcut extends BaseEntity {
 
     @Builder
     public Bestcut(Member member, String gameImageUrl, String gameTitle, String gameImgDesc,
-        String title, String imageUrl) {
+        String title, String imageUrl, int likeCount) {
         this.member = member;
         this.gameTitle = gameTitle;
         this.gameImageUrl = gameImageUrl;
         this.gameImgDesc = gameImgDesc;
         this.imageUrl = imageUrl;
         this.title = title;
+        this.likeCount = likeCount;
     }
 
     public void increaseLikeCnt() {
