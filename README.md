@@ -17,11 +17,10 @@
 4. [이미지 분석 알고리즘](#이미지-분석-알고리즘)
 5. [협업툴](#협업툴)
 6. [기능 명세서](#기능-명세서)
-7. [API 명세서](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#api-%EB%AA%85%EC%84%B8%EC%84%9C)
-8. [ER Diagram](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#er-diagram)
-9. [컨벤션 전략](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%A0%84%EB%9E%B5)
-10. [EC2 포트 정리](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409/-/blob/develop/README.md#ec2-%ED%8F%AC%ED%8A%B8-%EC%A0%95%EB%A6%AC)
-11. [팀 역할](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A409#%ED%8C%80%EC%9B%90-%EC%97%AD%ED%95%A0)
+7. [API 명세서](#API-명세서)
+8. [ER Diagram](#ER-Diagram)
+9. [컨벤션 전략](#컨벤션-전략)
+10. [EC2 포트 정리](#EC2-포트-정리)
 
 ## 주요 기능
 
