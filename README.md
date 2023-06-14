@@ -11,9 +11,9 @@
 
 ## 목차
 
-1. [주요 기능](#주요-기능)
-2. [개발 환경](#개발-환경)
-3. [서비스 아키텍쳐](#서비스-아키텍쳐)
+1. [서비스 아키텍쳐](#서비스-아키텍쳐)
+2. [주요 기능](#주요-기능)
+3. [개발 환경](#개발-환경)
 4. [이미지 분석 알고리즘](#이미지-분석-알고리즘)
 5. [협업툴](#협업툴)
 6. [기능 명세서](#기능-명세서)
@@ -21,6 +21,19 @@
 8. [ER Diagram](#ER-Diagram)
 9. [컨벤션 전략](#컨벤션-전략)
 10. [EC2 포트 정리](#EC2-포트-정리)
+
+
+## 서비스 아키텍쳐
+
+### 시스템 아키텍처
+![시스템 아키텍처](./ReadMe_contents/new-ddockddack-system-architecture.png)
+
+### CI/CD 아키텍처
+![CI/CD 아키텍처](./ReadMe_contents/new-ddockddack-cicd-architecture.png)
+
+### 서비스 모니터링
+![서비스 모니터링](./ReadMe_contents/new-ddockddack-monitoring.png)
+
 
 ## 주요 기능
 
@@ -30,7 +43,7 @@
 - 사용자가 직접 커스터마이징 가능한 멀티모드 게임
 - 게임을 즐기며 찍은 사진을 게시 및 공유 가능
 
-## 기능 시연
+### 기능 시연
 
 - #### 메인 - 카카오 로그인
 
@@ -122,7 +135,7 @@
 ## 개발 환경
 
 | Category        | Tech stack         | Version                    | Docker                |
-|-----------------|--------------------| -------------------------- | --------------------- |
+| --------------- | ------------------ | -------------------------- | --------------------- |
 | Version Control | GitLab             |                            |                       |
 |                 | Jira               |                            |                       |
 | Documentation   | notion             |                            |                       |
@@ -156,11 +169,7 @@
 
 ---
 
-## 서비스 아키텍쳐
-
-![서비스 아키텍처](./ReadMe_contents/Architecture.png)
-
-## Jenkins를 이용한 CD 구축
+### Jenkins를 이용한 CD 구축
 
 Jenkins를 이용하여 빌드하고 전달, ansible playbook, dockerCompose를 이용하여 docker container로 배포하였습니다. <br>
 letsencrypt를 이용하여 ssl 인증서를 적용하였고, 프론트엔드는 443(https)로 프록시로 분기, 백엔드는 /api 경로로 프록시를 걸어줬습니다.
